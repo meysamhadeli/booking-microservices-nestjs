@@ -2,18 +2,23 @@
 // rabbit-mq/rabbit-mq.module.ts
 
 import { Module } from '@nestjs/common';
-import { RabbitMQClient } from './rabbit-mq.client';
-import { RabbitMQServer } from './rabbit-mq.server';
 import { RabbitMQPublisher } from './rabbit-mq.publisher';
 import { RabbitMQSubscriber } from './rabbit-mq.subscriber';
+import { UserCreated } from '../../../events/userCreated';
+import { createUserConsumerHandler } from '../../../consumers/createUser';
 
 @Module({
     providers: [
-        RabbitMQClient,
-        RabbitMQServer,
         RabbitMQPublisher,
-        RabbitMQSubscriber,
+        {
+            provide: RabbitMQSubscriber,
+            useFactory: () =>
+                new RabbitMQSubscriber(
+                    new UserCreated(),
+                    createUserConsumerHandler,
+                ),
+        },
     ],
-    exports: [RabbitMQClient, RabbitMQPublisher],
+    exports: [RabbitMQPublisher],
 })
 export class RabbitMQModule {}

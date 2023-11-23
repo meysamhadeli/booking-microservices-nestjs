@@ -1,34 +1,54 @@
-// https://blog.devops.dev/building-a-hopping-good-scalable-event-driven-nest-js-app-with-rabbitmq-5f646717f82d
-// rabbit-mq/rabbit-mq.subscriber.ts
-
-import { Injectable, OnModuleInit } from '@nestjs/common';
+import { Injectable, Logger, OnModuleInit } from '@nestjs/common';
 import * as amqp from 'amqplib';
+import { getTypeName } from '../../../utils/reflection';
+import { snakeCase } from 'lodash';
+import { deserializeObject } from '../../../utils/serilization';
+
+type handlerFunc<T> = (queue: string, message: T) => void;
 
 @Injectable()
-export class RabbitMQSubscriber implements OnModuleInit {
+export class RabbitMQSubscriber<T> implements OnModuleInit {
     private readonly url = 'amqp://localhost';
+
+    constructor(
+        private readonly type: T,
+        private readonly handler: handlerFunc<T>,
+    ) {}
 
     async onModuleInit(): Promise<void> {
         const connection = await amqp.connect(this.url);
+
         const channel = await connection.createChannel();
-        const exchange = 'pubsub_exchange';
-        await channel.assertExchange(exchange, 'direct', { durable: false });
 
-        const queue = await channel.assertQueue('', { exclusive: true });
+        const exchangeName = snakeCase(getTypeName(this.type));
 
-        const routingKey = 'pubsub_key';
-        await channel.bindQueue(queue.queue, exchange, routingKey);
+        await channel.assertExchange(exchangeName, 'fanout', {
+            durable: false,
+        });
 
-        // Consume messages from the queue
-        channel.consume(
-            queue.queue,
-            (msg) => {
-                if (msg) {
-                    const message = msg.content.toString();
-                    console.log(`Received message: ${message}`);
+        const q = await channel.assertQueue('', { exclusive: true });
+
+        await channel.bindQueue(q.queue, exchangeName, '');
+
+        Logger.log(
+            `Waiting for messages with exchange name "${exchangeName}". To exit, press CTRL+C`,
+        );
+
+        await channel.consume(
+            q.queue,
+            (message) => {
+                if (message !== null) {
+                    const messageContent = message?.content?.toString();
+                    const headers = message.properties.headers || {};
+
+                    this.handler(q.queue, deserializeObject<T>(messageContent));
+                    Logger.log(
+                        `Message: ${messageContent} delivered to queue: ${q.queue} with exchange name ${exchangeName}`,
+                    );
+                    channel.ack(message);
                 }
             },
-            { noAck: true },
+            { noAck: false }, // Ensure that we acknowledge messages
         );
     }
 }
