@@ -3,10 +3,10 @@
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { RabbitMQModule } from '../modules/rabbitmq/rabbit-mq/rabbit-mq.module';
+import { RabbitmqModule } from '../modules/rabbitmq/rabbitmq.module';
 
 @Module({
-    imports: [RabbitMQModule],
+    imports: [RabbitmqModule],
     controllers: [AppController],
     providers: [AppService],
 })
