@@ -1,27 +1,33 @@
-import { Controller, Get, HttpCode, Res } from '@nestjs/common';
+// app.controller.ts
+
+import { Controller, Get } from '@nestjs/common';
 import { AppService } from './app.service';
-import type { Response } from 'express';
-import { RabbitmqService } from '../modules/rabbitmq/rabbitmq.service';
-import { UserCreated } from '../events/userCreated';
+import { RabbitMQClient } from '../modules/rabbitmq/rabbit-mq/rabbit-mq.client';
+import { RabbitMQPublisher } from '../modules/rabbitmq/rabbit-mq/rabbit-mq.publisher';
 
 @Controller()
 export class AppController {
     constructor(
         private readonly appService: AppService,
-        private readonly rabbitmqService: RabbitmqService,
+        private readonly rabbitMQClient: RabbitMQClient,
+        private readonly rabbitMQPublisher: RabbitMQPublisher,
     ) {}
 
-    @Get('/')
-    @HttpCode(302)
-    index(@Res() res: Response) {
-        res.redirect('/status');
-    }
-    @Get('/status')
-    @HttpCode(200)
-    info() {
-        this.rabbitmqService.publishMessage(
-            new UserCreated({ id: 1, name: 'meysam' }),
+    @Get()
+    async getHello(): Promise<string> {
+        const message = 'Hello RabbitMQ!';
+        const response = await this.rabbitMQClient.sendMessage(
+            'rpc_queue',
+            message,
         );
-        return this.appService.info();
+
+        const pubsubMessage = 'A hopping-good time!';
+        this.rabbitMQPublisher.publishMessage(
+            'pubsub_exchange',
+            'pubsub_key',
+            pubsubMessage,
+        );
+
+        return response;
     }
 }
