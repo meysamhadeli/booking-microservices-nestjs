@@ -1,5 +1,6 @@
 import { Injectable, Logger, OnModuleInit } from '@nestjs/common';
 import * as amqp from 'amqplib';
+import config from '../../configuration/config';
 
 @Injectable()
 export class RabbitmqConnection implements OnModuleInit {
@@ -13,10 +14,13 @@ export class RabbitmqConnection implements OnModuleInit {
     private async initializeConnection(): Promise<void> {
         try {
             if (!this.connection || this.connection == undefined) {
-                this.connection = await amqp.connect('amqp://localhost:5672', {
-                    username: 'guest',
-                    password: 'guest',
-                });
+                this.connection = await amqp.connect(
+                    `amqp://${config.rabbitmq.host}:${config.rabbitmq.port}`,
+                    {
+                        username: config.rabbitmq.username,
+                        password: config.rabbitmq.password,
+                    },
+                );
 
                 Logger.log('RabbitMq connection created successfully');
             }

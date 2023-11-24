@@ -14,22 +14,24 @@ import { Resource } from '@opentelemetry/resources';
 import { SemanticResourceAttributes } from '@opentelemetry/semantic-conventions';
 import { JaegerExporter } from '@opentelemetry/exporter-jaeger';
 import { trace, Tracer } from '@opentelemetry/api';
+import config from '../../configuration/config';
 
 const zipkinExporter = new ZipkinExporter({
-    url: 'http://zipkin-server:9411/api/v2/spans',
-    serviceName: 'Tracer_Service_Name',
+    url: config.monitoring.zipkinEndpoint,
+    serviceName: config.serviceName,
 });
 
 const jaegerExporter = new JaegerExporter({
-    endpoint: 'http://localhost:14268/api/traces',
+    endpoint: config.monitoring.jaegerEndpoint,
 });
 
 export const otelSDK = initializeOpenTelemetrySDK();
 
 function initializeOpenTelemetrySDK() {
+    console.log(config.serviceName);
     const provider = new NodeTracerProvider({
         resource: new Resource({
-            [SemanticResourceAttributes.SERVICE_NAME]: 'Tracer_Service_Name',
+            [SemanticResourceAttributes.SERVICE_NAME]: config.serviceName,
         }),
     });
 
