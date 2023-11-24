@@ -1,13 +1,13 @@
-import { Injectable, Logger } from '@nestjs/common';
+import { Injectable, Logger, OnModuleInit } from '@nestjs/common';
 import * as amqp from 'amqplib';
 
 @Injectable()
-export class RabbitmqConnection {
+export class RabbitmqConnection implements OnModuleInit {
     private connection: amqp.Connection = null;
     private channel: amqp.Channel = null;
 
-    constructor() {
-        this.initializeConnection();
+    async onModuleInit(): Promise<void> {
+        await this.initializeConnection();
     }
 
     private async initializeConnection(): Promise<void> {

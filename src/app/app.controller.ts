@@ -1,14 +1,12 @@
 // app.controller.ts
 
 import { Controller, Get } from '@nestjs/common';
-import { AppService } from './app.service';
-import { RabbitmqPublisher } from '../modules/rabbitmq/rabbitmq.publisher';
+import { RabbitmqPublisher } from '../modules/rabbitmq/rabbitmqPublisher';
 import { UserCreated } from '../events/userCreated';
 
 @Controller()
 export class AppController {
     constructor(
-        private readonly appService: AppService,
         private readonly rabbitMQPublisher: RabbitmqPublisher,
     ) {}
 
