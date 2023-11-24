@@ -4,7 +4,6 @@ import {
     NodeTracerProvider,
 } from '@opentelemetry/sdk-trace-node';
 import { ZipkinExporter } from '@opentelemetry/exporter-zipkin';
-import { registerInstrumentations } from '@opentelemetry/instrumentation';
 import { AmqplibInstrumentation } from '@opentelemetry/instrumentation-amqplib';
 import { SimpleSpanProcessor } from '@opentelemetry/sdk-trace-base';
 import { NodeSDK } from '@opentelemetry/sdk-node';
@@ -40,20 +39,9 @@ function initializeOpenTelemetrySDK() {
 
     provider.register();
 
-    registerInstrumentations({
-        instrumentations: [
-            new HttpInstrumentation(),
-            new ExpressInstrumentation(),
-            new NestInstrumentation(),
-            new AmqplibInstrumentation(),
-        ],
-    });
-
     return new NodeSDK({
-        resource: new Resource({
-            [SemanticResourceAttributes.SERVICE_NAME]: 'Tracer_Service_Name',
-        }),
-        spanProcessor: new SimpleSpanProcessor(jaegerExporter),
+        resource: provider.resource,
+        spanProcessor: provider.activeSpanProcessor,
         instrumentations: [
             new HttpInstrumentation(),
             new ExpressInstrumentation(),
