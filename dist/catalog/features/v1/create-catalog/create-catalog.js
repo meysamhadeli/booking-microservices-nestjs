@@ -20,7 +20,7 @@ const common_1 = require("@nestjs/common");
 const cqrs_1 = require("@nestjs/cqrs");
 const swagger_1 = require("@nestjs/swagger");
 const mappings_1 = __importDefault(require("../../../mappings"));
-const rabbitmqPublisher_1 = require("../../../../modules/rabbitmq/rabbitmqPublisher");
+const rabbitmq_publisher_1 = require("../../../../modules/rabbitmq/rabbitmq-publisher");
 const catalog_contracts_1 = require("../../../../contracts/catalog.contracts");
 const catalog_dto_1 = require("../../../dtos/catalog.dto");
 class CreateCatalogDto {
@@ -60,7 +60,6 @@ let CatalogController = class CatalogController {
     async ExceptionAsync() {
         common_1.Logger.log('ExceptionAsync');
         throw new common_1.BadRequestException('CustomApiException from ExceptionAsync');
-        return true;
     }
     async CreateCatalogAsync(createCatalogDto) {
         common_1.Logger.log(`createCatalogCommand instanceof CreateCatalogCommand: ${createCatalogDto instanceof CreateCatalogDto}`);
@@ -140,6 +139,6 @@ let CreateCatalogHandler = class CreateCatalogHandler {
 exports.CreateCatalogHandler = CreateCatalogHandler;
 exports.CreateCatalogHandler = CreateCatalogHandler = __decorate([
     (0, cqrs_1.CommandHandler)(CreateCatalog),
-    __metadata("design:paramtypes", [rabbitmqPublisher_1.RabbitmqPublisher])
+    __metadata("design:paramtypes", [rabbitmq_publisher_1.RabbitmqPublisher])
 ], CreateCatalogHandler);
 //# sourceMappingURL=create-catalog.js.map

@@ -1,5 +1,5 @@
 import { CommandBus, ICommandHandler } from '@nestjs/cqrs';
-import { RabbitmqPublisher } from '../../../../modules/rabbitmq/rabbitmqPublisher';
+import { RabbitmqPublisher } from '../../../../modules/rabbitmq/rabbitmq-publisher';
 import { CatalogDto } from '../../../dtos/catalog.dto';
 export declare class CreateCatalogDto {
     name: string;

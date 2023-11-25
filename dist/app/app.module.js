@@ -8,16 +8,16 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.AppModule = void 0;
 const common_1 = require("@nestjs/common");
-const openTelemetryModule_1 = require("../modules/openTelemetry/openTelemetryModule");
-const rabbitmqModule_1 = require("../modules/rabbitmq/rabbitmqModule");
-const requestDurationMiddleware_1 = require("../modules/monitorings/requestDurationMiddleware");
-const requestCounterMiddleware_1 = require("../modules/monitorings/requestCounterMiddleware");
+const open_telemetry_module_1 = require("../modules/openTelemetry/open-telemetry.module");
+const rabbitmq_module_1 = require("../modules/rabbitmq/rabbitmq.module");
+const request_duration_middleware_1 = require("../modules/monitorings/request-duration.middleware");
+const request_counter_middleware_1 = require("../modules/monitorings/request-counter.middleware");
 const core_1 = require("@nestjs/core");
 const catalog_module_1 = require("../catalog/catalog.module");
 let AppModule = class AppModule {
     configure(consumer) {
         consumer
-            .apply(requestCounterMiddleware_1.RequestCounterMiddleware, requestDurationMiddleware_1.RequestDurationMiddleware)
+            .apply(request_counter_middleware_1.RequestCounterMiddleware, request_duration_middleware_1.RequestDurationMiddleware)
             .forRoutes('*');
     }
 };
@@ -25,8 +25,8 @@ exports.AppModule = AppModule;
 exports.AppModule = AppModule = __decorate([
     (0, common_1.Module)({
         imports: [
-            openTelemetryModule_1.OpenTelemetryModule,
-            rabbitmqModule_1.RabbitmqModule,
+            open_telemetry_module_1.OpenTelemetryModule,
+            rabbitmq_module_1.RabbitmqModule,
             catalog_module_1.CatalogModule,
             core_1.RouterModule.register([
                 {

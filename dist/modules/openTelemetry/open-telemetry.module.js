@@ -6,20 +6,16 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.CatalogModule = void 0;
+exports.OpenTelemetryModule = void 0;
 const common_1 = require("@nestjs/common");
-const cqrs_1 = require("@nestjs/cqrs");
-const create_catalog_1 = require("./features/v1/create-catalog/create-catalog");
-const rabbitmq_module_1 = require("../modules/rabbitmq/rabbitmq.module");
-let CatalogModule = class CatalogModule {
+const open_telemetry_tracer_1 = require("./open-telemetry-tracer");
+let OpenTelemetryModule = class OpenTelemetryModule {
 };
-exports.CatalogModule = CatalogModule;
-exports.CatalogModule = CatalogModule = __decorate([
+exports.OpenTelemetryModule = OpenTelemetryModule;
+exports.OpenTelemetryModule = OpenTelemetryModule = __decorate([
     (0, common_1.Module)({
-        imports: [cqrs_1.CqrsModule, rabbitmq_module_1.RabbitmqModule],
-        controllers: [create_catalog_1.CatalogController],
-        providers: [create_catalog_1.CreateCatalogHandler],
-        exports: [],
+        providers: [open_telemetry_tracer_1.OpenTelemetryTracer],
+        exports: [open_telemetry_tracer_1.OpenTelemetryTracer],
     })
-], CatalogModule);
-//# sourceMappingURL=catalog.module.js.map
+], OpenTelemetryModule);
+//# sourceMappingURL=open-telemetry.module.js.map

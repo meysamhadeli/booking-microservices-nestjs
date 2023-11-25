@@ -84,7 +84,6 @@ export class CatalogController {
     async ExceptionAsync(): Promise<boolean> {
         Logger.log('ExceptionAsync');
         throw new BadRequestException('CustomApiException from ExceptionAsync');
-        return true;
     }
 
     @Post()
