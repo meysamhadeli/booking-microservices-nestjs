@@ -11,10 +11,10 @@ const common_1 = require("@nestjs/common");
 const rabbitmqPublisher_1 = require("./rabbitmqPublisher");
 const rabbitmqSubscriber_1 = require("./rabbitmqSubscriber");
 const rabbitmqConnection_1 = require("./rabbitmqConnection");
-const userCreated_1 = require("../../events/userCreated");
-const createUser_1 = require("../../consumers/createUser");
 const openTelemetryModule_1 = require("../openTelemetry/openTelemetryModule");
 const openTelemetryTracer_1 = require("../openTelemetry/openTelemetryTracer");
+const create_catalog_1 = require("../../consumers/create-catalog");
+const catalog_contracts_1 = require("../../contracts/catalog.contracts");
 let RabbitmqModule = class RabbitmqModule {
 };
 exports.RabbitmqModule = RabbitmqModule;
@@ -26,7 +26,7 @@ exports.RabbitmqModule = RabbitmqModule = __decorate([
             rabbitmqPublisher_1.RabbitmqPublisher,
             {
                 provide: rabbitmqSubscriber_1.RabbitmqSubscriber,
-                useFactory: (rabbitMQConnection, openTelemetryTracer) => new rabbitmqSubscriber_1.RabbitmqSubscriber(rabbitMQConnection, openTelemetryTracer, new userCreated_1.UserCreated(), createUser_1.createUserConsumerHandler),
+                useFactory: (rabbitMQConnection, openTelemetryTracer) => new rabbitmqSubscriber_1.RabbitmqSubscriber(rabbitMQConnection, openTelemetryTracer, new catalog_contracts_1.CatalogCreated(), create_catalog_1.createCatalogConsumerHandler),
                 inject: [rabbitmqConnection_1.RabbitmqConnection, openTelemetryTracer_1.OpenTelemetryTracer],
             },
         ],

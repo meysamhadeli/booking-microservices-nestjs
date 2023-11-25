@@ -16,7 +16,7 @@ const resources_1 = require("@opentelemetry/resources");
 const semantic_conventions_1 = require("@opentelemetry/semantic-conventions");
 const exporter_jaeger_1 = require("@opentelemetry/exporter-jaeger");
 const api_1 = require("@opentelemetry/api");
-const config_1 = __importDefault(require("../../configuration/config"));
+const config_1 = __importDefault(require("../../config/config"));
 const zipkinExporter = new exporter_zipkin_1.ZipkinExporter({
     url: config_1.default.monitoring.zipkinEndpoint,
     serviceName: config_1.default.serviceName,

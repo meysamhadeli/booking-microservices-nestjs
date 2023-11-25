@@ -35,7 +35,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.RabbitmqConnection = void 0;
 const common_1 = require("@nestjs/common");
 const amqp = __importStar(require("amqplib"));
-const config_1 = __importDefault(require("../../configuration/config"));
+const config_1 = __importDefault(require("../../config/config"));
 let RabbitmqConnection = class RabbitmqConnection {
     constructor() {
         this.connection = null;

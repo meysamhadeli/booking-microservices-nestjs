@@ -1,6 +1,6 @@
 import { Injectable, Logger, OnModuleInit } from '@nestjs/common';
 import * as amqp from 'amqplib';
-import config from '../../configuration/config';
+import config from '../../config/config';
 
 @Injectable()
 export class RabbitmqConnection implements OnModuleInit {

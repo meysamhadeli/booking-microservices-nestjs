@@ -2,10 +2,10 @@ import { Module } from '@nestjs/common';
 import { RabbitmqPublisher } from './rabbitmqPublisher';
 import { RabbitmqSubscriber } from './rabbitmqSubscriber';
 import { RabbitmqConnection } from './rabbitmqConnection';
-import { UserCreated } from '../../events/userCreated';
-import { createUserConsumerHandler } from '../../consumers/createUser';
 import { OpenTelemetryModule } from '../openTelemetry/openTelemetryModule';
 import { OpenTelemetryTracer } from '../openTelemetry/openTelemetryTracer';
+import { createCatalogConsumerHandler } from '../../consumers/create-catalog';
+import { CatalogCreated } from '../../contracts/catalog.contracts';
 
 @Module({
     imports: [OpenTelemetryModule],
@@ -21,8 +21,8 @@ import { OpenTelemetryTracer } from '../openTelemetry/openTelemetryTracer';
                 new RabbitmqSubscriber(
                     rabbitMQConnection,
                     openTelemetryTracer,
-                    new UserCreated(),
-                    createUserConsumerHandler,
+                    new CatalogCreated(),
+                    createCatalogConsumerHandler,
                 ),
             inject: [RabbitmqConnection, OpenTelemetryTracer],
         },
