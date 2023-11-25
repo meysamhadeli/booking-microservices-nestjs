@@ -16,7 +16,7 @@ import {
 } from '@nestjs/swagger';
 import mapper from '../../../mappings';
 import { Catalog } from '../../../enitities/catalog.entity';
-import { RabbitmqPublisher } from '../../../../modules/rabbitmq/rabbitmqPublisher';
+import { RabbitmqPublisher } from '../../../../modules/rabbitmq/rabbitmq-publisher';
 import { CatalogCreated } from '../../../../contracts/catalog.contracts';
 import { CatalogDto } from '../../../dtos/catalog.dto';
 

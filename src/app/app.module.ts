@@ -1,8 +1,8 @@
 import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
-import { OpenTelemetryModule } from '../modules/openTelemetry/openTelemetryModule';
-import { RabbitmqModule } from '../modules/rabbitmq/rabbitmqModule';
-import { RequestDurationMiddleware } from '../modules/monitorings/requestDurationMiddleware';
-import { RequestCounterMiddleware } from '../modules/monitorings/requestCounterMiddleware';
+import { OpenTelemetryModule } from '../modules/openTelemetry/open-telemetry.module';
+import { RabbitmqModule } from '../modules/rabbitmq/rabbitmq.module';
+import { RequestDurationMiddleware } from '../modules/monitorings/request-duration.middleware';
+import { RequestCounterMiddleware } from '../modules/monitorings/request-counter.middleware';
 import { RouterModule } from '@nestjs/core';
 import { CatalogModule } from '../catalog/catalog.module';
 

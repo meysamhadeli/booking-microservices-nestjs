@@ -1,6 +1,6 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app/app.module';
-import { PrometheusMetrics } from './modules/monitorings/prometheusMetrics';
+import { PrometheusMetrics } from './modules/monitorings/prometheus-metrics';
 import { Logger, ValidationPipe, VersioningType } from "@nestjs/common";
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 

@@ -4,7 +4,7 @@ import {
     CatalogController,
     CreateCatalogHandler,
 } from './features/v1/create-catalog/create-catalog';
-import { RabbitmqModule } from "../modules/rabbitmq/rabbitmqModule";
+import { RabbitmqModule } from "../modules/rabbitmq/rabbitmq.module";
 
 @Module({
     imports: [CqrsModule, RabbitmqModule],

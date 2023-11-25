@@ -1,9 +1,9 @@
 import { Injectable, Logger, OnModuleInit } from '@nestjs/common';
-import { RabbitmqConnection } from './rabbitmqConnection';
+import { RabbitmqConnection } from './rabbitmq-connection';
 import { getTypeName } from '../../utils/reflection';
 import { snakeCase } from 'lodash';
 import { deserializeObject } from '../../utils/serilization';
-import { OpenTelemetryTracer } from '../openTelemetry/openTelemetryTracer';
+import { OpenTelemetryTracer } from '../openTelemetry/open-telemetry-tracer';
 
 type handlerFunc<T> = (queue: string, message: T) => void;
 

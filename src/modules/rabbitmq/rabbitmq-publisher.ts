@@ -1,11 +1,11 @@
 import { Injectable, Logger } from '@nestjs/common';
-import { RabbitmqConnection } from './rabbitmqConnection';
+import { RabbitmqConnection } from './rabbitmq-connection';
 import { serializeObject } from '../../utils/serilization';
 import { getTypeName } from '../../utils/reflection';
 import { snakeCase } from 'lodash';
 import { v4 as uuidv4 } from 'uuid';
 import { getUnixTime } from 'date-fns';
-import { OpenTelemetryTracer } from '../openTelemetry/openTelemetryTracer';
+import { OpenTelemetryTracer } from '../openTelemetry/open-telemetry-tracer';
 
 @Injectable()
 export class RabbitmqPublisher {

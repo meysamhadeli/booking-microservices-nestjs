@@ -1,9 +1,9 @@
 import { Module } from '@nestjs/common';
-import { RabbitmqPublisher } from './rabbitmqPublisher';
-import { RabbitmqSubscriber } from './rabbitmqSubscriber';
-import { RabbitmqConnection } from './rabbitmqConnection';
-import { OpenTelemetryModule } from '../openTelemetry/openTelemetryModule';
-import { OpenTelemetryTracer } from '../openTelemetry/openTelemetryTracer';
+import { RabbitmqPublisher } from './rabbitmq-publisher';
+import { RabbitmqSubscriber } from './rabbitmq-subscriber';
+import { RabbitmqConnection } from './rabbitmq-connection';
+import { OpenTelemetryModule } from '../openTelemetry/open-telemetry.module';
+import { OpenTelemetryTracer } from '../openTelemetry/open-telemetry-tracer';
 import { createCatalogConsumerHandler } from '../../consumers/create-catalog';
 import { CatalogCreated } from '../../contracts/catalog.contracts';
 
