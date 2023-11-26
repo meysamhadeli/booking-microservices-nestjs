@@ -1,6 +1,8 @@
-import { Injectable, Logger } from "@nestjs/common";
+import { Injectable, Logger } from '@nestjs/common';
 import { Request, Response } from 'express';
 import * as Prometheus from 'prom-client';
+import { requestCounterMiddleware } from './request-counter.middleware';
+import { requestDurationMiddleware } from './request-duration.middleware';
 
 @Injectable()
 export class PrometheusMetrics {
@@ -15,5 +17,9 @@ export class PrometheusMetrics {
                 res.status(500).end();
             }
         });
+
+        // register metrics
+        app.use(requestCounterMiddleware);
+        app.use(requestDurationMiddleware);
     }
 }

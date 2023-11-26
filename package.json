@@ -25,6 +25,7 @@
         "@nestjs/schematics": "10.0.3",
         "@nestjs/swagger": "^7.1.16",
         "@nestjs/terminus": "^10.1.1",
+        "@nestjs/typeorm": "^10.0.1",
         "@opentelemetry/api": "^1.7.0",
         "@opentelemetry/auto-instrumentations-node": "^0.40.1",
         "@opentelemetry/exporter-jaeger": "^1.18.1",
@@ -54,6 +55,7 @@
         "joi": "^17.11.0",
         "lodash": "^4.17.21",
         "nest-shared": "^5.0.3",
+        "pg": "^8.11.3",
         "prom-client": "^15.0.0",
         "reflect-metadata": "^0.1.13",
         "rimraf": "5.0.5",
@@ -61,6 +63,7 @@
         "swagger-ui-express": "^5.0.0",
         "ts-mapper": "^1.2.4",
         "tsyringe": "4.8.0",
+        "typeorm": "^0.3.17",
         "yup": "1.3.2"
     },
     "devDependencies": {

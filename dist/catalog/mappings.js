@@ -12,7 +12,10 @@ class Mapper extends ts_mapper_1.TypeMapper {
             .map((src) => src.price, (dest) => dest.price)
             .map((src) => src.name, (dest) => dest.name);
         this.createMap()
-            .map((src) => src.id, (dest) => dest.id)
+            .map((src) => src.price, (dest) => dest.price)
+            .map((src) => src.name, (dest) => dest.name)
+            .map((src) => src.id, (dest) => dest.id);
+        this.createMap()
             .map((src) => src.price, (dest) => dest.price)
             .map((src) => src.name, (dest) => dest.name);
     }

@@ -1,15 +1,25 @@
-import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
+import { Module } from '@nestjs/common';
 import { OpenTelemetryModule } from '../modules/openTelemetry/open-telemetry.module';
 import { RabbitmqModule } from '../modules/rabbitmq/rabbitmq.module';
-import { RequestDurationMiddleware } from '../modules/monitorings/request-duration.middleware';
-import { RequestCounterMiddleware } from '../modules/monitorings/request-counter.middleware';
 import { RouterModule } from '@nestjs/core';
 import { CatalogModule } from '../catalog/catalog.module';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import config from '../config/config';
 
 @Module({
     imports: [
         OpenTelemetryModule,
         RabbitmqModule,
+        TypeOrmModule.forRoot({
+            type: 'postgres',
+            host: config.postgres.host,
+            port: config.postgres.port,
+            username: config.postgres.username,
+            password: config.postgres.password,
+            database: config.postgres.database,
+            autoLoadEntities: config.postgres.autoLoadEntities,
+            synchronize: config.postgres.synchronize,
+        }),
         CatalogModule,
         RouterModule.register([
             {
@@ -20,10 +30,4 @@ import { CatalogModule } from '../catalog/catalog.module';
     ],
     providers: [],
 })
-export class AppModule implements NestModule {
-    configure(consumer: MiddlewareConsumer): any {
-        consumer
-            .apply(RequestCounterMiddleware, RequestDurationMiddleware)
-            .forRoutes('*');
-    }
-}
+export class AppModule {}

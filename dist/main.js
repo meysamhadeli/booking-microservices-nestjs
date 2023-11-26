@@ -2,10 +2,10 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const core_1 = require("@nestjs/core");
 const app_module_1 = require("./app/app.module");
-const prometheus_metrics_1 = require("./modules/monitorings/prometheus-metrics");
 const common_1 = require("@nestjs/common");
 const swagger_1 = require("@nestjs/swagger");
 const error_handlers_filter_1 = require("./filters/error-handlers.filter");
+const prometheus_metrics_1 = require("./modules/monitoring/prometheus.metrics");
 async function bootstrap() {
     const app = await core_1.NestFactory.create(app_module_1.AppModule);
     const globalPrefix = 'api';

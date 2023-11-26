@@ -9,6 +9,23 @@ declare const _default: {
         password: any;
         exchange: any;
     };
+    postgres: {
+        host: any;
+        port: any;
+        username: any;
+        password: any;
+        database: any;
+        synchronize: any;
+        autoLoadEntities: any;
+        entities: any;
+        migrations: any;
+        logging: any;
+    };
+    jwt: {
+        secret: any;
+        accessExpirationMinutes: any;
+        refreshExpirationDays: any;
+    };
     retry: {
         count: any;
         factor: any;

@@ -15,10 +15,12 @@ import {
     ApiTags,
 } from '@nestjs/swagger';
 import mapper from '../../../mappings';
-import { Catalog } from '../../../enitities/catalog.entity';
+import { Catalog } from '../../../entities/catalog.entity';
 import { RabbitmqPublisher } from '../../../../modules/rabbitmq/rabbitmq-publisher';
 import { CatalogCreated } from '../../../../contracts/catalog.contracts';
 import { CatalogDto } from '../../../dtos/catalog.dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 
 export class CreateCatalogDto {
     @ApiProperty()
@@ -114,22 +116,32 @@ export class CatalogController {
 
 @CommandHandler(CreateCatalog)
 export class CreateCatalogHandler implements ICommandHandler<CreateCatalog> {
-    constructor(private readonly rabbitmqPublisher: RabbitmqPublisher) {}
+    constructor(
+        private readonly rabbitmqPublisher: RabbitmqPublisher,
+        @InjectRepository(Catalog)
+        private readonly catalogRepository: Repository<Catalog>,
+    ) {}
     async execute(command: CreateCatalog): Promise<CatalogDto> {
         Logger.log(`Name: ${command.name} | Price: ${command.price}`);
 
-        const catalogDto = new CatalogDto({
-            id: 1,
-            name: command?.name,
-            price: command?.price,
-        });
+        const catalog = mapper.map<CreateCatalog, Catalog>(
+            command,
+            new Catalog(),
+        );
+
+        const catalogEntity = await this.catalogRepository.save(catalog);
 
         await this.rabbitmqPublisher.publishMessage(
             new CatalogCreated({
-                name: catalogDto?.name,
-                price: catalogDto?.price,
-                id: catalogDto?.id,
+                name: catalogEntity?.name,
+                price: catalogEntity?.price,
+                id: catalogEntity?.id,
             }),
+        );
+
+        const catalogDto = mapper.map<Catalog, CatalogDto>(
+            catalogEntity,
+            new CatalogDto(),
         );
 
         return catalogDto;

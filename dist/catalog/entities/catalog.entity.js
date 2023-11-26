@@ -13,8 +13,8 @@ exports.Catalog = void 0;
 const openapi = require("@nestjs/swagger");
 const typeorm_1 = require("typeorm");
 let Catalog = class Catalog {
-    constructor(request = {}) {
-        Object.assign(this, request);
+    constructor(partial) {
+        Object.assign(this, partial);
     }
     static _OPENAPI_METADATA_FACTORY() {
         return { id: { required: true, type: () => Number }, name: { required: true, type: () => String }, price: { required: true, type: () => Number } };

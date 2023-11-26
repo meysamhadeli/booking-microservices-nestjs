@@ -20,9 +20,12 @@ const common_1 = require("@nestjs/common");
 const cqrs_1 = require("@nestjs/cqrs");
 const swagger_1 = require("@nestjs/swagger");
 const mappings_1 = __importDefault(require("../../../mappings"));
+const catalog_entity_1 = require("../../../entities/catalog.entity");
 const rabbitmq_publisher_1 = require("../../../../modules/rabbitmq/rabbitmq-publisher");
 const catalog_contracts_1 = require("../../../../contracts/catalog.contracts");
 const catalog_dto_1 = require("../../../dtos/catalog.dto");
+const typeorm_1 = require("@nestjs/typeorm");
+const typeorm_2 = require("typeorm");
 class CreateCatalogDto {
     constructor(request = {}) {
         Object.assign(this, request);
@@ -118,27 +121,28 @@ exports.CatalogController = CatalogController = __decorate([
     __metadata("design:paramtypes", [cqrs_1.CommandBus])
 ], CatalogController);
 let CreateCatalogHandler = class CreateCatalogHandler {
-    constructor(rabbitmqPublisher) {
+    constructor(rabbitmqPublisher, catalogRepository) {
         this.rabbitmqPublisher = rabbitmqPublisher;
+        this.catalogRepository = catalogRepository;
     }
     async execute(command) {
         common_1.Logger.log(`Name: ${command.name} | Price: ${command.price}`);
-        const catalogDto = new catalog_dto_1.CatalogDto({
-            id: 1,
-            name: command === null || command === void 0 ? void 0 : command.name,
-            price: command === null || command === void 0 ? void 0 : command.price,
-        });
+        const catalog = mappings_1.default.map(command, new catalog_entity_1.Catalog());
+        const catalogEntity = await this.catalogRepository.save(catalog);
         await this.rabbitmqPublisher.publishMessage(new catalog_contracts_1.CatalogCreated({
-            name: catalogDto === null || catalogDto === void 0 ? void 0 : catalogDto.name,
-            price: catalogDto === null || catalogDto === void 0 ? void 0 : catalogDto.price,
-            id: catalogDto === null || catalogDto === void 0 ? void 0 : catalogDto.id,
+            name: catalogEntity === null || catalogEntity === void 0 ? void 0 : catalogEntity.name,
+            price: catalogEntity === null || catalogEntity === void 0 ? void 0 : catalogEntity.price,
+            id: catalogEntity === null || catalogEntity === void 0 ? void 0 : catalogEntity.id,
         }));
+        const catalogDto = mappings_1.default.map(catalogEntity, new catalog_dto_1.CatalogDto());
         return catalogDto;
     }
 };
 exports.CreateCatalogHandler = CreateCatalogHandler;
 exports.CreateCatalogHandler = CreateCatalogHandler = __decorate([
     (0, cqrs_1.CommandHandler)(CreateCatalog),
-    __metadata("design:paramtypes", [rabbitmq_publisher_1.RabbitmqPublisher])
+    __param(1, (0, typeorm_1.InjectRepository)(catalog_entity_1.Catalog)),
+    __metadata("design:paramtypes", [rabbitmq_publisher_1.RabbitmqPublisher,
+        typeorm_2.Repository])
 ], CreateCatalogHandler);
 //# sourceMappingURL=create-catalog.js.map

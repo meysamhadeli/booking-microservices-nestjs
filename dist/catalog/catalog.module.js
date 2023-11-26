@@ -11,12 +11,14 @@ const common_1 = require("@nestjs/common");
 const cqrs_1 = require("@nestjs/cqrs");
 const create_catalog_1 = require("./features/v1/create-catalog/create-catalog");
 const rabbitmq_module_1 = require("../modules/rabbitmq/rabbitmq.module");
+const typeorm_1 = require("@nestjs/typeorm");
+const catalog_entity_1 = require("./entities/catalog.entity");
 let CatalogModule = class CatalogModule {
 };
 exports.CatalogModule = CatalogModule;
 exports.CatalogModule = CatalogModule = __decorate([
     (0, common_1.Module)({
-        imports: [cqrs_1.CqrsModule, rabbitmq_module_1.RabbitmqModule],
+        imports: [cqrs_1.CqrsModule, rabbitmq_module_1.RabbitmqModule, typeorm_1.TypeOrmModule.forFeature([catalog_entity_1.Catalog])],
         controllers: [create_catalog_1.CatalogController],
         providers: [create_catalog_1.CreateCatalogHandler],
         exports: [],

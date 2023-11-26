@@ -15,6 +15,40 @@ const envVarsSchema = joi_1.default.object()
         .required(),
     SERVICE_NAME: joi_1.default.string(),
     PORT: joi_1.default.number().default(3000),
+    JWT_SECRET: joi_1.default.string()
+        .default('thisisafakesecretchangeit')
+        .required()
+        .description('JWT secret key'),
+    JWT_ACCESS_EXPIRATION_MINUTES: joi_1.default.number()
+        .default(30)
+        .description('minutes after which access tokens expire'),
+    JWT_REFRESH_EXPIRATION_DAYS: joi_1.default.number()
+        .default(30)
+        .description('days after which refresh tokens expire'),
+    POSTGRES_HOST: joi_1.default.string()
+        .default('localhost')
+        .description('Postgres host'),
+    POSTGRES_PORT: joi_1.default.number().default(5432).description('Postgres host'),
+    POSTGRES_USERNAME: joi_1.default.string()
+        .default('postgres')
+        .description('Postgres username'),
+    POSTGRES_PASSWORD: joi_1.default.string()
+        .default('postgres')
+        .description('Postgres password'),
+    POSTGRES_Database: joi_1.default.string()
+        .default('default_database')
+        .description('Postgres database name'),
+    POSTGRES_SYNCHRONIZE: joi_1.default.boolean()
+        .default(false)
+        .description('Synchronize if true it dosent use migrations'),
+    POSTGRES_AUTO_LOAD_ENTITIES: joi_1.default.boolean()
+        .default(true)
+        .description('For loading all entities automatically'),
+    POSTGRES_ENTITIES: joi_1.default.string().description('Postgres entities'),
+    POSTGRES_MIGRATIONS: joi_1.default.string().description('Postgres migrations'),
+    POSTGRES_LOGGING: joi_1.default.boolean()
+        .default(false)
+        .description('Postgres logging'),
     RABBITMQ_Host: joi_1.default.string()
         .default('localhost')
         .description('Rabbitmq host'),
@@ -60,6 +94,23 @@ exports.default = {
         username: envVars.RABBITMQ_USERNAME,
         password: envVars.RABBITMQ_PASSWORD,
         exchange: envVars.RABBITMQ_EXCHANGE,
+    },
+    postgres: {
+        host: envVars.POSTGRES_HOST,
+        port: envVars.POSTGRES_PORT,
+        username: envVars.POSTGRES_USERNAME,
+        password: envVars.POSTGRES_PASSWORD,
+        database: envVars.POSTGRES_Database,
+        synchronize: envVars.POSTGRES_SYNCHRONIZE,
+        autoLoadEntities: envVars.POSTGRES_AUTO_LOAD_ENTITIES,
+        entities: envVars.POSTGRES_ENTITIES,
+        migrations: envVars.POSTGRES_MIGRATIONS,
+        logging: envVars.POSTGRES_LOGGING,
+    },
+    jwt: {
+        secret: envVars.JWT_SECRET,
+        accessExpirationMinutes: envVars.JWT_ACCESS_EXPIRATION_MINUTES,
+        refreshExpirationDays: envVars.JWT_REFRESH_EXPIRATION_DAYS,
     },
     retry: {
         count: envVars.RETRY_COUNT,

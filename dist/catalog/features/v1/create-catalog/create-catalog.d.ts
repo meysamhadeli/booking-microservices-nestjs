@@ -1,6 +1,8 @@
 import { CommandBus, ICommandHandler } from '@nestjs/cqrs';
+import { Catalog } from '../../../entities/catalog.entity';
 import { RabbitmqPublisher } from '../../../../modules/rabbitmq/rabbitmq-publisher';
 import { CatalogDto } from '../../../dtos/catalog.dto';
+import { Repository } from 'typeorm';
 export declare class CreateCatalogDto {
     name: string;
     price: number;
@@ -20,6 +22,7 @@ export declare class CatalogController {
 }
 export declare class CreateCatalogHandler implements ICommandHandler<CreateCatalog> {
     private readonly rabbitmqPublisher;
-    constructor(rabbitmqPublisher: RabbitmqPublisher);
+    private readonly catalogRepository;
+    constructor(rabbitmqPublisher: RabbitmqPublisher, catalogRepository: Repository<Catalog>);
     execute(command: CreateCatalog): Promise<CatalogDto>;
 }
