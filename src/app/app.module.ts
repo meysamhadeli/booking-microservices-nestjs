@@ -4,22 +4,13 @@ import { RabbitmqModule } from '../modules/rabbitmq/rabbitmq.module';
 import { RouterModule } from '@nestjs/core';
 import { CatalogModule } from '../catalog/catalog.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import config from '../config/config';
+import { postgresOptions } from '../data/data-source';
 
 @Module({
     imports: [
         OpenTelemetryModule,
         RabbitmqModule,
-        TypeOrmModule.forRoot({
-            type: 'postgres',
-            host: config.postgres.host,
-            port: config.postgres.port,
-            username: config.postgres.username,
-            password: config.postgres.password,
-            database: config.postgres.database,
-            autoLoadEntities: config.postgres.autoLoadEntities,
-            synchronize: config.postgres.synchronize,
-        }),
+        TypeOrmModule.forRoot(postgresOptions),
         CatalogModule,
         RouterModule.register([
             {

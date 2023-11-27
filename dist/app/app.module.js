@@ -5,9 +5,6 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.AppModule = void 0;
 const common_1 = require("@nestjs/common");
@@ -16,7 +13,7 @@ const rabbitmq_module_1 = require("../modules/rabbitmq/rabbitmq.module");
 const core_1 = require("@nestjs/core");
 const catalog_module_1 = require("../catalog/catalog.module");
 const typeorm_1 = require("@nestjs/typeorm");
-const config_1 = __importDefault(require("../config/config"));
+const data_source_1 = require("../data/data-source");
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
@@ -25,16 +22,7 @@ exports.AppModule = AppModule = __decorate([
         imports: [
             open_telemetry_module_1.OpenTelemetryModule,
             rabbitmq_module_1.RabbitmqModule,
-            typeorm_1.TypeOrmModule.forRoot({
-                type: 'postgres',
-                host: config_1.default.postgres.host,
-                port: config_1.default.postgres.port,
-                username: config_1.default.postgres.username,
-                password: config_1.default.postgres.password,
-                database: config_1.default.postgres.database,
-                autoLoadEntities: config_1.default.postgres.autoLoadEntities,
-                synchronize: config_1.default.postgres.synchronize,
-            }),
+            typeorm_1.TypeOrmModule.forRoot(data_source_1.postgresOptions),
             catalog_module_1.CatalogModule,
             core_1.RouterModule.register([
                 {

@@ -10,14 +10,10 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Catalog = void 0;
-const openapi = require("@nestjs/swagger");
 const typeorm_1 = require("typeorm");
 let Catalog = class Catalog {
     constructor(partial) {
         Object.assign(this, partial);
-    }
-    static _OPENAPI_METADATA_FACTORY() {
-        return { id: { required: true, type: () => Number }, name: { required: true, type: () => String }, price: { required: true, type: () => Number } };
     }
 };
 exports.Catalog = Catalog;
