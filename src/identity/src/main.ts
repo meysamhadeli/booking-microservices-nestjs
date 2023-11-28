@@ -2,8 +2,9 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app/app.module';
 import { Logger, ValidationPipe, VersioningType } from '@nestjs/common';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
-import { PrometheusMetrics } from "building-blocks/dist/modules/monitoring/prometheus.metrics";
-import { ErrorHandlersFilter } from "building-blocks/dist/filters/error-handlers.filter";
+import { PrometheusMetrics } from "building-blocks/src/modules/monitoring/prometheus.metrics";
+import { ErrorHandlersFilter } from "building-blocks/src/filters/error-handlers.filter";
+
 
 async function bootstrap() {
     const app = await NestFactory.create(AppModule);

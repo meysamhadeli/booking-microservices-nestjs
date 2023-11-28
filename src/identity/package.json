@@ -7,6 +7,7 @@
     "license": "MIT",
     "scripts": {
         "build": "nest build",
+        "dev": "tsc -p tsconfig.json && NODE_ENV=development nodemon src/main.ts --watch",
         "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
         "start": "NODE_ENV=development && nest start",
         "start:dev": "NODE_ENV=development && nest start --watch",
