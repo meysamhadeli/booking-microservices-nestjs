@@ -1,1 +1,0 @@
-{"version":3,"file":"open-telemetry.module.js","sourceRoot":"","sources":["../../../src/modules/openTelemetry/open-telemetry.module.ts"],"names":[],"mappings":";;;;;;;;;AAAA,2CAAwC;AACxC,mEAA8D;AAMvD,IAAM,mBAAmB,GAAzB,MAAM,mBAAmB;CAAG,CAAA;AAAtB,kDAAmB;8BAAnB,mBAAmB;IAJ/B,IAAA,eAAM,EAAC;QACN,SAAS,EAAE,CAAC,2CAAmB,CAAC;QAChC,OAAO,EAAE,CAAC,2CAAmB,CAAC;KAC/B,CAAC;GACW,mBAAmB,CAAG"}
