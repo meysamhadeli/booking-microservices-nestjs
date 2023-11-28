@@ -14,7 +14,7 @@
         "start:prod": "node dist/main",
         "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
         "migration:run": "typeorm migration:run -d ./dist/data/data-source.js",
-        "migration:generate": "typeorm migration:generate -d ./dist/data/data-source.js ./src/data/migrations/create-catalog-table && nest build"
+        "migration:generate": "typeorm migration:generate -d ./dist/data/data-source.js ./src/data/migrations/create-user-table && nest build"
     },
     "dependencies": {
         "@nestjs/common": "^10.2.10",

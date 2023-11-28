@@ -1,8 +1,13 @@
 # Dependencies
 node_modules
+dist/
 
-# yarn error logs
-yarn-error.log
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
 
 # Code coverage
 coverage
@@ -24,3 +29,4 @@ yarn.lock
 
 # Ignore npm's lockfile
 package-lock.json
+
