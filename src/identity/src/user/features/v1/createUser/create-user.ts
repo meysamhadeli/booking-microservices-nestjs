@@ -1,32 +1,28 @@
-import { UserDto } from '../../../dtos/user.dto';
+import {UserDto} from '../../../dtos/user.dto';
 import mapper from '../../../mapping';
-import { Role } from "../../../enums/role.enum";
-import { ApiBearerAuth, ApiProperty, ApiResponse, ApiTags } from "@nestjs/swagger";
-import {
-  Body,
-  ConflictException,
-  Controller,
-  HttpStatus, Inject,
-  Post
-} from "@nestjs/common";
-import { CommandBus, CommandHandler, ICommandHandler } from "@nestjs/cqrs";
-import { User } from "../../../entities/user.entity";
-import { UserCreated } from "../../../../../../building-blocks/src/contracts/identityContract";
-import { IUserRepository } from "../../../../data/repositories/user.repository";
-import { RabbitmqPublisher } from "building-blocks/src/modules/rabbitmq/rabbitmq-publisher";
-import { encryptPassword } from "building-blocks/src/utils/encryption";
+import {Role} from "../../../enums/role.enum";
+import {ApiBearerAuth, ApiProperty, ApiResponse, ApiTags} from "@nestjs/swagger";
+import {Body, ConflictException, Controller, HttpStatus, Inject, Post, Res, UseGuards} from "@nestjs/common";
+import {CommandBus, CommandHandler, ICommandHandler} from "@nestjs/cqrs";
+import {User} from "../../../entities/user.entity";
+import {UserCreated} from "../../../../../../building-blocks/src/contracts/identityContract";
+import {IUserRepository} from "../../../../data/repositories/user.repository";
+import {RabbitmqPublisher} from "building-blocks/src/modules/rabbitmq/rabbitmq-publisher";
+import {encryptPassword} from "building-blocks/src/utils/encryption";
 import Joi from "joi";
-import { password } from "building-blocks/src/utils/validation";
+import {password} from "building-blocks/src/utils/validation";
+import {Response} from "express";
+import {JwtAuthGuard} from "../../../../../../building-blocks/src/passport/jwt-auth.guard";
 
 export class CreateUser {
-  email: string;
-  password: string;
-  name: string;
-  role: Role;
-  passportNumber: string;
+    email: string;
+    password: string;
+    name: string;
+    role: Role;
+    passportNumber: string;
 
-  constructor(request: Partial<CreateUser> = {}) {
-    Object.assign(this, request);
+    constructor(request: Partial<CreateUser> = {}) {
+        Object.assign(this, request);
   }
 }
 
@@ -61,22 +57,26 @@ export class CreateUserRequestDto {
 export class CreateUserController {
   constructor(private readonly commandBus: CommandBus) {}
 
-  @Post('create')
-  @ApiResponse({ status: 401, description: HttpStatus.FORBIDDEN.toString() })
-  @ApiResponse({
-    status: 201,
-    description: HttpStatus.CREATED.toString()
-  })
-  public async createUser(@Body() request: CreateUserRequestDto): Promise<UserDto> {
+    @Post('create')
+    @UseGuards(JwtAuthGuard)
+    @ApiResponse({status: 401, description: 'UNAUTHORIZED'})
+    @ApiResponse({status: 400, description: 'BAD_REQUEST'})
+    @ApiResponse({status: 403, description: 'FORBIDDEN'})
+    @ApiResponse({status: 201, description: 'CREATED'})
+    public async createUser(@Body() request: CreateUserRequestDto, @Res() res: Response): Promise<UserDto> {
 
-    return this.commandBus.execute( new CreateUser({
-      email: request.email,
-      password: request.password,
-      name: request.name,
-      role: request.role,
-      passportNumber: request.passportNumber
-    }));
-  }
+        const result = await this.commandBus.execute(new CreateUser({
+            email: request.email,
+            password: request.password,
+            name: request.name,
+            role: request.role,
+            passportNumber: request.passportNumber
+        }));
+
+        res.status(HttpStatus.CREATED).send(result);
+
+        return result;
+    }
 }
 
 
