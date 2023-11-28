@@ -1,6 +1,5 @@
 import { UserDto } from '../../../dtos/user.dto';
 import mapper from '../../../mapping';
-import Joi from 'joi';
 import { Role } from "../../../enums/role.enum";
 import { ApiBearerAuth, ApiProperty, ApiResponse, ApiTags } from "@nestjs/swagger";
 import {
@@ -16,6 +15,7 @@ import { UserCreated } from "../../../../../../building-blocks/src/contracts/ide
 import { IUserRepository } from "../../../../data/repositories/user.repository";
 import { RabbitmqPublisher } from "building-blocks/src/modules/rabbitmq/rabbitmq-publisher";
 import { encryptPassword } from "building-blocks/src/utils/encryption";
+import Joi from "joi";
 import { password } from "building-blocks/src/utils/validation";
 
 export class CreateUser {
@@ -50,14 +50,6 @@ export class CreateUserRequestDto {
     Object.assign(this, request);
   }
 }
-
-const createUserValidations = Joi.object({
-  email: Joi.string().required().email(),
-  password: Joi.string().required().custom(password),
-  name: Joi.string().required(),
-  passportNumber: Joi.string().required(),
-  role: Joi.string().required().valid(Role.USER, Role.ADMIN)
-});
 
 
 @ApiBearerAuth()
@@ -95,7 +87,17 @@ export class CreateUserHandler implements ICommandHandler<CreateUser> {
     @Inject('IUserRepository') private readonly userRepository: IUserRepository,
   ) {}
   async execute(command: CreateUser): Promise<UserDto> {
-    await createUserValidations.validateAsync(command);
+
+
+    const createUserValidations = Joi.object({
+      email: Joi.string().required().email(),
+      password: Joi.string().required().custom(password),
+      name: Joi.string().required(),
+      passportNumber: Joi.string().required(),
+      role: Joi.string().required().valid(Role.USER, Role.ADMIN)
+    });
+
+   await createUserValidations.validateAsync(command);
 
     const existUser = await this.userRepository.findUserByEmail(command.email);
 
