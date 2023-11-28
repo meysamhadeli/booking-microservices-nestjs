@@ -16,11 +16,11 @@ import {
 } from '@nestjs/swagger';
 import mapper from '../../../mappings';
 import { Catalog } from '../../../entities/catalog.entity';
-import { RabbitmqPublisher } from '../../../../modules/rabbitmq/rabbitmq-publisher';
-import { CatalogCreated } from '../../../../contracts/catalog.contracts';
 import { CatalogDto } from '../../../dtos/catalog.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import { RabbitmqPublisher } from 'building-blocks/dist/modules/rabbitmq/rabbitmq-publisher';
+import { CatalogCreated } from 'building-blocks/dist/contracts/catalog.contracts';
 
 export class CreateCatalogDto {
     @ApiProperty()

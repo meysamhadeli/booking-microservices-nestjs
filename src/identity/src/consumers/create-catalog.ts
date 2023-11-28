@@ -1,5 +1,5 @@
-import { CatalogCreated } from '../contracts/catalog.contracts';
 import { Logger } from '@nestjs/common';
+import { CatalogCreated } from 'building-blocks/dist/contracts/catalog.contracts';
 
 export const createCatalogConsumerHandler = async (
     queue: string,

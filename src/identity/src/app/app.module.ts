@@ -1,10 +1,10 @@
 import { Module } from '@nestjs/common';
-import { OpenTelemetryModule } from '../modules/openTelemetry/open-telemetry.module';
-import { RabbitmqModule } from '../modules/rabbitmq/rabbitmq.module';
 import { RouterModule } from '@nestjs/core';
 import { CatalogModule } from '../catalog/catalog.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { postgresOptions } from '../data/data-source';
+import { OpenTelemetryModule } from 'building-blocks/dist/modules/openTelemetry/open-telemetry.module';
+import { RabbitmqModule } from 'building-blocks/dist/modules/rabbitmq/rabbitmq.module';
 
 @Module({
     imports: [

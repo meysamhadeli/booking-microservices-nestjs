@@ -1,18 +1,18 @@
 import { DataSource, DataSourceOptions } from 'typeorm';
-import config from '../config/config';
+import configs from "building-blocks/dist/configs/configs";
 
 // use this file for running migration
 export const postgresOptions: DataSourceOptions = {
     type: 'postgres',
-    host: config.postgres.host,
-    port: config.postgres.port,
-    username: config.postgres.username,
-    password: config.postgres.password,
-    database: config.postgres.database,
-    synchronize: config.postgres.synchronize,
-    entities: [config.postgres.entities],
-    migrations: [config.postgres.migrations],
-    logging: config.postgres.logging,
+    host: configs.postgres.host,
+    port: configs.postgres.port,
+    username: configs.postgres.username,
+    password: configs.postgres.password,
+    database: configs.postgres.database,
+    synchronize: configs.postgres.synchronize,
+    entities: [configs.postgres.entities],
+    migrations: [configs.postgres.migrations],
+    logging: configs.postgres.logging,
 };
 
 const dataSource = new DataSource(postgresOptions);

@@ -4,9 +4,9 @@ import {
     CatalogController,
     CreateCatalogHandler,
 } from './features/v1/create-catalog/create-catalog';
-import { RabbitmqModule } from '../modules/rabbitmq/rabbitmq.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Catalog } from './entities/catalog.entity';
+import { RabbitmqModule } from 'building-blocks/dist/modules/rabbitmq/rabbitmq.module';
 
 @Module({
     imports: [CqrsModule, RabbitmqModule, TypeOrmModule.forFeature([Catalog])],
