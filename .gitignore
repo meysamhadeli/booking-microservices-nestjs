@@ -1,0 +1,32 @@
+# Dependencies
+node_modules
+dist/
+
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Code coverage
+coverage
+
+# misc
+.DS_Store
+
+# Dev db data
+db
+
+# TypeScript
+build
+
+# Ignore idea
+.idea/**
+
+# Ignore Yarn's lockfile
+yarn.lock
+
+# Ignore npm's lockfile
+package-lock.json
+

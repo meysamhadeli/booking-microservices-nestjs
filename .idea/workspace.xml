@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f7ab21df-db09-4fea-ad43-9cc0288bd7ee" name="Changes" comment="chore: fix .gitignore building-blocks" />
+    <list default="true" id="f7ab21df-db09-4fea-ad43-9cc0288bd7ee" name="Changes" comment="feat: completed identity service" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -37,13 +37,13 @@
     &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
     &quot;go.import.settings.migrated&quot;: &quot;true&quot;,
     &quot;go.sdk.automatically.set&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/Pc/Desktop/nestjs-example&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/Pc/Desktop/back-up&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
     &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
     &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;ts.external.directory.path&quot;: &quot;C:\\Program Files\\JetBrains\\WebStorm 2023.1.2\\plugins\\javascript-impl\\jsLanguageServicesImpl\\external&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;C:\\Users\\Pc\\Desktop\\booking-microservices-nestjs\\src\\building-blocks\\node_modules\\typescript\\lib&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
 }</component>
@@ -110,10 +110,10 @@
     <recent_temporary>
       <list>
         <item itemvalue="npm.dev" />
-        <item itemvalue="npm.start" />
-        <item itemvalue="npm.build (2)" />
         <item itemvalue="npm.build (1)" />
         <item itemvalue="npm.start:dev" />
+        <item itemvalue="npm.build (2)" />
+        <item itemvalue="npm.start" />
       </list>
     </recent_temporary>
   </component>
@@ -138,6 +138,7 @@
       <workItem from="1701187288585" duration="5835000" />
       <workItem from="1701194638144" duration="1186000" />
       <workItem from="1701196008400" duration="2492000" />
+      <workItem from="1701198832792" duration="8865000" />
     </task>
     <task id="LOCAL-00001" summary="chore: remove additional files">
       <created>1700852300262</created>
@@ -223,7 +224,14 @@
       <option name="project" value="LOCAL" />
       <updated>1701198804042</updated>
     </task>
-    <option name="localTasksCounter" value="13" />
+    <task id="LOCAL-00013" summary="feat: completed identity service">
+      <created>1701211428315</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1701211428315</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -284,11 +292,9 @@
         <option value="$PROJECT_DIR$/src/identity/src/main.js.map" />
         <option value="$PROJECT_DIR$/src/identity/src/data/data-source.js.map" />
         <option value="$PROJECT_DIR$/src/identity/src/data/data-source.js" />
-        <option value="$PROJECT_DIR$/src/identity/src/user/user.service.js.map" />
         <option value="$PROJECT_DIR$/src/identity/src/user/mapping.js.map" />
         <option value="$PROJECT_DIR$/src/identity/src/user/mapping.js" />
         <option value="$PROJECT_DIR$/src/identity/src/user/user.module.js.map" />
-        <option value="$PROJECT_DIR$/src/identity/src/user/user.service.js" />
         <option value="$PROJECT_DIR$/src/identity/src/user/user.module.js" />
         <option value="$PROJECT_DIR$/src/identity/src/catalog/catalog.module.js.map" />
         <option value="$PROJECT_DIR$/src/identity/src/catalog/mappings.js.map" />
@@ -300,8 +306,6 @@
         <option value="$PROJECT_DIR$/src/identity/src/auth/entities/token.entity.js" />
         <option value="$PROJECT_DIR$/src/identity/src/user/entities/user.entity.js.map" />
         <option value="$PROJECT_DIR$/src/identity/src/user/entities/user.entity.js" />
-        <option value="$PROJECT_DIR$/src/identity/src/user/features/v1/deleteUserById/deleteUserById.js.map" />
-        <option value="$PROJECT_DIR$/src/identity/src/user/features/v1/deleteUserById/deleteUserById.js" />
         <option value="$PROJECT_DIR$/src/identity/src/auth/enums/token-type.enum.js.map" />
         <option value="$PROJECT_DIR$/src/identity/src/auth/enums/token-type.enum.js" />
         <option value="$PROJECT_DIR$/src/identity/src/catalog/entities/catalog.entity.js" />
@@ -376,6 +380,17 @@
       </set>
     </option>
   </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="chore: remove additional files" />
     <MESSAGE value="chore: update package.json" />
@@ -390,7 +405,8 @@
     <MESSAGE value="feat: add user module" />
     <MESSAGE value="refactor: refactor identity module" />
     <MESSAGE value="chore: fix .gitignore building-blocks" />
-    <option name="LAST_COMMIT_MESSAGE" value="chore: fix .gitignore building-blocks" />
+    <MESSAGE value="feat: completed identity service" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat: completed identity service" />
   </component>
   <component name="VgoProject">
     <settings-migrated>true</settings-migrated>
@@ -485,27 +501,8 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/src/identity/src/user/features/v1/createUser/create-user.ts</url>
-          <line>99</line>
-          <properties lambdaOrdinal="-1" />
-          <option name="timeStamp" value="33" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/src/identity/src/user/features/v1/createUser/create-user.ts</url>
-          <line>101</line>
-          <properties lambdaOrdinal="-1" />
-          <option name="timeStamp" value="34" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/src/identity/src/user/features/v1/createUser/create-user.ts</url>
           <line>124</line>
-          <properties lambdaOrdinal="-1" />
           <option name="timeStamp" value="35" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/src/identity/src/user/features/v1/createUser/create-user.ts</url>
-          <line>91</line>
-          <properties lambdaOrdinal="-1" />
-          <option name="timeStamp" value="41" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
