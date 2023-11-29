@@ -8,11 +8,11 @@ import {Body, Controller, HttpStatus, Inject, NotFoundException, Put, Query, Res
 import {CommandBus, CommandHandler, ICommandHandler} from "@nestjs/cqrs";
 import { Response} from "express";
 import {IUserRepository} from "../../../../data/repositories/user.repository";
-import {RabbitmqPublisher} from "../../../../../../building-blocks/src/modules/rabbitmq/rabbitmq-publisher";
+import {IRabbitmqPublisher} from "../../../../../../building-blocks/src/rabbitmq/rabbitmq-publisher";
 import {encryptPassword} from "building-blocks/dist/utils/encryption";
 import {User} from "../../../entities/user.entity";
-import {UserUpdated} from "building-blocks/dist/contracts/identityContract";
-import {JwtAuthGuard} from "../../../../../../building-blocks/src/passport/jwt-auth.guard";
+import {JwtGuard} from "../../../../../../building-blocks/src/passport/jwt.guard";
+import {UserUpdated} from "building-blocks/dist/contracts/identity.contract";
 
 export class UpdateUser {
     id: number;
@@ -59,7 +59,7 @@ export class UpdateUserController {
     }
 
     @Put('update')
-    @UseGuards(JwtAuthGuard)
+    @UseGuards(JwtGuard)
     @ApiResponse({status: 204, description: 'NO_CONTENT'})
     @ApiResponse({status: 401, description: 'UNAUTHORIZED'})
     @ApiResponse({status: 400, description: 'BAD_REQUEST'})
@@ -89,7 +89,7 @@ export class UpdateUserController {
 export class UpdateUserHandler implements ICommandHandler <UpdateUser> {
 
     constructor(
-        private readonly rabbitmqPublisher: RabbitmqPublisher,
+        @Inject('IRabbitmqPublisher') private readonly rabbitmqPublisher: IRabbitmqPublisher,
         @Inject('IUserRepository') private readonly userRepository: IUserRepository) {}
 
     async execute(command: UpdateUser): Promise<UserDto> {

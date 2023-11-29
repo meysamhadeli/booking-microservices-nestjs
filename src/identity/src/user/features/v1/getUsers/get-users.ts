@@ -6,8 +6,8 @@ import {Controller, Get, HttpStatus, Inject, Query, UseGuards} from "@nestjs/com
 import {IQueryHandler, QueryBus, QueryHandler} from "@nestjs/cqrs";
 import {IUserRepository} from "../../../../data/repositories/user.repository";
 import {User} from "../../../entities/user.entity";
-import {PagedResult} from "building-blocks/dist/types/pagination/pagedResult";
-import {JwtAuthGuard} from "../../../../../../building-blocks/src/passport/jwt-auth.guard";
+import {JwtGuard} from "../../../../../../building-blocks/src/passport/jwt.guard";
+import {PagedResult} from "building-blocks/dist/types/pagination/paged-result";
 
 export class GetUsers {
   page = 1;
@@ -41,7 +41,7 @@ export class GetUsersController {
   }
 
   @Get('get')
-  @UseGuards(JwtAuthGuard)
+  @UseGuards(JwtGuard)
   @ApiResponse({status: 200, description: 'OK'})
   @ApiResponse({status: 401, description: 'UNAUTHORIZED'})
   @ApiResponse({status: 400, description: 'BAD_REQUEST'})

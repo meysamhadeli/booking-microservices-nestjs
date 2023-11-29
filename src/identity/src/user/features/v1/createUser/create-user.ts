@@ -5,14 +5,14 @@ import {ApiBearerAuth, ApiProperty, ApiResponse, ApiTags} from "@nestjs/swagger"
 import {Body, ConflictException, Controller, HttpStatus, Inject, Post, Res, UseGuards} from "@nestjs/common";
 import {CommandBus, CommandHandler, ICommandHandler} from "@nestjs/cqrs";
 import {User} from "../../../entities/user.entity";
-import {UserCreated} from "../../../../../../building-blocks/src/contracts/identityContract";
+import {UserCreated} from "../../../../../../building-blocks/src/contracts/identity.contract";
 import {IUserRepository} from "../../../../data/repositories/user.repository";
-import {RabbitmqPublisher} from "building-blocks/src/modules/rabbitmq/rabbitmq-publisher";
 import {encryptPassword} from "building-blocks/src/utils/encryption";
 import Joi from "joi";
 import {password} from "building-blocks/src/utils/validation";
 import {Response} from "express";
-import {JwtAuthGuard} from "../../../../../../building-blocks/src/passport/jwt-auth.guard";
+import {JwtGuard} from "../../../../../../building-blocks/src/passport/jwt.guard";
+import {IRabbitmqPublisher} from "building-blocks/dist/rabbitmq/rabbitmq-publisher";
 
 export class CreateUser {
     email: string;
@@ -58,7 +58,7 @@ export class CreateUserController {
   constructor(private readonly commandBus: CommandBus) {}
 
     @Post('create')
-    @UseGuards(JwtAuthGuard)
+    @UseGuards(JwtGuard)
     @ApiResponse({status: 401, description: 'UNAUTHORIZED'})
     @ApiResponse({status: 400, description: 'BAD_REQUEST'})
     @ApiResponse({status: 403, description: 'FORBIDDEN'})
@@ -83,7 +83,7 @@ export class CreateUserController {
 @CommandHandler(CreateUser)
 export class CreateUserHandler implements ICommandHandler<CreateUser> {
   constructor(
-    private readonly rabbitmqPublisher: RabbitmqPublisher,
+    @Inject('IRabbitmqPublisher') private readonly rabbitmqPublisher: IRabbitmqPublisher,
     @Inject('IUserRepository') private readonly userRepository: IUserRepository,
   ) {}
   async execute(command: CreateUser): Promise<UserDto> {

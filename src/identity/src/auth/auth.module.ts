@@ -2,15 +2,15 @@ import {Module} from '@nestjs/common';
 import {CqrsModule} from '@nestjs/cqrs';
 import {TypeOrmModule} from '@nestjs/typeorm';
 import {Token} from "../auth/entities/token.entity";
-import {RabbitmqModule} from "building-blocks/src/modules/rabbitmq/rabbitmq.module";
 import {AuthRepository} from "../data/repositories/auth.repository";
 import {LoginController, LoginHandler} from "./features/v1/login/login";
 import {LogoutController, LogoutHandler} from "./features/v1/logout/logout";
-import {RefreshTokenController, RefreshTokenHandler} from "./features/v1/refreshToken/refreshToken";
-import {GenerateTokenHandler} from "./features/v1/generateToken/generateToken";
-import {ValidateTokenHandler} from "./features/v1/validateToken/validateToken";
+import {RefreshTokenController, RefreshTokenHandler} from "./features/v1/refreshToken/refresh-token";
+import {GenerateTokenHandler} from "./features/v1/generateToken/generate-token";
+import {ValidateTokenHandler} from "./features/v1/validateToken/validate-token";
 import {User} from "../user/entities/user.entity";
 import {UserRepository} from "../data/repositories/user.repository";
+import {RabbitmqModule} from "building-blocks/dist/rabbitmq/rabbitmq.module";
 
 @Module({
     imports: [CqrsModule, RabbitmqModule, TypeOrmModule.forFeature([Token, User])],
@@ -23,7 +23,7 @@ import {UserRepository} from "../data/repositories/user.repository";
         {
             provide: 'IUserRepository',
             useClass: UserRepository,
-        }
+        },
     ],
     exports: [],
 })

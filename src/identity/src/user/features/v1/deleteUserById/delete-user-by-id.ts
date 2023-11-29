@@ -5,11 +5,11 @@ import {ApiBearerAuth, ApiResponse, ApiTags} from "@nestjs/swagger";
 import {CommandBus, CommandHandler, ICommandHandler} from "@nestjs/cqrs";
 import {Controller, Delete, HttpStatus, Inject, NotFoundException, Query, Res, UseGuards} from "@nestjs/common";
 import { Response } from 'express';
-import {RabbitmqPublisher} from "building-blocks/src/modules/rabbitmq/rabbitmq-publisher";
 import {IUserRepository} from "../../../../data/repositories/user.repository";
-import {UserDeleted} from "building-blocks/src/contracts/identityContract";
 import {User} from "../../../entities/user.entity";
-import {JwtAuthGuard} from "../../../../../../building-blocks/src/passport/jwt-auth.guard";
+import {JwtGuard} from "../../../../../../building-blocks/src/passport/jwt.guard";
+import {IRabbitmqPublisher} from "building-blocks/dist/rabbitmq/rabbitmq-publisher";
+import {UserDeleted} from "building-blocks/dist/contracts/identity.contract";
 
 export class DeleteUserById {
     id: number;
@@ -36,7 +36,7 @@ export class DeleteUserByIdController {
     }
 
     @Delete('delete')
-    @UseGuards(JwtAuthGuard)
+    @UseGuards(JwtGuard)
     @ApiResponse({ status: 204, description: 'NO_CONTENT' })
     @ApiResponse({status: 401, description: 'UNAUTHORIZED'})
     @ApiResponse({status: 400, description: 'BAD_REQUEST'})
@@ -60,7 +60,7 @@ export class DeleteUserByIdController {
 @CommandHandler(DeleteUserById)
 export class DeleteUserByIdHandler implements ICommandHandler<DeleteUserById> {
     constructor(
-        private readonly rabbitmqPublisher: RabbitmqPublisher,
+        @Inject('IRabbitmqPublisher') private readonly rabbitmqPublisher: IRabbitmqPublisher,
         @Inject('IUserRepository') private readonly userRepository: IUserRepository,
     ) {}
 

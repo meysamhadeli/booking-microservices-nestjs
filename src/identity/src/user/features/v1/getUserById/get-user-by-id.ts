@@ -2,11 +2,11 @@ import {UserDto} from '../../../dtos/user.dto';
 import Joi from 'joi';
 import mapper from '../../../mapping';
 import {ApiBearerAuth, ApiResponse, ApiTags} from "@nestjs/swagger";
-import {Controller, Get, HttpStatus, Inject, NotFoundException, Query, UseGuards} from "@nestjs/common";
+import {Controller, Get, Inject, NotFoundException, Query, UseGuards} from "@nestjs/common";
 import {IQueryHandler, QueryBus, QueryHandler} from "@nestjs/cqrs";
 import {IUserRepository} from "../../../../data/repositories/user.repository";
 import {User} from "../../../entities/user.entity";
-import {JwtAuthGuard} from "../../../../../../building-blocks/src/passport/jwt-auth.guard";
+import {JwtGuard} from "../../../../../../building-blocks/src/passport/jwt.guard";
 
 export class GetUserById {
     id: number;
@@ -33,7 +33,7 @@ export class GetUserByIdController {
     }
 
     @Get('get-by-id')
-    @UseGuards(JwtAuthGuard)
+    @UseGuards(JwtGuard)
     @ApiResponse({status: 200, description: 'OK'})
     @ApiResponse({status: 401, description: 'UNAUTHORIZED'})
     @ApiResponse({status: 400, description: 'BAD_REQUEST'})

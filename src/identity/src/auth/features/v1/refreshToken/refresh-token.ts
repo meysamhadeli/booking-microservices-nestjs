@@ -1,5 +1,5 @@
 import Joi from 'joi';
-import {GenerateToken} from '../generateToken/generateToken';
+import {GenerateToken} from '../generateToken/generate-token';
 import {ApiBearerAuth, ApiResponse, ApiTags} from "@nestjs/swagger";
 import {Body, Controller, HttpStatus, Inject, Post, UnauthorizedException} from "@nestjs/common";
 import {CommandBus, CommandHandler, ICommandHandler} from "@nestjs/cqrs";
@@ -7,7 +7,7 @@ import {AuthDto} from "../../../dtos/auth.dto";
 import {IAuthRepository} from "../../../../data/repositories/auth.repository";
 import {IUserRepository} from "../../../../data/repositories/user.repository";
 import {TokenType} from "../../../enums/token-type.enum";
-import {ValidateToken} from "../validateToken/validateToken";
+import {ValidateToken} from "../validateToken/validate-token";
 
 export class RefreshToken {
     refreshToken: string;

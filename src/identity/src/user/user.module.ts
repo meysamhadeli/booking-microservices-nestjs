@@ -3,17 +3,17 @@ import {CqrsModule} from '@nestjs/cqrs';
 import {TypeOrmModule} from '@nestjs/typeorm';
 import {User} from "../user/entities/user.entity";
 import {CreateUserController, CreateUserHandler} from "./features/v1/createUser/create-user";
-import {RabbitmqModule} from "building-blocks/src/modules/rabbitmq/rabbitmq.module";
 import {UserRepository} from "../data/repositories/user.repository";
 import {
   DeleteUserByIdController,
   DeleteUserByIdHandler
 } from "./features/v1/deleteUserById/delete-user-by-id";
-import {UpdateUserController, UpdateUserHandler} from "./features/v1/updateUser/updateUser";
-import {GetUsersController, GetUsersHandler} from "./features/v1/getUsers/getUsers";
-import {GetUserByIdController, GetUserByIdHandler} from "./features/v1/getUserById/getUserById";
+import {UpdateUserController, UpdateUserHandler} from "./features/v1/updateUser/update-user";
+import {GetUsersController, GetUsersHandler} from "./features/v1/getUsers/get-users";
+import {GetUserByIdController, GetUserByIdHandler} from "./features/v1/getUserById/get-user-by-id";
 import {Token} from "../auth/entities/token.entity";
 import {AuthRepository} from "../data/repositories/auth.repository";
+import {RabbitmqModule} from "building-blocks/dist/rabbitmq/rabbitmq.module";
 
 @Module({
   imports: [CqrsModule, RabbitmqModule, TypeOrmModule.forFeature([User, Token])],

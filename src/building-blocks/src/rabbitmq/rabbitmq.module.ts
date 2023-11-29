@@ -5,7 +5,18 @@ import { OpenTelemetryModule } from '../openTelemetry/open-telemetry.module';
 
 @Module({
   imports: [OpenTelemetryModule],
-  providers: [RabbitmqConnection, RabbitmqPublisher],
-  exports: [RabbitmqPublisher, RabbitmqConnection]
+  providers: [
+    RabbitmqConnection,
+    RabbitmqPublisher,
+    {
+      provide: 'IRabbitmqConnection',
+      useClass: RabbitmqConnection
+    },
+    {
+      provide: 'IRabbitmqPublisher',
+      useClass: RabbitmqPublisher
+    }
+  ],
+  exports: ['IRabbitmqConnection', 'IRabbitmqPublisher']
 })
 export class RabbitmqModule {}

@@ -11,7 +11,7 @@ import { Resource } from '@opentelemetry/resources';
 import { SemanticResourceAttributes } from '@opentelemetry/semantic-conventions';
 import { JaegerExporter } from '@opentelemetry/exporter-jaeger';
 import { trace, Tracer } from '@opentelemetry/api';
-import configs from '../../configs/configs';
+import configs from '../configs/configs';
 
 const zipkinExporter = new ZipkinExporter({
   url: configs.monitoring.zipkinEndpoint,
