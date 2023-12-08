@@ -1,6 +1,6 @@
-export declare class ApplicationException extends Error {
+export declare class HttpClientException extends Error {
     statusCode: number;
     isOperational: boolean;
     constructor(message: string | undefined, statusCode?: number, isOperational?: boolean, stack?: string);
 }
-export default ApplicationException;
+export default HttpClientException;

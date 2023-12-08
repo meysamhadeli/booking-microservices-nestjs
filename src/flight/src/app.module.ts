@@ -4,7 +4,6 @@ import {TypeOrmModule} from '@nestjs/typeorm';
 import {postgresOptions} from './data/data-source';
 import {PassportModule} from "@nestjs/passport";
 import {JwtModule} from "@nestjs/jwt";
-import configs from "../../building-blocks/configs/configs";
 import {FlightModule} from "./flight/flight.module";
 import {AircraftModule} from "./aircraft/aircraft.module";
 import {AirportModule} from "./airport/airport.module";
@@ -12,6 +11,7 @@ import {SeatModule} from "./seat/seat.module";
 import {DataSeeder} from "./data/seeds/data-seeder";
 import {OpenTelemetryModule} from "building-blocks/openTelemetry/open-telemetry.module";
 import {JwtStrategy} from "building-blocks/passport/jwt.strategy";
+import configs from "building-blocks/configs/configs";
 
 @Module({
     imports: [

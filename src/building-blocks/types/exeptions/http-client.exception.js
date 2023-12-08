@@ -1,8 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.ApplicationException = void 0;
+exports.HttpClientException = void 0;
 const common_1 = require("@nestjs/common");
-class ApplicationException extends Error {
+class HttpClientException extends Error {
     constructor(message, statusCode = common_1.HttpStatus.BAD_REQUEST, isOperational = true, stack = '') {
         super(message);
         this.statusCode = statusCode;
@@ -15,6 +15,6 @@ class ApplicationException extends Error {
         }
     }
 }
-exports.ApplicationException = ApplicationException;
-exports.default = ApplicationException;
-//# sourceMappingURL=application.exception.js.map
+exports.HttpClientException = HttpClientException;
+exports.default = HttpClientException;
+//# sourceMappingURL=http-client.exception.js.map
