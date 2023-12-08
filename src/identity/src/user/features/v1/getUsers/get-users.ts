@@ -6,8 +6,8 @@ import {Controller, Get, HttpStatus, Inject, Query, UseGuards} from "@nestjs/com
 import {IQueryHandler, QueryBus, QueryHandler} from "@nestjs/cqrs";
 import {IUserRepository} from "../../../../data/repositories/user.repository";
 import {User} from "../../../entities/user.entity";
-import {JwtGuard} from "../../../../../../building-blocks/src/passport/jwt.guard";
-import {PagedResult} from "building-blocks/dist/types/pagination/paged-result";
+import {JwtGuard} from "../../../../../../building-blocks/passport/jwt.guard";
+import {PagedResult} from "building-blocks/types/pagination/paged-result";
 
 export class GetUsers {
   page = 1;

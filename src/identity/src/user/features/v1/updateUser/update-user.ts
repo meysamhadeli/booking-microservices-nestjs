@@ -2,17 +2,17 @@ import {UserDto} from '../../../dtos/user.dto';
 import mapper from '../../../mapping';
 import Joi from 'joi';
 import {Role} from "../../../enums/role.enum";
-import {password} from "building-blocks/dist/utils/validation";
 import {ApiBearerAuth, ApiResponse, ApiTags} from "@nestjs/swagger";
 import {Body, Controller, HttpStatus, Inject, NotFoundException, Put, Query, Res, UseGuards} from "@nestjs/common";
 import {CommandBus, CommandHandler, ICommandHandler} from "@nestjs/cqrs";
 import { Response} from "express";
 import {IUserRepository} from "../../../../data/repositories/user.repository";
-import {IRabbitmqPublisher} from "../../../../../../building-blocks/src/rabbitmq/rabbitmq-publisher";
-import {encryptPassword} from "building-blocks/dist/utils/encryption";
 import {User} from "../../../entities/user.entity";
-import {JwtGuard} from "../../../../../../building-blocks/src/passport/jwt.guard";
-import {UserUpdated} from "building-blocks/dist/contracts/identity.contract";
+import {password} from "building-blocks/utils/validation";
+import {JwtGuard} from "building-blocks/passport/jwt.guard";
+import {IRabbitmqPublisher} from "building-blocks/rabbitmq/rabbitmq-publisher";
+import {encryptPassword} from "building-blocks/utils/encryption";
+import {UserUpdated} from "building-blocks/contracts/identity.contract";
 
 export class UpdateUser {
     id: number;

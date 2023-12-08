@@ -1,12 +1,12 @@
 import Joi from 'joi';
 import jwt from 'jsonwebtoken';
 import {TokenType} from "../../../enums/token-type.enum";
-import {CommandBus, CommandHandler, ICommandHandler} from "@nestjs/cqrs";
+import {CommandHandler, ICommandHandler} from "@nestjs/cqrs";
 import {Inject, NotFoundException} from "@nestjs/common";
 import {IAuthRepository} from "../../../../data/repositories/auth.repository";
 import {IUserRepository} from "../../../../data/repositories/user.repository";
 import {Token} from "../../../entities/token.entity";
-import configs from "building-blocks/src/configs/configs";
+import configs from "building-blocks/configs/configs";
 
 export class ValidateToken {
   token: string;

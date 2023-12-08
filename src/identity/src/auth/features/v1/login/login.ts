@@ -1,14 +1,14 @@
 import Joi from 'joi';
 import {GenerateToken} from '../generateToken/generate-token';
 import {ApiBearerAuth, ApiProperty, ApiResponse, ApiTags} from "@nestjs/swagger";
-import {password} from "building-blocks/dist/utils/validation";
 import {Body, Controller, Get, HttpStatus, Inject, Post, UseGuards} from "@nestjs/common";
 import {AuthDto} from "../../../dtos/auth.dto";
 import {CommandBus, CommandHandler, ICommandHandler} from "@nestjs/cqrs";
 import {IAuthRepository} from "../../../../data/repositories/auth.repository";
-import {isPasswordMatch} from "building-blocks/dist/utils/encryption";
 import {IUserRepository} from "../../../../data/repositories/user.repository";
-import ApplicationException from "building-blocks/dist/types/exeptions/application.exception";
+import {password} from "building-blocks/utils/validation";
+import {isPasswordMatch} from "building-blocks/utils/encryption";
+import ApplicationException from "building-blocks/types/exeptions/application.exception";
 
 export class Login {
     email: string;

@@ -4,13 +4,13 @@ import {ISeatRepository} from '../../../../data/repositories/seatRepository';
 import {IFlightRepository} from '../../../../data/repositories/flightRepository';
 import {ApiBearerAuth, ApiProperty, ApiResponse, ApiTags} from "@nestjs/swagger";
 import {Body, Controller, HttpStatus, Inject, NotFoundException, Post, Res, UseGuards} from "@nestjs/common";
-import {JwtGuard} from "building-blocks/dist/passport/jwt.guard";
 import {Response} from "express";
 import {CommandBus, CommandHandler, ICommandHandler} from "@nestjs/cqrs";
 import {SeatDto} from "../../../dtos/seat.dto";
-import {IRabbitmqPublisher} from "building-blocks/dist/rabbitmq/rabbitmq-publisher";
 import {Seat} from "../../../entities/seat.entity";
-import {SeatReserved} from "building-blocks/dist/contracts/flight.contract";
+import {JwtGuard} from "building-blocks/passport/jwt.guard";
+import {IRabbitmqPublisher} from "building-blocks/rabbitmq/rabbitmq-publisher";
+import {SeatReserved} from "building-blocks/contracts/flight.contract";
 
 export class ReserveSeat {
     seatNumber: string;

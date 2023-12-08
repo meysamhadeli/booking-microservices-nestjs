@@ -1,7 +1,6 @@
 import {Module} from '@nestjs/common';
 import {CqrsModule} from '@nestjs/cqrs';
 import {TypeOrmModule} from '@nestjs/typeorm';
-import {RabbitmqModule} from "building-blocks/dist/rabbitmq/rabbitmq.module";
 import {FlightRepository} from "../data/repositories/flightRepository";
 import {Flight} from "./entities/flight.entity";
 import {Aircraft} from "../aircraft/entities/aircraft.entity";
@@ -12,6 +11,7 @@ import {AirportRepository} from "../data/repositories/airportRepository";
 import {SeatRepository} from "../data/repositories/seatRepository";
 import {CreateFlightController, CreateFlightHandler} from "./features/v1/create-flight/create-flight";
 import {GetFlightByIdController, GetFlightByIdHandler} from "./features/v1/get-flight-by-id/get-flight-by-id";
+import {RabbitmqModule} from "building-blocks/rabbitmq/rabbitmq.module";
 
 @Module({
     imports: [CqrsModule, RabbitmqModule, TypeOrmModule.forFeature([Flight, Aircraft, Airport, Seat])],

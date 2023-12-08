@@ -6,7 +6,7 @@ import {Controller, Get, Inject, NotFoundException, Query, UseGuards} from "@nes
 import {IQueryHandler, QueryBus, QueryHandler} from "@nestjs/cqrs";
 import {IUserRepository} from "../../../../data/repositories/user.repository";
 import {User} from "../../../entities/user.entity";
-import {JwtGuard} from "../../../../../../building-blocks/src/passport/jwt.guard";
+import {JwtGuard} from "../../../../../../building-blocks/passport/jwt.guard";
 
 export class GetUserById {
     id: number;

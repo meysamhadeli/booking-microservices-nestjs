@@ -5,14 +5,14 @@ import {ApiBearerAuth, ApiProperty, ApiResponse, ApiTags} from "@nestjs/swagger"
 import {Body, ConflictException, Controller, HttpStatus, Inject, Post, Res, UseGuards} from "@nestjs/common";
 import {CommandBus, CommandHandler, ICommandHandler} from "@nestjs/cqrs";
 import {User} from "../../../entities/user.entity";
-import {UserCreated} from "../../../../../../building-blocks/src/contracts/identity.contract";
 import {IUserRepository} from "../../../../data/repositories/user.repository";
-import {encryptPassword} from "building-blocks/src/utils/encryption";
 import Joi from "joi";
-import {password} from "building-blocks/src/utils/validation";
 import {Response} from "express";
-import {JwtGuard} from "../../../../../../building-blocks/src/passport/jwt.guard";
-import {IRabbitmqPublisher} from "building-blocks/dist/rabbitmq/rabbitmq-publisher";
+import {JwtGuard} from "building-blocks/passport/jwt.guard";
+import {IRabbitmqPublisher} from "building-blocks/rabbitmq/rabbitmq-publisher";
+import {password} from "building-blocks/utils/validation";
+import {UserCreated} from "building-blocks/contracts/identity.contract";
+import {encryptPassword} from "building-blocks/utils/encryption";
 
 export class CreateUser {
     email: string;

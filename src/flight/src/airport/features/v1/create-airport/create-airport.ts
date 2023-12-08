@@ -3,13 +3,13 @@ import {IAirportRepository} from '../../../../data/repositories/airportRepositor
 import mapper from '../../../../aircraft/mappings';
 import {ApiBearerAuth, ApiProperty, ApiResponse, ApiTags} from "@nestjs/swagger";
 import {Body, ConflictException, Controller, HttpStatus, Inject, Post, Res, UseGuards} from "@nestjs/common";
-import {JwtGuard} from "building-blocks/dist/passport/jwt.guard";
 import {CommandBus, CommandHandler, ICommandHandler} from "@nestjs/cqrs";
 import {AirportDto} from "../../../dtos/airport.dto";
 import {Response} from "express";
-import {IRabbitmqPublisher} from "building-blocks/dist/rabbitmq/rabbitmq-publisher";
-import {AirportCreated} from "building-blocks/dist/contracts/flight.contract";
 import {Airport} from "../../../entities/airport.entity";
+import {JwtGuard} from "building-blocks/passport/jwt.guard";
+import {IRabbitmqPublisher} from "building-blocks/rabbitmq/rabbitmq-publisher";
+import {AirportCreated} from "building-blocks/contracts/flight.contract";
 
 export class CreateAirport {
     code: string;

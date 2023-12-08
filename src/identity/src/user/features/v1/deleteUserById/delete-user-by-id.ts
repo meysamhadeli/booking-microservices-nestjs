@@ -7,9 +7,9 @@ import {Controller, Delete, HttpStatus, Inject, NotFoundException, Query, Res, U
 import { Response } from 'express';
 import {IUserRepository} from "../../../../data/repositories/user.repository";
 import {User} from "../../../entities/user.entity";
-import {JwtGuard} from "../../../../../../building-blocks/src/passport/jwt.guard";
-import {IRabbitmqPublisher} from "building-blocks/dist/rabbitmq/rabbitmq-publisher";
-import {UserDeleted} from "building-blocks/dist/contracts/identity.contract";
+import {JwtGuard} from "building-blocks/passport/jwt.guard";
+import {IRabbitmqPublisher} from "building-blocks/rabbitmq/rabbitmq-publisher";
+import {UserDeleted} from "building-blocks/contracts/identity.contract";
 
 export class DeleteUserById {
     id: number;

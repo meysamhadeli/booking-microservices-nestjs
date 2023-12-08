@@ -4,10 +4,10 @@ import {IFlightRepository} from '../../../../data/repositories/flightRepository'
 import mapper from '../../../mappings';
 import {ApiBearerAuth, ApiResponse, ApiTags} from "@nestjs/swagger";
 import {Controller, Get, Inject, NotFoundException, Query, UseGuards} from "@nestjs/common";
-import {JwtGuard} from "building-blocks/dist/passport/jwt.guard";
 import {IQueryHandler, QueryBus, QueryHandler} from "@nestjs/cqrs";
-import {IRabbitmqPublisher} from "building-blocks/dist/rabbitmq/rabbitmq-publisher";
 import {Flight} from "../../../entities/flight.entity";
+import {JwtGuard} from "building-blocks/passport/jwt.guard";
+import {IRabbitmqPublisher} from "building-blocks/rabbitmq/rabbitmq-publisher";
 
 export class GetFlightById {
     id: number;

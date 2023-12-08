@@ -3,11 +3,11 @@ import mapper from '../../../mappings';
 import { ISeatRepository } from '../../../../data/repositories/seatRepository';
 import {ApiBearerAuth, ApiResponse, ApiTags} from "@nestjs/swagger";
 import {Controller, Get, Inject, Post, Query, UseGuards} from "@nestjs/common";
-import {JwtGuard} from "building-blocks/dist/passport/jwt.guard";
 import {IQueryHandler, QueryBus, QueryHandler} from "@nestjs/cqrs";
 import {SeatDto} from "../../../dtos/seat.dto";
-import {IRabbitmqPublisher} from "building-blocks/dist/rabbitmq/rabbitmq-publisher";
 import {Seat} from "../../../entities/seat.entity";
+import {JwtGuard} from "building-blocks/passport/jwt.guard";
+import {IRabbitmqPublisher} from "building-blocks/rabbitmq/rabbitmq-publisher";
 
 export class GetAvailableSeats {
   flightId: number;

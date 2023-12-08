@@ -6,9 +6,9 @@ import { UserModule } from "./user/user.module";
 import {AuthModule} from "./auth/auth.module";
 import {PassportModule} from "@nestjs/passport";
 import {JwtModule} from "@nestjs/jwt";
-import configs from "../../building-blocks/src/configs/configs";
-import {OpenTelemetryModule} from "building-blocks/dist/openTelemetry/open-telemetry.module";
-import {JwtStrategy} from "building-blocks/dist/passport/jwt.strategy";
+import configs from "../../building-blocks/configs/configs";
+import {OpenTelemetryModule} from "building-blocks/openTelemetry/open-telemetry.module";
+import {JwtStrategy} from "building-blocks/passport/jwt.strategy";
 
 @Module({
     imports: [

@@ -10,7 +10,7 @@ import {GenerateTokenHandler} from "./features/v1/generateToken/generate-token";
 import {ValidateTokenHandler} from "./features/v1/validateToken/validate-token";
 import {User} from "../user/entities/user.entity";
 import {UserRepository} from "../data/repositories/user.repository";
-import {RabbitmqModule} from "building-blocks/dist/rabbitmq/rabbitmq.module";
+import {RabbitmqModule} from "building-blocks/rabbitmq/rabbitmq.module";
 
 @Module({
     imports: [CqrsModule, RabbitmqModule, TypeOrmModule.forFeature([Token, User])],

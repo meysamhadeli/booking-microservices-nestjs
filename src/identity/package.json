@@ -13,9 +13,7 @@
         "start:dev": "NODE_ENV=development && nest start --watch",
         "start:debug": "NODE_ENV=development && nest start --debug --watch",
         "start:prod": "node dist/main",
-        "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
-        "migration:run": "typeorm migration:run -d ./dist/data/data-source.js",
-        "migration:generate": "typeorm migration:generate -d ./src/data/data-source.js ./src/data/migrations/create-user-table && nest build"
+        "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix"
     },
     "dependencies": {
         "@nestjs/common": "^10.2.10",

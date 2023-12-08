@@ -13,7 +13,7 @@ import {GetUsersController, GetUsersHandler} from "./features/v1/getUsers/get-us
 import {GetUserByIdController, GetUserByIdHandler} from "./features/v1/getUserById/get-user-by-id";
 import {Token} from "../auth/entities/token.entity";
 import {AuthRepository} from "../data/repositories/auth.repository";
-import {RabbitmqModule} from "building-blocks/dist/rabbitmq/rabbitmq.module";
+import {RabbitmqModule} from "building-blocks/rabbitmq/rabbitmq.module";
 
 @Module({
   imports: [CqrsModule, RabbitmqModule, TypeOrmModule.forFeature([User, Token])],

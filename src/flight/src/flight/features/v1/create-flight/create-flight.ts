@@ -4,13 +4,13 @@ import {FlightDto} from '../../../dtos/flight.dto';
 import {IFlightRepository} from '../../../../data/repositories/flightRepository';
 import {ApiBearerAuth, ApiProperty, ApiResponse, ApiTags} from "@nestjs/swagger";
 import {FlightStatus} from "../../../enums/flight-status.enum";
-import {JwtGuard} from "building-blocks/dist/passport/jwt.guard";
 import {Body, ConflictException, Controller, HttpStatus, Inject, Post, Res, UseGuards} from "@nestjs/common";
 import {CommandBus, CommandHandler, ICommandHandler} from "@nestjs/cqrs";
 import {Response} from "express";
-import {IRabbitmqPublisher} from "building-blocks/dist/rabbitmq/rabbitmq-publisher";
-import {FlightCreated} from "building-blocks/dist/contracts/flight.contract";
 import {Flight} from "../../../entities/flight.entity";
+import {JwtGuard} from "building-blocks/passport/jwt.guard";
+import {IRabbitmqPublisher} from "building-blocks/rabbitmq/rabbitmq-publisher";
+import {FlightCreated} from "building-blocks/contracts/flight.contract";
 
 export class CreateFlight {
     flightNumber: string;
