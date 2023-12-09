@@ -21,7 +21,7 @@ import {PassengerModule} from "./passenger/passenger.module";
         PassengerModule,
         RouterModule.register([
             {
-                path: 'passengers',
+                path: '/',
                 module: PassengerModule,
             }
         ]),

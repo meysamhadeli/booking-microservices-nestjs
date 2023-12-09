@@ -28,19 +28,19 @@ import configs from "building-blocks/configs/configs";
         SeatModule,
         RouterModule.register([
             {
-                path: 'flights',
+                path: '/',
                 module: FlightModule,
             },
             {
-                path: 'aircrafts',
+                path: '/',
                 module: AircraftModule,
             },
             {
-                path: 'airports',
+                path: '/',
                 module: AirportModule,
             },
             {
-                path: 'seats',
+                path: '/',
                 module: SeatModule,
             },
         ]),

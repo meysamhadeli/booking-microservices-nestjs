@@ -21,7 +21,7 @@ import configs from "building-blocks/configs/configs";
         BookingModule,
         RouterModule.register([
             {
-                path: 'bookings',
+                path: '/',
                 module: BookingModule,
             }
         ]),

@@ -23,12 +23,12 @@ import configs from "building-blocks/configs/configs";
         AuthModule,
         RouterModule.register([
             {
-                path: 'users',
+                path: '/',
                 module: UserModule,
             },
             {
-                path: 'identities',
-                module: AppModule,
+                path: '/',
+                module: AuthModule,
             },
         ]),
     ],

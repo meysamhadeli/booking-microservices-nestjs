@@ -8,6 +8,7 @@ const path_1 = __importDefault(require("path"));
 const joi_1 = __importDefault(require("joi"));
 const nodeEnv = process.env.NODE_ENV || 'development';
 dotenv_1.default.config({ path: path_1.default.join(process.cwd(), `.env.${nodeEnv}`) });
+dotenv_1.default.config({ override: true });
 const envVarsSchema = joi_1.default.object()
     .keys({
     NODE_ENV: joi_1.default.string()

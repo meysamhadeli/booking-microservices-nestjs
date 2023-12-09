@@ -7,6 +7,7 @@ const nodeEnv = process.env.NODE_ENV || 'development';
 
 // Load the appropriate .env file based on the environment
 dotenv.config({ path: path.join(process.cwd(), `.env.${nodeEnv}`) });
+dotenv.config({ override: true })
 
 const envVarsSchema = Joi.object()
     .keys({
