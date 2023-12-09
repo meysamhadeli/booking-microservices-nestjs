@@ -3,10 +3,10 @@ import {ApiBearerAuth, ApiResponse, ApiTags} from "@nestjs/swagger";
 import {JwtGuard} from "building-blocks/passport/jwt.guard";
 import {Controller, Get, Inject, NotFoundException, Query, UseGuards} from "@nestjs/common";
 import {IQueryHandler, QueryBus, QueryHandler} from "@nestjs/cqrs";
-import {PassengerDto} from "../../dtos/passenger.dto";
-import {IPassengerRepository} from "../../../data/repositories/passenger.repository";
-import {Passenger} from "../../entities/passenger.entity";
-import mapper from "../../mappings";
+import {PassengerDto} from "../../../dtos/passenger.dto";
+import {IPassengerRepository} from "../../../../data/repositories/passenger.repository";
+import {Passenger} from "../../../entities/passenger.entity";
+import mapper from "../../../mappings";
 
 export class GetPassengerById {
     id: number;

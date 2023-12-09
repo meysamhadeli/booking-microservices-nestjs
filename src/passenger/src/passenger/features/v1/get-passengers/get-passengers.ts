@@ -3,11 +3,11 @@ import {ApiBearerAuth, ApiResponse, ApiTags} from "@nestjs/swagger";
 import {Controller, Get, Inject, Query, UseGuards} from "@nestjs/common";
 import {IQueryHandler, QueryBus, QueryHandler} from "@nestjs/cqrs";
 import {JwtGuard} from "building-blocks/passport/jwt.guard";
-import {PassengerDto} from "../../dtos/passenger.dto";
-import {IPassengerRepository} from "../../../data/repositories/passenger.repository";
+import {PassengerDto} from "../../../dtos/passenger.dto";
+import {IPassengerRepository} from "../../../../data/repositories/passenger.repository";
 import {PagedResult} from "building-blocks/types/pagination/paged-result";
-import mapper from "../../mappings";
-import {Passenger} from "../../entities/passenger.entity";
+import mapper from "../../../mappings";
+import {Passenger} from "../../../entities/passenger.entity";
 
 export class GetPassengers {
     page = 1;

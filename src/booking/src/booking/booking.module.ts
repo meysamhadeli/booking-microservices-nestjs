@@ -3,7 +3,7 @@ import {CqrsModule} from '@nestjs/cqrs';
 import {TypeOrmModule} from '@nestjs/typeorm';
 import {RabbitmqModule} from "building-blocks/rabbitmq/rabbitmq.module";
 import {Booking} from "./entities/booking.entity";
-import {CreateBookingController, CreateBookingHandler} from "./features/create-booking/create-booking";
+import {CreateBookingController, CreateBookingHandler} from "./features/v1/create-booking/create-booking";
 import {BookingRepository} from "../data/repositories/booking.repository";
 import {PassengerClient} from "./http-client/services/passenger/passenger-client";
 import {FlightClient} from "./http-client/services/flight/flight.client";
