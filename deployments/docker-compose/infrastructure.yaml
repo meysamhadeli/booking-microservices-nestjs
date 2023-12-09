@@ -1,0 +1,69 @@
+version: "3.3"
+services:
+
+    #######################################################
+    #  Rabbitmq
+    #######################################################
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: rabbitmq
+    restart: unless-stopped
+    ports:
+      - 5672:5672
+      - 15672:15672
+    networks:
+      - booking
+
+
+    #######################################################
+    #  Postgress
+    #######################################################
+  postgres:
+   container_name: postgres
+   image: postgres:latest
+   restart: unless-stopped
+   ports:
+    - '5432:5432'
+   environment:
+    - POSTGRES_USER=postgres
+    - POSTGRES_PASSWORD=postgres
+   networks:
+    - booking
+
+
+    #######################################################
+    #  Jaeger
+    #######################################################
+  jaeger:
+    image: jaegertracing/all-in-one
+    container_name: jaeger
+    restart: unless-stopped
+    ports:
+      - 5775:5775/udp
+      - 5778:5778
+      - 6831:6831/udp
+      - 6832:6832/udp
+      - 9411:9411
+      - 14268:14268
+      - 16686:16686
+    networks:
+      - booking
+
+    #######################################################
+    #  Zipkin
+    #######################################################
+  zipkin:
+    image: openzipkin/zipkin:latest
+    container_name: zipkin
+    restart: unless-stopped
+    ports:
+      - '9411:9411'
+    networks:
+      - booking
+
+networks:
+  booking:
+
+
+
+

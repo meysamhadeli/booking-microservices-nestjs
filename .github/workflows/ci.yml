@@ -1,0 +1,58 @@
+name: CI
+
+on:
+  push:
+    branches: [ "main"]
+    paths-ignore:
+      - "README.md"
+      - "CHANGELOG.md"
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+
+  ci:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20.x'
+
+      - name: build building-blocks
+        run: |
+          npm install
+          npm run build
+        working-directory: ./src/building-blocks
+
+      - name: build identity
+        run: |
+          npm install
+          npm run build
+        working-directory: ./src/identity
+
+      - name: build flight
+        run: |
+          npm install
+          npm run build
+        working-directory: ./src/flight
+
+      - name: build passenger
+        run: |
+          npm install
+          npm run build
+        working-directory: ./src/passenger
+
+      - name: build booking
+        run: |
+          npm install
+          npm run build
+        working-directory: ./src/booking
+
+#      - name: test identity
+#        run: npm test
+#        working-directory: ./src/identity
+
+
