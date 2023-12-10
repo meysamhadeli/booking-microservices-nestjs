@@ -75,7 +75,6 @@ export class RabbitmqConnection implements OnModuleInit, IRabbitmqConnection {
   async closeConnection(): Promise<void> {
     try {
       if (this.connection) {
-        await this.closeChanel();
         await this.connection.close();
         Logger.log('Connection closed successfully');
       }
