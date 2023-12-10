@@ -5,7 +5,7 @@ type handlerFunc<T> = (queue: string, message: T) => void;
 export interface IRabbitmqConsumer {
     isConsumed<T>(message: T): Promise<boolean>;
 }
-export declare class RabbitmqSubscriber<T> implements OnModuleInit, IRabbitmqConsumer {
+export declare class RabbitmqConsumer<T> implements OnModuleInit, IRabbitmqConsumer {
     private readonly rabbitMQConnection;
     private readonly openTelemetryTracer;
     private readonly type;

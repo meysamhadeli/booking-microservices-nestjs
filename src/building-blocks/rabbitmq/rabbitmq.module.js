@@ -22,7 +22,7 @@ exports.RabbitmqModule = RabbitmqModule = __decorate([
             rabbitmq_publisher_1.RabbitmqPublisher,
             {
                 provide: 'IRabbitmqConnection',
-                useClass: rabbitmq_connection_1.RabbitmqConnection
+                useClass: rabbitmq_connection_1.RabbitmqConnection,
             },
             {
                 provide: 'IRabbitmqPublisher',

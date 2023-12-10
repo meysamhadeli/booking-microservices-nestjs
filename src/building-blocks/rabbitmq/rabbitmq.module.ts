@@ -10,7 +10,7 @@ import { OpenTelemetryModule } from '../openTelemetry/open-telemetry.module';
     RabbitmqPublisher,
     {
       provide: 'IRabbitmqConnection',
-      useClass: RabbitmqConnection
+      useClass: RabbitmqConnection,
     },
     {
       provide: 'IRabbitmqPublisher',

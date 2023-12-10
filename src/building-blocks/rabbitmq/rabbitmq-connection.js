@@ -61,6 +61,11 @@ let RabbitmqConnection = class RabbitmqConnection {
                     maxTimeout: configs_1.default.retry.maxTimeout
                 });
             }
+            this.channel.on("error", async (error) => {
+                common_1.Logger.error(`Error occurred on channel: ${error}`);
+                await this.closeChanel();
+                await this.getChannel();
+            });
             return this.channel;
         }
         catch (error) {
@@ -81,6 +86,7 @@ let RabbitmqConnection = class RabbitmqConnection {
     async closeConnection() {
         try {
             if (this.connection) {
+                await this.closeChanel();
                 await this.connection.close();
                 common_1.Logger.log('Connection closed successfully');
             }
@@ -103,6 +109,11 @@ let RabbitmqConnection = class RabbitmqConnection {
                     factor: configs_1.default.retry.factor,
                     minTimeout: configs_1.default.retry.minTimeout,
                     maxTimeout: configs_1.default.retry.maxTimeout
+                });
+                this.connection.on("error", async (error) => {
+                    common_1.Logger.error(`Error occurred on connection: ${error}`);
+                    await this.closeConnection();
+                    await this.initializeConnection();
                 });
             }
         }

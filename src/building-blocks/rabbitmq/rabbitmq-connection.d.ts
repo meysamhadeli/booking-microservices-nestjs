@@ -7,12 +7,12 @@ export interface RabbitmqOptions {
     password: string;
     exchange: string;
 }
-export interface IRabbitMQConnection {
+export interface IRabbitmqConnection {
     getChannel(): Promise<amqp.Channel>;
     closeChanel(): Promise<void>;
     closeConnection(): Promise<void>;
 }
-export declare class RabbitmqConnection implements OnModuleInit, IRabbitMQConnection {
+export declare class RabbitmqConnection implements OnModuleInit, IRabbitmqConnection {
     private connection;
     private channel;
     onModuleInit(): Promise<void>;

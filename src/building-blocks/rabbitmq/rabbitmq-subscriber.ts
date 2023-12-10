@@ -16,7 +16,7 @@ export interface IRabbitmqConsumer {
 }
 
 @Injectable()
-export class RabbitmqSubscriber<T> implements OnModuleInit, IRabbitmqConsumer {
+export class RabbitmqConsumer<T> implements OnModuleInit, IRabbitmqConsumer {
   constructor(
     private readonly rabbitMQConnection: RabbitmqConnection,
     private readonly openTelemetryTracer: OpenTelemetryTracer,

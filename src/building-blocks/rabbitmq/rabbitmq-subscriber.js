@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.RabbitmqSubscriber = void 0;
+exports.RabbitmqConsumer = void 0;
 const common_1 = require("@nestjs/common");
 const rabbitmq_connection_1 = require("./rabbitmq-connection");
 const reflection_1 = require("../utils/reflection");
@@ -23,7 +23,7 @@ const time_1 = require("../utils/time");
 const configs_1 = __importDefault(require("../configs/configs"));
 const async_retry_1 = __importDefault(require("async-retry"));
 const consumedMessages = [];
-let RabbitmqSubscriber = class RabbitmqSubscriber {
+let RabbitmqConsumer = class RabbitmqConsumer {
     constructor(rabbitMQConnection, openTelemetryTracer, type, handler) {
         this.rabbitMQConnection = rabbitMQConnection;
         this.openTelemetryTracer = openTelemetryTracer;
@@ -87,10 +87,10 @@ let RabbitmqSubscriber = class RabbitmqSubscriber {
         }
     }
 };
-exports.RabbitmqSubscriber = RabbitmqSubscriber;
-exports.RabbitmqSubscriber = RabbitmqSubscriber = __decorate([
+exports.RabbitmqConsumer = RabbitmqConsumer;
+exports.RabbitmqConsumer = RabbitmqConsumer = __decorate([
     (0, common_1.Injectable)(),
     __metadata("design:paramtypes", [rabbitmq_connection_1.RabbitmqConnection,
         open_telemetry_tracer_1.OpenTelemetryTracer, Object, Function])
-], RabbitmqSubscriber);
+], RabbitmqConsumer);
 //# sourceMappingURL=rabbitmq-subscriber.js.map

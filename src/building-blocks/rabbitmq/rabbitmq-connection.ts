@@ -11,7 +11,7 @@ export interface RabbitmqOptions {
   exchange: string;
 }
 
-export interface IRabbitMQConnection {
+export interface IRabbitmqConnection {
   getChannel(): Promise<amqp.Channel>;
 
   closeChanel(): Promise<void>;
@@ -20,7 +20,7 @@ export interface IRabbitMQConnection {
 }
 
 @Injectable()
-export class RabbitmqConnection implements OnModuleInit, IRabbitMQConnection {
+export class RabbitmqConnection implements OnModuleInit, IRabbitmqConnection {
   private connection: amqp.Connection = null;
   private channel: amqp.Channel = null;
 
@@ -48,6 +48,13 @@ export class RabbitmqConnection implements OnModuleInit, IRabbitMQConnection {
           }
         );
       }
+
+      this.channel.on("error", async (error): Promise<void> => {
+        Logger.error(`Error occurred on channel: ${error}`);
+        await this.closeChanel();
+        await this.getChannel();
+      });
+
       return this.channel;
     } catch (error) {
       Logger.error('Failed to get channel!');
@@ -68,6 +75,7 @@ export class RabbitmqConnection implements OnModuleInit, IRabbitMQConnection {
   async closeConnection(): Promise<void> {
     try {
       if (this.connection) {
+        await this.closeChanel();
         await this.connection.close();
         Logger.log('Connection closed successfully');
       }
@@ -76,7 +84,9 @@ export class RabbitmqConnection implements OnModuleInit, IRabbitMQConnection {
     }
   }
 
+
   private async initializeConnection(): Promise<void> {
+
     try {
       if (!this.connection || this.connection == undefined) {
         await asyncRetry(
@@ -98,6 +108,12 @@ export class RabbitmqConnection implements OnModuleInit, IRabbitMQConnection {
             maxTimeout: configs.retry.maxTimeout
           }
         );
+
+        this.connection.on("error", async (error): Promise<void> => {
+          Logger.error(`Error occurred on connection: ${error}`);
+          await this.closeConnection();
+          await this.initializeConnection();
+        });
       }
     } catch (error) {
       throw new Error('Rabbitmq connection failed!');

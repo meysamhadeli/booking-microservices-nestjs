@@ -18,6 +18,7 @@ import {AuthModule} from "../../../src/auth/auth.module";
 import {RouterModule} from "@nestjs/core";
 import {JwtStrategy} from "building-blocks/passport/jwt.strategy";
 import {JwtGuard} from "building-blocks/passport/jwt.guard";
+import {IRabbitmqConnection} from "building-blocks/rabbitmq/rabbitmq-connection";
 
 export class Fixture {
   userRepository: IUserRepository;
@@ -25,6 +26,7 @@ export class Fixture {
   postgresContainer: StartedTestContainer;
   rabbitmqContainer: StartedTestContainer;
   rabbitmqConsumer: IRabbitmqConsumer;
+  rabbitmqConnection: IRabbitmqConnection;
   rabbitmqPublisher: IRabbitmqPublisher;
   commandBus: CommandBus;
   queryBus: QueryBus;
@@ -89,6 +91,7 @@ export class IntegrationTestFixture {
     this.fixture.authRepository = module.get<IAuthRepository>('IAuthRepository');
 
     this.fixture.rabbitmqPublisher = module.get<IRabbitmqPublisher>('IRabbitmqPublisher');
+    this.fixture.rabbitmqConnection = module.get<IRabbitmqConnection>('IRabbitmqConnection');
 
     this.fixture.commandBus = module.get<CommandBus>(CommandBus);
     this.fixture.queryBus = module.get<QueryBus>(QueryBus);
@@ -97,6 +100,7 @@ export class IntegrationTestFixture {
   }
 
   public async cleanUp() {
+
     await this.fixture.rabbitmqContainer.stop();
     await this.fixture.postgresContainer.stop();
 
