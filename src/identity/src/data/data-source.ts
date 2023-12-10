@@ -11,8 +11,9 @@ export const postgresOptions: DataSourceOptions = {
     database: configs.postgres.database,
     synchronize: configs.postgres.synchronize,
     entities: [configs.postgres.entities],
-    logging: configs.postgres.logging,
+    logging: configs.postgres.logging
 };
 
 const dataSource = new DataSource(postgresOptions);
+
 export default dataSource;

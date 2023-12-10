@@ -2,6 +2,7 @@ import 'reflect-metadata';
 import { GenericContainer, StartedTestContainer } from 'testcontainers';
 import {Logger} from "@nestjs/common";
 import configs from "../../../configs/configs";
+import {RabbitmqOptions} from "../../../rabbitmq/rabbitmq-connection";
 
 export interface RabbitmqContainerOptions {
   host: string;
@@ -12,7 +13,7 @@ export interface RabbitmqContainerOptions {
 }
 
 export class RabbitmqContainer{
-  public async start(): Promise<StartedTestContainer>{
+  public async start(): Promise<[StartedTestContainer, RabbitmqOptions]>{
     const defaultRabbitmqOptions = await this.getDefaultRabbitmqTestContainers();
 
     const rabbitmqContainerStarted = await this.getContainerStarted(defaultRabbitmqOptions);
@@ -27,9 +28,13 @@ export class RabbitmqContainer{
       host: defaultRabbitmqOptions.host
     };
 
+    const rabbitmqOptions: RabbitmqOptions = {
+      ...configs.rabbitmq
+    };
+
     Logger.log(`Test rabbitmq with port ${containerPort} established`);
 
-    return rabbitmqContainerStarted;
+    return [rabbitmqContainerStarted, rabbitmqOptions];
   }
 
   private async getContainerStarted(options: RabbitmqContainerOptions): Promise<StartedTestContainer>{

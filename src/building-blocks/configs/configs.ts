@@ -98,7 +98,7 @@ export default {
         password: envVars.RABBITMQ_PASSWORD,
         exchange: envVars.RABBITMQ_EXCHANGE,
     },
-    postgres: {
+    postgres:  {
         host: envVars.POSTGRES_HOST,
         port: envVars.POSTGRES_PORT,
         username: envVars.POSTGRES_USERNAME,

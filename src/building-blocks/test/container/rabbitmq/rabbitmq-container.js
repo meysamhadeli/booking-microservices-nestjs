@@ -14,8 +14,9 @@ class RabbitmqContainer {
         const rabbitmqContainerStarted = await this.getContainerStarted(defaultRabbitmqOptions);
         const containerPort = rabbitmqContainerStarted.getMappedPort(defaultRabbitmqOptions.port);
         configs_1.default.rabbitmq = Object.assign(Object.assign({}, configs_1.default.rabbitmq), { port: containerPort, username: defaultRabbitmqOptions.username, password: defaultRabbitmqOptions.password, host: defaultRabbitmqOptions.host });
+        const rabbitmqOptions = Object.assign({}, configs_1.default.rabbitmq);
         common_1.Logger.log(`Test rabbitmq with port ${containerPort} established`);
-        return rabbitmqContainerStarted;
+        return [rabbitmqContainerStarted, rabbitmqOptions];
     }
     async getContainerStarted(options) {
         var _a;

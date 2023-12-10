@@ -1,5 +1,12 @@
 import { OnModuleInit } from '@nestjs/common';
 import * as amqp from 'amqplib';
+export interface RabbitmqOptions {
+    host: string;
+    port: number;
+    username: string;
+    password: string;
+    exchange: string;
+}
 export interface IRabbitMQConnection {
     getChannel(): Promise<amqp.Channel>;
     closeChanel(): Promise<void>;

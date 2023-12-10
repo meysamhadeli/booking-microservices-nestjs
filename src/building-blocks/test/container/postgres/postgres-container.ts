@@ -2,6 +2,7 @@ import 'reflect-metadata';
 import { GenericContainer, StartedTestContainer } from 'testcontainers';
 import {Logger} from "@nestjs/common";
 import configs from "../../../configs/configs";
+import {DataSourceOptions} from "typeorm";
 
 export interface PostgresContainerOptions {
   imageName: string;
@@ -15,27 +16,28 @@ export interface PostgresContainerOptions {
 }
 
 export class PostgresContainer{
-
-  public async start(): Promise<StartedTestContainer>{
+  public async start(): Promise<[StartedTestContainer, DataSourceOptions]>{
     const defaultPostgresOptions = await this.getDefaultPostgresTestContainers();
 
     const pgContainerStarted = await this.getContainerStarted(defaultPostgresOptions);
 
     const containerPort = pgContainerStarted.getMappedPort(defaultPostgresOptions.port);
 
-    configs.postgres = {
-      ...configs.postgres,
-      port: containerPort,
+    const dataSourceOptions: DataSourceOptions = {
+      type: 'postgres',
       host: defaultPostgresOptions.host,
+      port: containerPort,
+      database: defaultPostgresOptions.database,
       username: defaultPostgresOptions.username,
       password: defaultPostgresOptions.password,
-      database: defaultPostgresOptions.database,
-      synchronize: true
+      synchronize: true,
+      entities: [configs.postgres.entities],
+      logging: configs.postgres.logging,
     };
 
     Logger.log(`Test postgres with port ${containerPort} established`);
 
-    return pgContainerStarted;
+    return [pgContainerStarted, dataSourceOptions];
   }
 
   private async getContainerStarted(options: PostgresContainerOptions): Promise<StartedTestContainer>{

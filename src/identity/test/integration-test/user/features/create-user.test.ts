@@ -8,7 +8,7 @@ describe('integration test for create user', () => {
   let fixture: Fixture;
 
   beforeAll(async () => {
-    fixture = await integrationTestFixture.initilizeFixture();
+    fixture = await integrationTestFixture.initializeFixture();
   });
 
   afterAll(async () => {

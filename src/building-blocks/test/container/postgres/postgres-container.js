@@ -13,9 +13,19 @@ class PostgresContainer {
         const defaultPostgresOptions = await this.getDefaultPostgresTestContainers();
         const pgContainerStarted = await this.getContainerStarted(defaultPostgresOptions);
         const containerPort = pgContainerStarted.getMappedPort(defaultPostgresOptions.port);
-        configs_1.default.postgres = Object.assign(Object.assign({}, configs_1.default.postgres), { port: containerPort, host: defaultPostgresOptions.host, username: defaultPostgresOptions.username, password: defaultPostgresOptions.password, database: defaultPostgresOptions.database, synchronize: true });
+        const dataSourceOptions = {
+            type: 'postgres',
+            host: defaultPostgresOptions.host,
+            port: containerPort,
+            database: defaultPostgresOptions.database,
+            username: defaultPostgresOptions.username,
+            password: defaultPostgresOptions.password,
+            synchronize: true,
+            entities: [configs_1.default.postgres.entities],
+            logging: configs_1.default.postgres.logging,
+        };
         common_1.Logger.log(`Test postgres with port ${containerPort} established`);
-        return pgContainerStarted;
+        return [pgContainerStarted, dataSourceOptions];
     }
     async getContainerStarted(options) {
         var _a;

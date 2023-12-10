@@ -3,6 +3,14 @@ import * as amqp from 'amqplib';
 import configs from '../configs/configs';
 import asyncRetry from 'async-retry';
 
+export interface RabbitmqOptions {
+  host: string,
+  port: number,
+  username: string,
+  password: string,
+  exchange: string;
+}
+
 export interface IRabbitMQConnection {
   getChannel(): Promise<amqp.Channel>;
 

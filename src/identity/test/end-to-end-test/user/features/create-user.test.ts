@@ -9,7 +9,7 @@ describe('end-to-end test for create user', () => {
   let fixture: Fixture;
 
   beforeAll(async () => {
-    fixture = await endToEndFixture.initilizeFixture();
+    fixture = await endToEndFixture.initializeFixture();
   });
 
   afterAll(async () => {
@@ -17,8 +17,8 @@ describe('end-to-end test for create user', () => {
   });
 
   it('should create user and retrieve 201 status code', async () => {
-    const createUserResponse = await request(fixture.app)
-      .post('api/v1/user/create')
+    const createUserResponse = await request(fixture.app.getHttpServer())
+      .post('/api/v1/user/create')
       .send(FakeCreateUserRequestDto.generate())
       .expect(201);
   });
