@@ -9,11 +9,11 @@ import {
     GetPassengerByIdHandler
 } from "./features/v1/get-passenger-by-id/get-passenger-by-id";
 import {GetPassengersController, GetPassengersHandler} from "./features/v1/get-passengers/get-passengers";
-import {RabbitmqSubscriber} from "building-blocks/rabbitmq/rabbitmq-subscriber";
 import {RabbitmqConnection} from "building-blocks/rabbitmq/rabbitmq-connection";
 import {OpenTelemetryTracer} from "building-blocks/openTelemetry/open-telemetry-tracer";
 import {UserCreated} from "building-blocks/contracts/identity.contract";
 import {CreateUserHandler} from "../user/consumers/create-user";
+import {RabbitmqConsumer} from "building-blocks/rabbitmq/rabbitmq-subscriber";
 
 
 @Module({
@@ -29,7 +29,7 @@ import {CreateUserHandler} from "../user/consumers/create-user";
         {
             provide: 'RabbitmqSubscriber',
             useFactory: (rabbitmqConnection: RabbitmqConnection, openTelemetryTracer: OpenTelemetryTracer, passengerRepository: IPassengerRepository) => {
-                return new RabbitmqSubscriber(rabbitmqConnection, openTelemetryTracer, new UserCreated(), new CreateUserHandler(passengerRepository).createUserConsumerHandler);
+                return new RabbitmqConsumer(rabbitmqConnection, openTelemetryTracer, new UserCreated(), new CreateUserHandler(passengerRepository).createUserConsumerHandler);
             },
             inject: [RabbitmqConnection, OpenTelemetryTracer, 'IPassengerRepository'],
         },
