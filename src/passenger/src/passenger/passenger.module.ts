@@ -1,4 +1,4 @@
-import {Module} from '@nestjs/common';
+import {Inject, Module, OnApplicationBootstrap} from '@nestjs/common';
 import {CqrsModule} from '@nestjs/cqrs';
 import {TypeOrmModule} from '@nestjs/typeorm';
 import {IPassengerRepository, PassengerRepository} from "../data/repositories/passenger.repository";
@@ -9,11 +9,10 @@ import {
     GetPassengerByIdHandler
 } from "./features/v1/get-passenger-by-id/get-passenger-by-id";
 import {GetPassengersController, GetPassengersHandler} from "./features/v1/get-passengers/get-passengers";
-import {RabbitmqConnection} from "building-blocks/rabbitmq/rabbitmq-connection";
 import {OpenTelemetryTracer} from "building-blocks/openTelemetry/open-telemetry-tracer";
 import {UserCreated} from "building-blocks/contracts/identity.contract";
 import {CreateUserHandler} from "../user/consumers/create-user";
-import {RabbitmqConsumer} from "building-blocks/rabbitmq/rabbitmq-subscriber";
+import {IRabbitmqConsumer} from "building-blocks/rabbitmq/rabbitmq-subscriber";
 
 
 @Module({
@@ -24,17 +23,18 @@ import {RabbitmqConsumer} from "building-blocks/rabbitmq/rabbitmq-subscriber";
             provide: 'IPassengerRepository',
             useClass: PassengerRepository,
         },
-        RabbitmqConnection,
-        OpenTelemetryTracer,
-        {
-            provide: 'RabbitmqSubscriber',
-            useFactory: (rabbitmqConnection: RabbitmqConnection, openTelemetryTracer: OpenTelemetryTracer, passengerRepository: IPassengerRepository) => {
-                return new RabbitmqConsumer(rabbitmqConnection, openTelemetryTracer, new UserCreated(), new CreateUserHandler(passengerRepository).createUserConsumerHandler);
-            },
-            inject: [RabbitmqConnection, OpenTelemetryTracer, 'IPassengerRepository'],
-        },
+        OpenTelemetryTracer
     ],
     exports: [],
 })
-export class PassengerModule {
+export class PassengerModule implements OnApplicationBootstrap {
+    constructor(
+        @Inject('IRabbitmqConsumer') private readonly rabbitmqConsumer: IRabbitmqConsumer,
+        @Inject('IPassengerRepository') private readonly passengerRepository: IPassengerRepository
+    ) {
+    }
+
+    async onApplicationBootstrap(): Promise<void> {
+        await this.rabbitmqConsumer.consumeMessage<UserCreated>(new UserCreated(), new CreateUserHandler(this.passengerRepository).createUserConsumerHandler);
+    }
 }

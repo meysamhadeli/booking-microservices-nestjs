@@ -37,17 +37,26 @@ export class ValidateTokenHandler implements ICommandHandler<ValidateToken> {
     const payload = jwt.verify(command.token, configs.jwt.secret);
     const userId = Number(payload.sub);
 
-    const tokenEntity = await this.authRepository.findTokenByUserId(
-        command.token,
-        command.type,
-      userId,
-      false
-    );
+    let token: Token = null;
 
-    if (!tokenEntity) {
+    if(command.type == TokenType.REFRESH){
+        token = await this.authRepository.findRefreshTokenByUserId(
+            command.token,
+            userId,
+            false
+        );
+    }else {
+        token = await this.authRepository.findTokenByUserId(
+            command.token,
+            userId,
+            false
+        );
+    }
+
+    if (!token) {
       throw new NotFoundException('Token not found');
     }
 
-    return tokenEntity;
+    return token;
   }
 }

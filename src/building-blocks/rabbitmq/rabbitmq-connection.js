@@ -86,7 +86,6 @@ let RabbitmqConnection = class RabbitmqConnection {
     async closeConnection() {
         try {
             if (this.connection) {
-                await this.closeChanel();
                 await this.connection.close();
                 common_1.Logger.log('Connection closed successfully');
             }

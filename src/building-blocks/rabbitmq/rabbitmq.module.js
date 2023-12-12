@@ -11,6 +11,7 @@ const common_1 = require("@nestjs/common");
 const rabbitmq_publisher_1 = require("./rabbitmq-publisher");
 const rabbitmq_connection_1 = require("./rabbitmq-connection");
 const open_telemetry_module_1 = require("../openTelemetry/open-telemetry.module");
+const rabbitmq_subscriber_1 = require("./rabbitmq-subscriber");
 let RabbitmqModule = class RabbitmqModule {
 };
 exports.RabbitmqModule = RabbitmqModule;
@@ -27,9 +28,13 @@ exports.RabbitmqModule = RabbitmqModule = __decorate([
             {
                 provide: 'IRabbitmqPublisher',
                 useClass: rabbitmq_publisher_1.RabbitmqPublisher
+            },
+            {
+                provide: 'IRabbitmqConsumer',
+                useClass: rabbitmq_subscriber_1.RabbitmqConsumer
             }
         ],
-        exports: ['IRabbitmqConnection', 'IRabbitmqPublisher']
+        exports: ['IRabbitmqConnection', 'IRabbitmqPublisher', 'IRabbitmqConsumer']
     })
 ], RabbitmqModule);
 //# sourceMappingURL=rabbitmq.module.js.map

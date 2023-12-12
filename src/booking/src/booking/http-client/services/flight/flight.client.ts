@@ -1,61 +1,59 @@
-import axios, { AxiosResponse } from 'axios';
+import axios from 'axios';
 import {FlightDto, ReserveSeatRequestDto, SeatDto} from "building-blocks/contracts/flight.contract";
-import HttpClientException from "building-blocks/types/exeptions/http-client.exception";
-const httpContext = require('express-http-context');
+import {Injectable} from "@nestjs/common";
+import {HttpContext} from "building-blocks/context/context";
+import * as https from "https";
+import {AxiosInstance} from "axios/index";
 
 export interface IFlightClient {
-  getFlightById(id: number): Promise<FlightDto>;
-  getAvalibaleSeats(flightId: number): Promise<SeatDto[]>;
-  reserveSeat(request: ReserveSeatRequestDto): Promise<void>;
+    getFlightById(id: number): Promise<FlightDto>;
+
+    getAvalibaleSeats(flightId: number): Promise<SeatDto[]>;
+
+    reserveSeat(request: ReserveSeatRequestDto): Promise<void>;
 }
 
+@Injectable()
 export class FlightClient implements IFlightClient {
-  private flightUrl = 'http://localhost:3344';
 
-  async getFlightById(id: number): Promise<FlightDto> {
-    const result = axios
-      .get<FlightDto>(`${this.flightUrl}/flight/v1/get-by-id?id=${id}`, {
-        headers: {
-          Authorization: httpContext.request.headers.Authorization?.toString()
-        }
-      })
-      .then((response: AxiosResponse<FlightDto>) => {
-        const flightDto: FlightDto = response.data;
-        return flightDto;
-      })
-      .catch((error) => {
-        throw new HttpClientException(error);
-      });
-    return result;
-  }
+    private readonly client: AxiosInstance;
+    constructor() {
+        this.client = axios.create({
+            baseURL: 'http://localhost:3344',
+            timeout: 60000,
+            maxContentLength: 500 * 1000 * 1000,
+            httpsAgent: new https.Agent({keepAlive: true}),
+        });
+    }
 
-  async getAvalibaleSeats(flightId: number): Promise<SeatDto[]> {
-    const result = axios
-      .get<SeatDto[]>(`${this.flightUrl}/seat/v1/get-available-seats?flightId=${flightId}`, {
-        headers: {
-          Authorization: httpContext.request.headers.Authorization?.toString()
-        }
-      })
-      .then((response: AxiosResponse<SeatDto[]>) => {
-        const seatDtos: SeatDto[] = response.data;
-        return seatDtos;
-      })
-      .catch((error) => {
-        throw new HttpClientException(error);
-      });
-    return result;
-  }
+    async getFlightById(id: number): Promise<FlightDto> {
+        const result = await this.client
+            .get<FlightDto>(`/api/v1/flight/get-by-id?id=${id}`, {
+                headers: {
+                    Authorization: HttpContext.headers.authorization.toString()
+                }
+            });
 
-  async reserveSeat(request: ReserveSeatRequestDto): Promise<void> {
-    const result = axios
-      .post(`${this.flightUrl}/seat/v1/reserve`, request, {
-        headers: {
-          Authorization: httpContext.request.headers.Authorization?.toString()
-        }
-      })
-      .then((response: AxiosResponse<SeatDto[]>) => {})
-      .catch((error) => {
-        throw new HttpClientException(error);
-      });
-  }
+        return result?.data;
+    }
+
+    async getAvalibaleSeats(flightId: number): Promise<SeatDto[]> {
+        const result = await this.client
+            .get<SeatDto[]>(`/api/v1/seat/get-available-seats?flightId=${flightId}`, {
+                headers: {
+                    Authorization: HttpContext.headers.authorization.toString()
+                }
+            });
+
+        return result?.data;
+    }
+
+    async reserveSeat(request: ReserveSeatRequestDto): Promise<void> {
+        await this.client
+            .post(`/api/v1/seat/reserve`, request, {
+                headers: {
+                    Authorization: HttpContext.headers.authorization.toString()
+                }
+            });
+    }
 }

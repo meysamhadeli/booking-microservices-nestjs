@@ -25,13 +25,20 @@ export class DataSeeder {
 
         const aircraftRepository = this.entityManager.getRepository(Aircraft);
         if ((await aircraftRepository.find())?.length == 0) {
-            await aircraftRepository.save(
-                new Aircraft({
-                    id: 1,
-                    name: 'airbus',
-                    manufacturingYear: 2002,
-                    model: '3300'
-                })
+            await aircraftRepository.save([
+                    new Aircraft({
+                        id: 1,
+                        name: 'airbus',
+                        manufacturingYear: 2008,
+                        model: '3300'
+                    }),
+                    new Aircraft({
+                        id: 2,
+                        name: 'fokker',
+                        manufacturingYear: 2002,
+                        model: '2200'
+                    }),
+            ]
             );
         }
     }
@@ -40,13 +47,20 @@ export class DataSeeder {
         const airportRepository = this.entityManager.getRepository(Airport);
 
         if ((await airportRepository.find())?.length == 0) {
-            await airportRepository.save(
-                new Airport({
-                    id: 1,
-                    name: 'mehrabad',
-                    code: '1422',
-                    address: 'tehran'
-                })
+            await airportRepository.save([
+                    new Airport({
+                        id: 1,
+                        name: 'mehrabad',
+                        code: '1422',
+                        address: 'tehran'
+                    }),
+                    new Airport({
+                        id: 2,
+                        name: 'kish airport',
+                        code: '1222',
+                        address: 'kish'
+                    })
+            ]
             );
         }
     }

@@ -40,7 +40,7 @@ export class GetFlightByIdController {
     @ApiResponse({status: 400, description: 'BAD_REQUEST'})
     @ApiResponse({status: 403, description: 'FORBIDDEN'})
     @ApiResponse({status: 200, description: 'OK'})
-    public async getFlightById(@Query() id: number): Promise<FlightDto> {
+    public async getFlightById(@Query('id') id: number): Promise<FlightDto> {
         const result = await this.queryBus.execute(
             new GetFlightById({
                 id: id

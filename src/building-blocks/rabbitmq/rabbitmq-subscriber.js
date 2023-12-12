@@ -24,18 +24,16 @@ const configs_1 = __importDefault(require("../configs/configs"));
 const async_retry_1 = __importDefault(require("async-retry"));
 const consumedMessages = [];
 let RabbitmqConsumer = class RabbitmqConsumer {
-    constructor(rabbitMQConnection, openTelemetryTracer, type, handler) {
+    constructor(rabbitMQConnection, openTelemetryTracer) {
         this.rabbitMQConnection = rabbitMQConnection;
         this.openTelemetryTracer = openTelemetryTracer;
-        this.type = type;
-        this.handler = handler;
     }
-    async onModuleInit() {
+    async consumeMessage(type, handler) {
         try {
             await (0, async_retry_1.default)(async () => {
                 const channel = await this.rabbitMQConnection.getChannel();
                 const tracer = await this.openTelemetryTracer.createTracer('rabbitmq_subscriber_tracer');
-                const exchangeName = (0, lodash_1.snakeCase)((0, reflection_1.getTypeName)(this.type));
+                const exchangeName = (0, lodash_1.snakeCase)((0, reflection_1.getTypeName)(type));
                 await channel.assertExchange(exchangeName, 'fanout', {
                     durable: false
                 });
@@ -48,7 +46,7 @@ let RabbitmqConsumer = class RabbitmqConsumer {
                         const span = tracer.startSpan(`receive_message_${exchangeName}`);
                         const messageContent = (_a = message === null || message === void 0 ? void 0 : message.content) === null || _a === void 0 ? void 0 : _a.toString();
                         const headers = message.properties.headers || {};
-                        this.handler(q.queue, (0, serilization_1.deserializeObject)(messageContent));
+                        handler(q.queue, (0, serilization_1.deserializeObject)(messageContent));
                         common_1.Logger.log(`Message: ${messageContent} delivered to queue: ${q.queue} with exchange name ${exchangeName}`);
                         channel.ack(message);
                         consumedMessages.push(exchangeName);
@@ -91,6 +89,6 @@ exports.RabbitmqConsumer = RabbitmqConsumer;
 exports.RabbitmqConsumer = RabbitmqConsumer = __decorate([
     (0, common_1.Injectable)(),
     __metadata("design:paramtypes", [rabbitmq_connection_1.RabbitmqConnection,
-        open_telemetry_tracer_1.OpenTelemetryTracer, Object, Function])
+        open_telemetry_tracer_1.OpenTelemetryTracer])
 ], RabbitmqConsumer);
 //# sourceMappingURL=rabbitmq-subscriber.js.map

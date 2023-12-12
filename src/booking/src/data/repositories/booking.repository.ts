@@ -12,6 +12,6 @@ export class BookingRepository implements IBookingRepository {
   }
 
   async createBooking(booking: Booking): Promise<Booking> {
-    return await this.bookingRepository.save(booking);
+    return  await this.bookingRepository.save(booking);
   }
 }

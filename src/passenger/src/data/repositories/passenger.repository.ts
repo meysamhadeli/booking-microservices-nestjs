@@ -1,6 +1,7 @@
 import { Repository, SelectQueryBuilder } from 'typeorm';
 import {InjectRepository} from "@nestjs/typeorm";
 import {Passenger} from "../../passenger/entities/passenger.entity";
+import {Injectable} from "@nestjs/common";
 
 export interface IPassengerRepository {
   createPassenger(passenger: Passenger): Promise<Passenger>;
@@ -16,6 +17,7 @@ export interface IPassengerRepository {
   ): Promise<[Passenger[], number]>;
 }
 
+@Injectable()
 export class PassengerRepository implements IPassengerRepository {
   constructor(@InjectRepository(Passenger)
               private readonly passengerRepository: Repository<Passenger>) {

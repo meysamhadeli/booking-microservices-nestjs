@@ -21,7 +21,7 @@ export class DeleteUserById {
 
 const deleteUserValidations = {
     params: Joi.object().keys({
-        userId: Joi.number().integer().required()
+        id: Joi.number().integer().required()
     })
 };
 
@@ -37,11 +37,11 @@ export class DeleteUserByIdController {
 
     @Delete('delete')
     @UseGuards(JwtGuard)
-    @ApiResponse({ status: 204, description: 'NO_CONTENT' })
+    @ApiResponse({ status: 200, description: 'OK' })
     @ApiResponse({status: 401, description: 'UNAUTHORIZED'})
     @ApiResponse({status: 400, description: 'BAD_REQUEST'})
     @ApiResponse({status: 403, description: 'FORBIDDEN'})
-    public async deleteUserById(@Query() id: number, @Res() res: Response): Promise<UserDto> {
+    public async deleteUserById(@Query('id') id: number, @Res() res: Response): Promise<UserDto> {
 
         const user = await this.commandBus.execute( new DeleteUserById({
             id: id
@@ -50,8 +50,6 @@ export class DeleteUserByIdController {
         if (!user) {
             throw new NotFoundException('User not found');
         }
-
-        res.status(HttpStatus.NO_CONTENT).send(user);
 
         return user;
     }

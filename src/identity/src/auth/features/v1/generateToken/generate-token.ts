@@ -66,9 +66,10 @@ export class GenerateTokenHandler implements ICommandHandler<GenerateToken> {
 
     await this.authRepository.createToken(
       new Token({
-        token: refreshToken,
-        expires: refreshTokenExpires.toDate(),
-        type: TokenType.REFRESH,
+        token: accessToken,
+        refreshToken: refreshToken,
+        expires: accessTokenExpires.toDate(),
+        type: TokenType.ACCESS,
         blacklisted: false,
         userId: command.userId
       })

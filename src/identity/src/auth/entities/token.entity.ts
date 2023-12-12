@@ -11,6 +11,9 @@ export class Token {
     token: string;
 
     @Column()
+    refreshToken: string;
+
+    @Column()
     expires: Date;
 
     @Column()
@@ -22,7 +25,7 @@ export class Token {
     @Column()
     createdAt: Date;
 
-    @ManyToOne(() => User, (user) => user.tokens)
+    @ManyToOne(() => User, (user) => user.tokens, { onDelete: 'CASCADE' })
     user?: User;
 
     @Column()

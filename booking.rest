@@ -1,0 +1,256 @@
+@identity-api=http://localhost:3333
+@flight-api=http://localhost:3344
+@passenger-api=http://localhost:3355
+@booking-api=http://localhost:3366
+
+################################# Identity API #################################
+
+###
+# @name ApiRoot_Identity
+GET {{identity-api}}
+###
+
+
+###
+# @name Login
+POST {{identity-api}}/api/v1/identity/login
+accept: application/json
+Content-Type: application/json
+
+{
+  "email": "dev@dev.com",
+  "password": "Admin@12345"
+}
+###
+
+
+###
+# @name Logout
+POST {{identity-api}}/api/v1/identity/logout?accessToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjUsImlhdCI6MTcwMjMzMzM1NiwiZXhwIjoxNzAyMzM1MTU2LCJ0eXBlIjowfQ.A2uF3tg2Y0ZK7sK53Y7r-JWTs8s66A_2Jf8DY_qchDA
+accept: application/json
+Content-Type: application/json
+
+###
+
+
+###
+# @name Refresh_Token
+POST {{identity-api}}/api/v1/identity/refresh-token?refreshToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjUsImlhdCI6MTcwMjMzMzMzNSwiZXhwIjoxNzAyNDE5NzM1LCJ0eXBlIjoxfQ.T0z6lAQ4pxrKS6L6MutrwVbBGe96rq2wbIy0mCNs488
+accept: application/json
+Content-Type: application/json
+
+###
+
+###
+# @name Create_User
+POST {{identity-api}}/api/v1/user/create
+accept: application/json
+Content-Type: application/json
+authorization: bearer {{Login.response.body.access.token}}
+
+{
+  "email": "admin@admin.com",
+  "password": "Admin@12345",
+  "name": "John",
+  "role": 0,
+  "passportNumber": "12345678"
+}
+###
+
+
+###
+# @name Update_User
+PUT  {{identity-api}}/api/v1/user/update?id=3
+accept: application/json
+Content-Type: application/json
+authorization: bearer {{Login.response.body.access.token}}
+
+{
+  "email": "admin@admin.com",
+  "password": "Admin@12345",
+  "name": "John",
+  "role": 0,
+  "passportNumber": "12345678"
+}
+###
+
+
+###
+# @name Delete_User
+DELETE   {{identity-api}}/api/v1/user/delete?id=1
+accept: application/json
+Content-Type: application/json
+authorization: bearer {{Login.response.body.access.token}}
+
+###
+
+###
+# @name Get_User_By_Id
+GET  {{identity-api}}/api/v1/user/get-by-id?id=1
+accept: application/json
+Content-Type: application/json
+authorization: bearer {{Login.response.body.access.token}}
+###
+
+###
+# @name Get_Users
+GET  {{identity-api}}/api/v1/user/get?pageSize=20&page=1&order=DESC
+accept: application/json
+Content-Type: application/json
+authorization: bearer {{Login.response.body.access.token}}
+###
+
+################################# Flight API #################################
+
+###
+# @name ApiRoot_Flight
+GET {{flight-api}}
+###
+
+
+###
+# @name Create_Airport
+POST {{flight-api}}/api/v1/airport/airport
+accept: application/json
+Content-Type: application/json
+authorization: bearer {{Login.response.body.access.token}}
+
+{
+  "name": "frankfurt",
+  "address": "frankfurt",
+  "code": "14FF"
+}
+###
+
+
+###
+# @name Create_Aircraft
+POST {{flight-api}}/api/v1/aircraft/create
+accept: application/json
+Content-Type: application/json
+authorization: bearer {{Login.response.body.access.token}}
+
+{
+  "name": "airbus330",
+  "model": "330",
+  "manufacturingYear": 2014
+}
+###
+
+
+###
+# @name Create_Seat
+Post {{flight-api}}/api/v1/seat/create
+accept: application/json
+Content-Type: application/json
+authorization: bearer {{Login.response.body.access.token}}
+
+{
+  "seatNumber": "1266",
+  "seatClass": 1,
+  "seatType": 1,
+  "flightId": 1
+}
+###
+
+
+###
+# @name Reserve_Seat
+Post {{flight-api}}/api/v1/seat/reserve
+accept: application/json
+Content-Type: application/json
+authorization: bearer {{Login.response.body.access.token}}
+
+{
+  "seatNumber": "1266",
+  "flightId": 1
+}
+###
+
+
+###
+# @name Get_Available_Seats
+GET {{flight-api}}/api/v1/seat/get-available-seats?flightId=1
+accept: application/json
+Content-Type: application/json
+authorization: bearer {{Login.response.body.access.token}}
+###
+
+
+###
+# @name Get_Flight_By_Id
+GET {{flight-api}}/api/v1/flight/get-by-id?id=1
+accept: application/json
+Content-Type: application/json
+authorization: bearer {{Login.response.body.access.token}}
+###
+
+
+###
+# @name Create_Flights
+POST {{flight-api}}/api/v1/flight/create
+accept: application/json
+Content-Type: application/json
+authorization: bearer {{Login.response.body.access.token}}
+
+{
+  "flightNumber": "1288",
+  "price": 800,
+  "flightStatus": 1,
+  "flightDate": "2023-12-12T13:12:42.515Z",
+  "departureDate": "2023-12-12T13:12:42.515Z",
+  "departureAirportId": 1,
+  "aircraftId": 1,
+  "arriveDate": "2023-12-12T13:12:42.515Z",
+  "arriveAirportId": 2,
+  "durationMinutes": 120
+}
+###
+
+
+################################# Passenger API #################################
+
+###
+# @name ApiRoot_Passenger
+GET {{passenger-api}}
+###
+
+###
+# @name Get_All_Passenger
+GET  {{passenger-api}}/api/v1/passenger/get-all?pageSize=20&page=1&order=DESC
+accept: application/json
+Content-Type: application/json
+authorization: bearer {{Login.response.body.access.token}}
+###
+
+
+###
+# @name Get_Passenger_By_Id
+GET  {{passenger-api}}/api/v1/passenger/get-by-id?id=1
+accept: application/json
+Content-Type: application/json
+authorization: bearer {{Login.response.body.access.token}}
+###
+
+
+################################# Booking API #################################
+
+###
+# @name ApiRoot_Booking
+GET {{booking-api}}
+###
+
+
+###
+# @name Create_Booking
+POST {{booking-api}}/api/v1/booking/create
+accept: application/json
+Content-Type: application/json
+authorization: bearer {{Login.response.body.access.token}}
+
+{
+  "passengerId": 1,
+  "flightId": 1,
+  "description": "I want to fly to kish"
+}
+###

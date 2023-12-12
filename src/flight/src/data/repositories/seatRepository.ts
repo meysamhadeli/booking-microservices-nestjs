@@ -5,7 +5,7 @@ import {Seat} from "../../seat/entities/seat.entity";
 export interface ISeatRepository {
   createSeat(seat: Seat): Promise<Seat>;
 
-  reserveSeat(seat: Seat): Promise<Seat>;
+  reserveSeat(seat: Seat): Promise<void>;
 
   getAll(): Promise<Seat[]>;
 
@@ -23,8 +23,8 @@ export class SeatRepository implements ISeatRepository {
     return await this.seatRepository.save(seat);
   }
 
-  async reserveSeat(seat: Seat): Promise<Seat> {
-    return await this.seatRepository.save(seat);
+  async reserveSeat(seat: Seat): Promise<void> {
+     await this.seatRepository.update(seat.id, seat);
   }
 
   async getAll(): Promise<Seat[]> {

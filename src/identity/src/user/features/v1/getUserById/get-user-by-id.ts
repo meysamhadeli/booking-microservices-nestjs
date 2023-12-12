@@ -2,7 +2,7 @@ import {UserDto} from '../../../dtos/user.dto';
 import Joi from 'joi';
 import mapper from '../../../mapping';
 import {ApiBearerAuth, ApiResponse, ApiTags} from "@nestjs/swagger";
-import {Controller, Get, Inject, NotFoundException, Query, UseGuards} from "@nestjs/common";
+import {Controller, Get, Inject, NotFoundException, Param, Query, UseGuards} from "@nestjs/common";
 import {IQueryHandler, QueryBus, QueryHandler} from "@nestjs/cqrs";
 import {IUserRepository} from "../../../../data/repositories/user.repository";
 import {User} from "../../../entities/user.entity";
@@ -38,15 +38,12 @@ export class GetUserByIdController {
     @ApiResponse({status: 401, description: 'UNAUTHORIZED'})
     @ApiResponse({status: 400, description: 'BAD_REQUEST'})
     @ApiResponse({status: 403, description: 'FORBIDDEN'})
-    public async getUserById(@Query() id: number): Promise<UserDto> {
+    public async getUserById(@Query('id') id: number): Promise<UserDto> {
 
         const result = await this.queryBus.execute(new GetUserById({
             id: id
         }));
 
-        if (!result) {
-            throw new NotFoundException('User not found');
-        }
         return result;
     }
 }
@@ -61,6 +58,10 @@ export class GetUserByIdHandler implements IQueryHandler<GetUserById> {
         await getUserByIdValidations.params.validateAsync(query);
 
         const usersEntity = await this.userRepository.findUserById(query.id);
+
+        if (!usersEntity) {
+            throw new NotFoundException('User not found');
+        }
 
         const result = mapper.map<User, UserDto>(usersEntity, new UserDto());
 

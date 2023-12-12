@@ -52,7 +52,6 @@
         "date-fns": "^2.30.0",
         "dotenv": "^16.3.1",
         "express": "4.18.2",
-        "express-http-context": "^1.2.4",
         "http-problem-details": "^0.1.5",
         "lodash": "^4.17.21",
         "nest-shared": "^5.0.3",
@@ -64,7 +63,6 @@
         "rxjs": "^7.8.1",
         "swagger-ui-express": "^5.0.0",
         "ts-mapper": "^1.2.4",
-        "tsyringe": "4.8.0",
         "typeorm": "^0.3.17",
         "yup": "1.3.2"
     },

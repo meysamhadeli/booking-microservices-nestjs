@@ -2,15 +2,19 @@ import {Inject, Logger} from '@nestjs/common';
 import {Passenger} from "../../passenger/entities/passenger.entity";
 import {IPassengerRepository} from "../../data/repositories/passenger.repository";
 import {PassengerType} from "../../passenger/enums/passenger-type.enum";
+import {UserCreated} from "building-blocks/contracts/identity.contract";
 
+let _passengerRepository: IPassengerRepository;
 export class CreateUserHandler {
 
-    constructor(@Inject('IPassengerRepository') private readonly passengerRepository: IPassengerRepository) {}
+    constructor(@Inject('IPassengerRepository') private readonly passengerRepository: IPassengerRepository) {
+        _passengerRepository = passengerRepository;
+    }
 
-    async createUserConsumerHandler(queue: string, message: any): Promise<void> {
+    async createUserConsumerHandler(queue: string, message: UserCreated): Promise<void> {
         if (message == null || message == undefined) return;
 
-        const passenger = await this.passengerRepository.createPassenger(
+        const passenger = await _passengerRepository.createPassenger(
             new Passenger({
                 name: message.name,
                 passportNumber: message.passportNumber,

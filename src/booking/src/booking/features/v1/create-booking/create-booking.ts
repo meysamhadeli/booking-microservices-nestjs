@@ -23,6 +23,7 @@ export class CreateBooking {
     }
 }
 
+
 export class CreateBookingRequestDto {
     @ApiProperty()
     passengerId: number;
@@ -61,13 +62,7 @@ export class CreateBookingController {
     @ApiResponse({status: 403, description: 'FORBIDDEN'})
     @ApiResponse({status: 201, description: 'CREATED'})
     public async createBooking(@Body() request: CreateBookingRequestDto, @Res() res: Response): Promise<BookingDto> {
-        const result = await this.commandBus.execute(
-            new CreateBooking({
-                flightId: request.flightId,
-                passengerId: request.passengerId,
-                description: request.description
-            })
-        );
+        const result = await this.commandBus.execute(new CreateBooking(request));
 
         res.status(HttpStatus.CREATED).send(result);
 
@@ -77,21 +72,24 @@ export class CreateBookingController {
 
 @CommandHandler(CreateBooking)
 export class CreateBookingHandler implements ICommandHandler<CreateBooking> {
+
     constructor(
+        private readonly commandBus: CommandBus,
         @Inject('IBookingRepository') private bookingRepository: IBookingRepository,
         @Inject('IFlightClient') private flightClient: IFlightClient,
         @Inject('IPassengerClient') private passengerClient: IPassengerClient,
         @Inject('IRabbitmqPublisher') private rabbitmqPublisher: IRabbitmqPublisher
     ) {}
 
-    async execute(request: CreateBooking): Promise<BookingDto> {
-        await createBookingValidations.validateAsync(request);
+    async execute(command: CreateBooking): Promise<BookingDto> {
 
-        const flightDto = await this.flightClient.getFlightById(request.flightId);
+        await createBookingValidations.validateAsync(command);
 
-        const passengerDto = await this.passengerClient.getPassengerById(request.passengerId);
+        const flightDto = await this.flightClient.getFlightById(command.flightId);
 
-        const avalibaleSeats = await this.flightClient.getAvalibaleSeats(request.flightId);
+        const passengerDto = await this.passengerClient.getPassengerById(command.passengerId);
+
+        const avalibaleSeats = await this.flightClient.getAvalibaleSeats(command.flightId);
 
         if (avalibaleSeats.length == 0) {
             throw new NotFoundException('No seat available!');
@@ -108,7 +106,7 @@ export class CreateBookingHandler implements ICommandHandler<CreateBooking> {
                 flightNumber: flightDto?.flightNumber,
                 price: flightDto?.price,
                 passengerName: passengerDto?.name,
-                description: request?.description,
+                description: command?.description,
                 flightDate: flightDto?.flightDate,
                 aircraftId: flightDto?.aircraftId,
                 departureAirportId: flightDto?.departureAirportId,
@@ -121,5 +119,6 @@ export class CreateBookingHandler implements ICommandHandler<CreateBooking> {
         const result = mapper.map<Booking, BookingDto>(bookingEntity, new BookingDto());
 
         return result;
+
     }
 }

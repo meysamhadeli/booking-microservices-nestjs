@@ -38,7 +38,7 @@ export class GetPassengerByIdController {
     @ApiResponse({status: 401, description: 'UNAUTHORIZED'})
     @ApiResponse({status: 400, description: 'BAD_REQUEST'})
     @ApiResponse({status: 403, description: 'FORBIDDEN'})
-    public async getPassengerById(@Query() id: number): Promise<PassengerDto> {
+    public async getPassengerById(@Query('id') id: number): Promise<PassengerDto> {
         const result = await this.queryBus.execute(
             new GetPassengerById({
                 id: id

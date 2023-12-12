@@ -1,30 +1,35 @@
-import axios, { AxiosResponse } from 'axios';
+import axios, {AxiosInstance} from 'axios';
 import {PassengerDto} from "building-blocks/contracts/passenger.contract";
-import HttpClientException from "building-blocks/types/exeptions/http-client.exception";
-const httpContext = require('express-http-context');
+import {Injectable} from "@nestjs/common";
+import {HttpContext} from "building-blocks/context/context";
+import https from "https";
 
 export interface IPassengerClient {
   getPassengerById(id: number): Promise<PassengerDto>;
 }
 
+@Injectable()
 export class PassengerClient implements IPassengerClient {
-  private passengerUrl = 'http://localhost:3355';
+    private readonly client: AxiosInstance;
+
+    constructor() {
+        this.client = axios.create({
+            baseURL: 'http://localhost:3355',
+            timeout: 60000,
+            maxContentLength: 500 * 1000 * 1000,
+            httpsAgent: new https.Agent({ keepAlive: true }),
+        });
+    }
 
   async getPassengerById(id: number): Promise<PassengerDto> {
 
-    const result = axios
-      .get<PassengerDto>(`${this.passengerUrl}/passenger/v1/get-by-id?id=${id}`, {
+    const result = await this.client
+      .get<PassengerDto>(`/api/v1/passenger/get-by-id?id=${id}`, {
         headers: {
-          Authorization: httpContext.request.headers.Authorization?.toString()
+          Authorization: HttpContext.headers.authorization.toString()
         }
-      })
-      .then((response: AxiosResponse<PassengerDto>) => {
-        const passengerDto: PassengerDto = response.data;
-        return passengerDto;
-      })
-      .catch((error) => {
-        throw new HttpClientException(error);
       });
-    return result;
+
+    return result?.data;
   }
 }

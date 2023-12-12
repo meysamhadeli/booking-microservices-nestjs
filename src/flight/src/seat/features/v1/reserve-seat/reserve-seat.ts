@@ -55,17 +55,15 @@ export class ReserveSeatController {
     @ApiResponse({status: 400, description: 'BAD_REQUEST'})
     @ApiResponse({status: 403, description: 'FORBIDDEN'})
     @ApiResponse({status: 204, description: 'NO_CONTENT'})
-    public async reserveSeat(@Body() request: ReserveSeatRequestDto, @Res() res: Response): Promise<SeatDto> {
-        const result = await this.commandBus.execute(
+    public async reserveSeat(@Body() request: ReserveSeatRequestDto, @Res() res: Response): Promise<void> {
+        await this.commandBus.execute(
             new ReserveSeat({
                 flightId: request.flightId,
                 seatNumber: request.seatNumber
             })
         );
 
-        res.status(HttpStatus.NO_CONTENT).send(result);
-
-        return result;
+        res.status(HttpStatus.NO_CONTENT).send(null);
     }
 }
 
@@ -78,7 +76,7 @@ export class ReserveSeatHandler implements ICommandHandler<ReserveSeat> {
     ) {
     }
 
-    async execute(command: ReserveSeat): Promise<SeatDto> {
+    async execute(command: ReserveSeat): Promise<void> {
         await reserveSeatValidations.validateAsync(command);
 
         const existFlight = await this.flightRepository.findFlightById(command.flightId);
@@ -93,23 +91,19 @@ export class ReserveSeatHandler implements ICommandHandler<ReserveSeat> {
             throw new NotFoundException('Seat not found!');
         }
 
-        const seatEntity = await this.seatRepository.reserveSeat(
-            new Seat({
-                id: seat.id,
-                flightId: command.flightId,
-                seatNumber: command.seatNumber,
-                seatClass: seat.seatClass,
-                seatType: seat.seatType,
-                isReserved: true,
-                createdAt: seat.createdAt,
-                updatedAt: new Date()
-            })
-        );
+        const seatEntity =  new Seat({
+            id: seat.id,
+            flightId: command.flightId,
+            seatNumber: command.seatNumber,
+            seatClass: seat.seatClass,
+            seatType: seat.seatType,
+            isReserved: true,
+            createdAt: seat.createdAt,
+            updatedAt: new Date()
+        });
+
+        await this.seatRepository.reserveSeat(seatEntity);
 
         await this.rabbitmqPublisher.publishMessage(new SeatReserved(seatEntity));
-
-        const result = mapper.map<Seat, SeatDto>(seatEntity, new SeatDto());
-
-        return result;
     }
 }

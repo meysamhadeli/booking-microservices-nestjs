@@ -1,6 +1,7 @@
 import bcrypt from 'bcryptjs';
 import * as jwt from 'jsonwebtoken';
 import configs from "../configs/configs";
+import {HttpContext} from "../context/context";
 
 export const encryptPassword = async (password: string) => {
   const encryptedPassword = await bcrypt.hash(password, 8);

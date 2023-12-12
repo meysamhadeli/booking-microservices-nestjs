@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import {MiddlewareConsumer, Module, NestModule} from '@nestjs/common';
 import { RouterModule } from '@nestjs/core';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { postgresOptions } from './data/data-source';
@@ -8,6 +8,7 @@ import configs from "building-blocks/configs/configs";
 import {OpenTelemetryModule} from "building-blocks/openTelemetry/open-telemetry.module";
 import {JwtStrategy} from "building-blocks/passport/jwt.strategy";
 import {PassengerModule} from "./passenger/passenger.module";
+import {ContextMiddleware} from "building-blocks/context/context";
 
 @Module({
     imports: [
@@ -28,4 +29,10 @@ import {PassengerModule} from "./passenger/passenger.module";
     ],
     providers: [JwtStrategy],
 })
-export class AppModule {}
+export class AppModule implements NestModule {
+    configure(consumer: MiddlewareConsumer) {
+        consumer
+            .apply(ContextMiddleware)
+            .forRoutes('*');
+    }
+}

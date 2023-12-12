@@ -1,13 +1,14 @@
 import {UserDto} from '../../../dtos/user.dto';
 import Joi from 'joi';
 import mapper from '../../../mapping';
-import {ApiBearerAuth, ApiResponse, ApiTags} from "@nestjs/swagger";
-import {Controller, Get, HttpStatus, Inject, Query, UseGuards} from "@nestjs/common";
+import {ApiBearerAuth, ApiQuery, ApiResponse, ApiTags} from "@nestjs/swagger";
+import {Controller, Get, Inject, ParseBoolPipe, Query, UseGuards} from "@nestjs/common";
 import {IQueryHandler, QueryBus, QueryHandler} from "@nestjs/cqrs";
 import {IUserRepository} from "../../../../data/repositories/user.repository";
 import {User} from "../../../entities/user.entity";
 import {JwtGuard} from "../../../../../../building-blocks/passport/jwt.guard";
 import {PagedResult} from "building-blocks/types/pagination/paged-result";
+import {string} from "yup";
 
 export class GetUsers {
   page = 1;
@@ -46,12 +47,17 @@ export class GetUsersController {
   @ApiResponse({status: 401, description: 'UNAUTHORIZED'})
   @ApiResponse({status: 400, description: 'BAD_REQUEST'})
   @ApiResponse({status: 403, description: 'FORBIDDEN'})
+  @ApiQuery({ name: 'page', required: false, type: Number, example: 1 })
+  @ApiQuery({ name: 'pageSize', required: false, type: Number, example: 10 })
+  @ApiQuery({ name: 'order', required: false, type: 'ASC' , example: 'ASC' })
+  @ApiQuery({ name: 'orderBy', required: false, type: '', example: 'id' })
+  @ApiQuery({ name: 'searchTerm', required: false, type: '' })
   public async getUsers(
-      @Query() pageSize = 10,
-      @Query() page = 1,
-      @Query() order: 'ASC' | 'DESC' = 'ASC',
-      @Query() orderBy = 'id',
-      @Query() searchTerm?: string
+      @Query('pageSize') pageSize: number = 10,
+      @Query('page') page: number = 1,
+      @Query('order') order: 'ASC' | 'DESC' = 'ASC',
+      @Query('orderBy') orderBy: string = 'id',
+      @Query('searchTerm') searchTerm?: string
   ): Promise<PagedResult<UserDto[]>> {
 
     const result = await this.queryBus.execute(new GetUsers({

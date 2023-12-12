@@ -5,7 +5,7 @@ import { InjectRepository } from "@nestjs/typeorm";
 export interface IUserRepository {
   createUser(user: User): Promise<User>;
 
-  updateUser(user: User): Promise<User>;
+  updateUser(user: User): Promise<void>;
 
   findUsers(
     page: number,
@@ -35,8 +35,8 @@ export class UserRepository implements IUserRepository {
     return await this.userRepository.save(user);
   }
 
-  async updateUser(user: User): Promise<User> {
-    return await this.userRepository.save(user);
+  async updateUser(user: User): Promise<void> {
+    await this.userRepository.update(user.id, user);
   }
 
   async findUsers(

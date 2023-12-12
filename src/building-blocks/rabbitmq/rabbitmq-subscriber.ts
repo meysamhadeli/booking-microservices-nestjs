@@ -12,19 +12,18 @@ type handlerFunc<T> = (queue: string, message: T) => void;
 const consumedMessages: string[] = [];
 
 export interface IRabbitmqConsumer {
+  consumeMessage<T>(type: T, handler: handlerFunc<T>): Promise<void>;
   isConsumed<T>(message: T): Promise<boolean>;
 }
 
 @Injectable()
-export class RabbitmqConsumer<T> implements OnModuleInit, IRabbitmqConsumer {
+export class RabbitmqConsumer<T> implements IRabbitmqConsumer {
   constructor(
     private readonly rabbitMQConnection: RabbitmqConnection,
-    private readonly openTelemetryTracer: OpenTelemetryTracer,
-    private readonly type: T,
-    private readonly handler: handlerFunc<T>
+    private readonly openTelemetryTracer: OpenTelemetryTracer
   ) {}
 
-  async onModuleInit(): Promise<void> {
+  async consumeMessage<T>(type: T, handler: handlerFunc<T>): Promise<void> {
     try {
       await asyncRetry(
         async () => {
@@ -32,7 +31,7 @@ export class RabbitmqConsumer<T> implements OnModuleInit, IRabbitmqConsumer {
 
           const tracer = await this.openTelemetryTracer.createTracer('rabbitmq_subscriber_tracer');
 
-          const exchangeName = snakeCase(getTypeName(this.type));
+          const exchangeName = snakeCase(getTypeName(type));
 
           await channel.assertExchange(exchangeName, 'fanout', {
             durable: false
@@ -55,7 +54,8 @@ export class RabbitmqConsumer<T> implements OnModuleInit, IRabbitmqConsumer {
                 const messageContent = message?.content?.toString();
                 const headers = message.properties.headers || {};
 
-                this.handler(q.queue, deserializeObject<T>(messageContent));
+                handler(q.queue, deserializeObject<T>(messageContent));
+
                 Logger.log(
                   `Message: ${messageContent} delivered to queue: ${q.queue} with exchange name ${exchangeName}`
                 );

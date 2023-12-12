@@ -1,6 +1,6 @@
 import Joi from 'joi';
 import {ApiBearerAuth, ApiResponse, ApiTags} from "@nestjs/swagger";
-import {Body, Controller, HttpStatus, Inject, NotFoundException, Post, Res} from "@nestjs/common";
+import {Body, Controller, HttpStatus, Inject, NotFoundException, Param, Post, Query, Res} from "@nestjs/common";
 import {CommandBus, CommandHandler, ICommandHandler} from "@nestjs/cqrs";
 import {Response} from "express";
 import {IAuthRepository} from "../../../../data/repositories/auth.repository";
@@ -8,7 +8,7 @@ import {IUserRepository} from "../../../../data/repositories/user.repository";
 import {TokenType} from "../../../enums/token-type.enum";
 
 export class Logout {
-    refreshToken: string;
+    accessToken: string;
 
     constructor(request: Partial<Logout> = {}) {
         Object.assign(this, request);
@@ -17,7 +17,7 @@ export class Logout {
 
 const logoutValidations = {
     params: Joi.object().keys({
-        refreshToken: Joi.string().required()
+        accessToken: Joi.string().required()
     })
 };
 
@@ -37,11 +37,11 @@ export class LogoutController {
     @ApiResponse({status: 400, description: 'BAD_REQUEST'})
     @ApiResponse({status: 403, description: 'FORBIDDEN'})
     @ApiResponse({status: 204, description: 'NO_CONTENT'})
-    public async logout(@Body('refreshToken') refreshToken: string, @Res() res: Response): Promise<void> {
+    public async logout(@Query('accessToken') accessToken: string, @Res() res: Response): Promise<void> {
 
-        const result = await this.commandBus.execute(new Logout({refreshToken: refreshToken}));
+        await this.commandBus.execute(new Logout({accessToken: accessToken}));
 
-        res.status(HttpStatus.NO_CONTENT).send(result);
+        res.status(HttpStatus.NO_CONTENT).send(null);
     }
 }
 
@@ -58,10 +58,10 @@ export class LogoutHandler implements ICommandHandler<Logout> {
 
         await logoutValidations.params.validateAsync(command);
 
-        const token = await this.authRepository.findToken(command.refreshToken, TokenType.REFRESH);
+        const token = await this.authRepository.findToken(command.accessToken, TokenType.ACCESS);
 
         if (!token) {
-            throw new NotFoundException('Refresh Token Not found');
+            throw new NotFoundException('Access Token Not found');
         }
 
         const tokenEntity = await this.authRepository.removeToken(token);

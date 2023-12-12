@@ -2,8 +2,19 @@ import {UserDto} from '../../../dtos/user.dto';
 import mapper from '../../../mapping';
 import Joi from 'joi';
 import {Role} from "../../../enums/role.enum";
-import {ApiBearerAuth, ApiResponse, ApiTags} from "@nestjs/swagger";
-import {Body, Controller, HttpStatus, Inject, NotFoundException, Put, Query, Res, UseGuards} from "@nestjs/common";
+import {ApiBearerAuth, ApiProperty, ApiResponse, ApiTags} from "@nestjs/swagger";
+import {
+    Body,
+    Controller,
+    HttpStatus,
+    Inject,
+    NotFoundException,
+    Param,
+    Put,
+    Query,
+    Res,
+    UseGuards
+} from "@nestjs/common";
 import {CommandBus, CommandHandler, ICommandHandler} from "@nestjs/cqrs";
 import { Response} from "express";
 import {IUserRepository} from "../../../../data/repositories/user.repository";
@@ -28,10 +39,19 @@ export class UpdateUser {
 }
 
 export class UpdateUserRequestDto {
+    @ApiProperty()
     email: string;
+
+    @ApiProperty()
     password: string;
+
+    @ApiProperty()
     name: string;
+
+    @ApiProperty()
     role: Role;
+
+    @ApiProperty()
     passportNumber: string;
 
     constructor(request: Partial<UpdateUserRequestDto> = {}) {
@@ -40,6 +60,7 @@ export class UpdateUserRequestDto {
 }
 
 const updateUserValidations = Joi.object({
+    id: Joi.number().required(),
     email: Joi.string().required().email(),
     password: Joi.string().required().custom(password),
     name: Joi.string().required(),
@@ -65,12 +86,12 @@ export class UpdateUserController {
     @ApiResponse({status: 400, description: 'BAD_REQUEST'})
     @ApiResponse({status: 403, description: 'FORBIDDEN'})
     public async updateUser(
-        @Query() id: number,
+        @Query('id') id: number,
         @Body() request: UpdateUserRequestDto,
         @Res() res: Response
-    ): Promise<UserDto> {
+    ): Promise<void> {
 
-        const user = await this.commandBus.execute(new UpdateUser({
+        await this.commandBus.execute(new UpdateUser({
             id: id,
             email: request.email,
             password: request.password,
@@ -79,9 +100,7 @@ export class UpdateUserController {
             passportNumber: request.passportNumber
         }));
 
-        res.status(HttpStatus.NO_CONTENT).send(user);
-
-        return user;
+        res.status(HttpStatus.NO_CONTENT).send(null);
     }
 }
 
@@ -92,7 +111,7 @@ export class UpdateUserHandler implements ICommandHandler <UpdateUser> {
         @Inject('IRabbitmqPublisher') private readonly rabbitmqPublisher: IRabbitmqPublisher,
         @Inject('IUserRepository') private readonly userRepository: IUserRepository) {}
 
-    async execute(command: UpdateUser): Promise<UserDto> {
+    async execute(command: UpdateUser): Promise<void> {
 
         await updateUserValidations.validateAsync(command);
 
@@ -102,24 +121,21 @@ export class UpdateUserHandler implements ICommandHandler <UpdateUser> {
             throw new NotFoundException('User not found');
         }
 
-        const userEntity = await this.userRepository.updateUser(
-            new User({
-                email: command.email,
-                name: command.name,
-                password: await encryptPassword(command.password),
-                role: command.role,
-                passportNumber: command.passportNumber,
-                isEmailVerified: existUser.isEmailVerified,
-                tokens: existUser.tokens,
-                createdAt: existUser.createdAt,
-                updatedAt: new Date()
-            })
-        );
+        const updateUserEntity =  new User({
+            id: command.id,
+            email: command.email,
+            name: command.name,
+            password: await encryptPassword(command.password),
+            role: command.role,
+            passportNumber: command.passportNumber,
+            isEmailVerified: existUser.isEmailVerified,
+            tokens: existUser.tokens,
+            createdAt: existUser.createdAt,
+            updatedAt: new Date()
+        });
 
-        await this.rabbitmqPublisher.publishMessage(new UserUpdated(userEntity));
+        await this.userRepository.updateUser(updateUserEntity);
 
-        const result = mapper.map<User, UserDto>(userEntity, new UserDto());
-
-        return result;
+        await this.rabbitmqPublisher.publishMessage(new UserUpdated(updateUserEntity));
     }
 }

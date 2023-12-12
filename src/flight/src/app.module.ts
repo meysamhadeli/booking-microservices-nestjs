@@ -1,4 +1,4 @@
-import {Module, OnApplicationBootstrap} from '@nestjs/common';
+import {MiddlewareConsumer, Module, NestModule, OnApplicationBootstrap} from '@nestjs/common';
 import {RouterModule} from '@nestjs/core';
 import {TypeOrmModule} from '@nestjs/typeorm';
 import {postgresOptions} from './data/data-source';
@@ -12,6 +12,7 @@ import {DataSeeder} from "./data/seeds/data-seeder";
 import {OpenTelemetryModule} from "building-blocks/openTelemetry/open-telemetry.module";
 import {JwtStrategy} from "building-blocks/passport/jwt.strategy";
 import configs from "building-blocks/configs/configs";
+import {ContextMiddleware} from "building-blocks/context/context";
 
 @Module({
     imports: [
@@ -47,10 +48,16 @@ import configs from "building-blocks/configs/configs";
     ],
     providers: [JwtStrategy, DataSeeder],
 })
-export class AppModule implements OnApplicationBootstrap {
+export class AppModule implements OnApplicationBootstrap, NestModule {
     constructor(
         private readonly dataSeeder: DataSeeder,
     ) {
+    }
+
+    configure(consumer: MiddlewareConsumer) {
+        consumer
+            .apply(ContextMiddleware)
+            .forRoutes('*');
     }
 
     async onApplicationBootstrap(): Promise<void> {

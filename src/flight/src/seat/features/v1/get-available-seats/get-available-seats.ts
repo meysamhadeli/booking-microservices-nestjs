@@ -40,7 +40,7 @@ export class GetAvailableSeatsController {
   @ApiResponse({status: 400, description: 'BAD_REQUEST'})
   @ApiResponse({status: 403, description: 'FORBIDDEN'})
   @ApiResponse({status: 200, description: 'OK'})
-  public async getAvailableSeats(@Query() flightId: number): Promise<SeatDto[]> {
+  public async getAvailableSeats(@Query('flightId') flightId: number): Promise<SeatDto[]> {
     const result = await this.queryBus.execute(
       new GetAvailableSeats({
         flightId: flightId
