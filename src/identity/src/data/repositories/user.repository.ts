@@ -1,6 +1,7 @@
 import { Repository, SelectQueryBuilder } from "typeorm";
 import { User } from "../../user/entities/user.entity";
 import { InjectRepository } from "@nestjs/typeorm";
+import {Injectable} from "@nestjs/common";
 
 export interface IUserRepository {
   createUser(user: User): Promise<User>;
@@ -26,6 +27,7 @@ export interface IUserRepository {
   removeUser(user: User): Promise<User>;
 }
 
+@Injectable()
 export class UserRepository implements IUserRepository {
   constructor(@InjectRepository(User)
               private readonly userRepository: Repository<User>) {

@@ -10,7 +10,8 @@ export const postgresOptions: DataSourceOptions = {
     password: configs.postgres.password,
     database: configs.postgres.database,
     synchronize: configs.postgres.synchronize,
-    entities: [configs.postgres.entities],
+    entities: [__dirname + configs.postgres.entities],
+    migrations: [__dirname + configs.postgres.migrations],
     logging: configs.postgres.logging,
 };
 

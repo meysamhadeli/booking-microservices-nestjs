@@ -10,6 +10,10 @@
         "dev": "tsc -p tsconfig.json && nodemon src/main.ts --watch",
         "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
         "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
+        "typeorm": "npm run build && npx typeorm -d ./dist/data/data-source.js",
+        "migration:generate": "npm run typeorm -- migration:generate",
+        "migration:run": "npm run typeorm -- migration:run",
+        "migration:revert": "npm run typeorm -- migration:revert",
         "test": "jest"
     },
     "dependencies": {

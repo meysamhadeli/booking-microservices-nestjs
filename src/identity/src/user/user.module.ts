@@ -30,4 +30,5 @@ import {RabbitmqModule} from "building-blocks/rabbitmq/rabbitmq.module";
     ],
   exports: [],
 })
+
 export class UserModule {}

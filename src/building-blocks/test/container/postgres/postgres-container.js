@@ -1,13 +1,9 @@
 "use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.PostgresContainer = void 0;
 require("reflect-metadata");
 const testcontainers_1 = require("testcontainers");
 const common_1 = require("@nestjs/common");
-const configs_1 = __importDefault(require("../../../configs/configs"));
 class PostgresContainer {
     async start() {
         const defaultPostgresOptions = await this.getDefaultPostgresTestContainers();
@@ -21,8 +17,7 @@ class PostgresContainer {
             username: defaultPostgresOptions.username,
             password: defaultPostgresOptions.password,
             synchronize: true,
-            entities: [configs_1.default.postgres.entities],
-            logging: configs_1.default.postgres.logging,
+            entities: [defaultPostgresOptions.entities]
         };
         common_1.Logger.log(`Test postgres with port ${containerPort} established`);
         return [pgContainerStarted, dataSourceOptions];
@@ -46,7 +41,8 @@ class PostgresContainer {
             username: 'testcontainers',
             password: 'testcontainers',
             imageName: 'postgres:latest',
-            synchronize: true
+            synchronize: true,
+            entities: 'src/**/entities/*.{js,ts}'
         };
         return postgresOptions;
     }

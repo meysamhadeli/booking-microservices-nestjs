@@ -10,6 +10,7 @@ export interface PostgresContainerOptions {
     username: string;
     password: string;
     synchronize: boolean;
+    entities: string;
 }
 export declare class PostgresContainer {
     start(): Promise<[StartedTestContainer, DataSourceOptions]>;

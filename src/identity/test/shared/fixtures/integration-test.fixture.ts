@@ -3,7 +3,6 @@ import {ExecutionContext, INestApplication, VersioningType} from "@nestjs/common
 import {Test, TestingModule} from "@nestjs/testing";
 import {PostgresContainer} from "building-blocks/test/container/postgres/postgres-container";
 import {RabbitmqContainer} from "building-blocks/test/container/rabbitmq/rabbitmq-container";
-import {StartedTestContainer} from "testcontainers";
 import {IAuthRepository} from "../../../src/data/repositories/auth.repository";
 import {IRabbitmqConsumer} from "building-blocks/rabbitmq/rabbitmq-subscriber";
 import {IRabbitmqPublisher} from "building-blocks/rabbitmq/rabbitmq-publisher";
@@ -19,6 +18,7 @@ import {RouterModule} from "@nestjs/core";
 import {JwtStrategy} from "building-blocks/passport/jwt.strategy";
 import {JwtGuard} from "building-blocks/passport/jwt.guard";
 import {IRabbitmqConnection} from "building-blocks/rabbitmq/rabbitmq-connection";
+import {StartedTestContainer} from "testcontainers";
 
 export class Fixture {
   userRepository: IUserRepository;
