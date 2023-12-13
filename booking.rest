@@ -26,18 +26,26 @@ Content-Type: application/json
 
 ###
 # @name Logout
-POST {{identity-api}}/api/v1/identity/logout?accessToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjUsImlhdCI6MTcwMjMzMzM1NiwiZXhwIjoxNzAyMzM1MTU2LCJ0eXBlIjowfQ.A2uF3tg2Y0ZK7sK53Y7r-JWTs8s66A_2Jf8DY_qchDA
+POST {{identity-api}}/api/v1/identity/logout
 accept: application/json
 Content-Type: application/json
+
+{
+  "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjUsImlhdCI6MTcwMjMzMzMzNSwiZXhwIjoxNzAyNDE5NzM1LCJ0eXBlIjoxfQ.T0z6lAQ4pxrKS6L6MutrwVbBGe96rq2wbIy0mCNs488"
+}
 
 ###
 
 
 ###
 # @name Refresh_Token
-POST {{identity-api}}/api/v1/identity/refresh-token?refreshToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjUsImlhdCI6MTcwMjMzMzMzNSwiZXhwIjoxNzAyNDE5NzM1LCJ0eXBlIjoxfQ.T0z6lAQ4pxrKS6L6MutrwVbBGe96rq2wbIy0mCNs488
+POST {{identity-api}}/api/v1/identity/refresh-token
 accept: application/json
 Content-Type: application/json
+
+{
+  "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjUsImlhdCI6MTcwMjMzMzMzNSwiZXhwIjoxNzAyNDE5NzM1LCJ0eXBlIjoxfQ.T0z6lAQ4pxrKS6L6MutrwVbBGe96rq2wbIy0mCNs488"
+}
 
 ###
 
@@ -60,7 +68,7 @@ authorization: bearer {{Login.response.body.access.token}}
 
 ###
 # @name Update_User
-PUT  {{identity-api}}/api/v1/user/update?id=3
+PUT  {{identity-api}}/api/v1/user/update/2
 accept: application/json
 Content-Type: application/json
 authorization: bearer {{Login.response.body.access.token}}
@@ -70,7 +78,7 @@ authorization: bearer {{Login.response.body.access.token}}
   "password": "Admin@12345",
   "name": "John",
   "role": 0,
-  "passportNumber": "12345678"
+  "passportNumber": "12345000"
 }
 ###
 
@@ -110,7 +118,7 @@ GET {{flight-api}}
 
 ###
 # @name Create_Airport
-POST {{flight-api}}/api/v1/airport/airport
+POST {{flight-api}}/api/v1/airport/create
 accept: application/json
 Content-Type: application/json
 authorization: bearer {{Login.response.body.access.token}}

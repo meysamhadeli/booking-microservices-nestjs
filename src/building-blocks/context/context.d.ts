@@ -7,6 +7,6 @@ export declare class HttpContext {
     static response: Response;
     static headers: IncomingHttpHeaders;
 }
-export declare class ContextMiddleware implements NestMiddleware {
+export declare class HttpContextMiddleware implements NestMiddleware {
     use(req: Request, res: Response, next: NextFunction): void;
 }

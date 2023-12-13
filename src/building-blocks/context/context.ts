@@ -1,8 +1,7 @@
-import { Injectable, NestMiddleware } from '@nestjs/common';
+import { NestMiddleware } from '@nestjs/common';
 import { Request, Response, NextFunction } from 'express';
 import {IncomingHttpHeaders} from "http";
 
-@Injectable()
 export class HttpContext {
   static request: Request;
   static response: Response;
@@ -10,8 +9,7 @@ export class HttpContext {
 }
 
 
-@Injectable()
-export class ContextMiddleware implements NestMiddleware {
+export class HttpContextMiddleware implements NestMiddleware {
   use(req: Request, res: Response, next: NextFunction) {
 
       HttpContext.request = req;

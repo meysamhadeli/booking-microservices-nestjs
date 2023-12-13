@@ -8,7 +8,7 @@ import configs from "building-blocks/configs/configs";
 import {OpenTelemetryModule} from "building-blocks/openTelemetry/open-telemetry.module";
 import {JwtStrategy} from "building-blocks/passport/jwt.strategy";
 import {PassengerModule} from "./passenger/passenger.module";
-import {ContextMiddleware} from "building-blocks/context/context";
+import {HttpContextMiddleware} from "building-blocks/context/context";
 
 @Module({
     imports: [
@@ -32,7 +32,7 @@ import {ContextMiddleware} from "building-blocks/context/context";
 export class AppModule implements NestModule {
     configure(consumer: MiddlewareConsumer) {
         consumer
-            .apply(ContextMiddleware)
+            .apply(HttpContextMiddleware)
             .forRoutes('*');
     }
 }

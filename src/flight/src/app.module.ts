@@ -12,7 +12,7 @@ import {DataSeeder} from "./data/seeds/data-seeder";
 import {OpenTelemetryModule} from "building-blocks/openTelemetry/open-telemetry.module";
 import {JwtStrategy} from "building-blocks/passport/jwt.strategy";
 import configs from "building-blocks/configs/configs";
-import {ContextMiddleware} from "building-blocks/context/context";
+import {HttpContextMiddleware} from "building-blocks/context/context";
 
 @Module({
     imports: [
@@ -56,7 +56,7 @@ export class AppModule implements OnApplicationBootstrap, NestModule {
 
     configure(consumer: MiddlewareConsumer) {
         consumer
-            .apply(ContextMiddleware)
+            .apply(HttpContextMiddleware)
             .forRoutes('*');
     }
 

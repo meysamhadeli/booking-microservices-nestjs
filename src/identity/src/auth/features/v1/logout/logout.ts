@@ -37,7 +37,7 @@ export class LogoutController {
     @ApiResponse({status: 400, description: 'BAD_REQUEST'})
     @ApiResponse({status: 403, description: 'FORBIDDEN'})
     @ApiResponse({status: 204, description: 'NO_CONTENT'})
-    public async logout(@Query('accessToken') accessToken: string, @Res() res: Response): Promise<void> {
+    public async logout(@Body('accessToken') accessToken: string, @Res() res: Response): Promise<void> {
 
         await this.commandBus.execute(new Logout({accessToken: accessToken}));
 

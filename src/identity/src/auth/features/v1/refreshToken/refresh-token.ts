@@ -1,7 +1,7 @@
 import Joi from 'joi';
 import {GenerateToken} from '../generateToken/generate-token';
 import {ApiBearerAuth, ApiResponse, ApiTags} from "@nestjs/swagger";
-import {Controller, Inject, Post, Query, UnauthorizedException} from "@nestjs/common";
+import {Body, Controller, Inject, Post, Query, UnauthorizedException} from "@nestjs/common";
 import {CommandBus, CommandHandler, ICommandHandler} from "@nestjs/cqrs";
 import {AuthDto} from "../../../dtos/auth.dto";
 import {IAuthRepository} from "../../../../data/repositories/auth.repository";
@@ -39,7 +39,7 @@ export class RefreshTokenController {
     @ApiResponse({status: 400, description: 'BAD_REQUEST'})
     @ApiResponse({status: 403, description: 'FORBIDDEN'})
     @ApiResponse({status: 200, description: 'OK'})
-    public async refreshToken(@Query('refreshToken') refreshToken: string): Promise<AuthDto> {
+    public async refreshToken(@Body('refreshToken') refreshToken: string): Promise<AuthDto> {
         const result = await this.commandBus.execute(new RefreshToken({refreshToken: refreshToken}));
 
         return result;

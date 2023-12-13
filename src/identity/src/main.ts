@@ -5,6 +5,9 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import {PrometheusMetrics} from "building-blocks/monitoring/prometheus.metrics";
 import {ErrorHandlersFilter} from "building-blocks/filters/error-handlers.filter";
 import configs from "building-blocks/configs/configs";
+import {NextFunction, Request, Response} from "express";
+import {HttpContext} from "building-blocks/context/context";
+import * as Prometheus from "prom-client";
 
 
 async function bootstrap() {

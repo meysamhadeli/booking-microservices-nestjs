@@ -79,14 +79,14 @@ export class UpdateUserController {
     constructor(private readonly commandBus: CommandBus,) {
     }
 
-    @Put('update')
+    @Put('update/:id')
     @UseGuards(JwtGuard)
     @ApiResponse({status: 204, description: 'NO_CONTENT'})
     @ApiResponse({status: 401, description: 'UNAUTHORIZED'})
     @ApiResponse({status: 400, description: 'BAD_REQUEST'})
     @ApiResponse({status: 403, description: 'FORBIDDEN'})
     public async updateUser(
-        @Query('id') id: number,
+        @Param('id') id: number,
         @Body() request: UpdateUserRequestDto,
         @Res() res: Response
     ): Promise<void> {
