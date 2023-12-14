@@ -49,7 +49,10 @@ const envVarsSchema = Joi.object()
         POSTGRES_LOGGING: Joi.boolean()
             .default(false)
             .description('Postgres logging'),
-        RABBITMQ_Host: Joi.string()
+      POSTGRES_MIGRATIONS_RUN: Joi.boolean()
+        .default(false)
+        .description('Run migrations after running project'),
+      RABBITMQ_Host: Joi.string()
             .default('localhost')
             .description('Rabbitmq host'),
         RABBITMQ_PORT: Joi.number().default(5672).description('Rabbitmq port'),
@@ -109,6 +112,7 @@ export default {
         entities: envVars.POSTGRES_ENTITIES,
         migrations: envVars.POSTGRES_MIGRATIONS,
         logging: envVars.POSTGRES_LOGGING,
+        migrationsRun: envVars.POSTGRES_MIGRATIONS_RUN
     },
     jwt: {
         secret: envVars.JWT_SECRET,

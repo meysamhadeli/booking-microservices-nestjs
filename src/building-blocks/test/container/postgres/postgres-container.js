@@ -33,6 +33,7 @@ class PostgresContainer {
             password: 'testcontainers',
             imageName: 'postgres:latest',
             synchronize: true,
+            migrationsRun: false,
             entities: ['src/**/entities/*.{js,ts}']
         };
         return postgresOptions;

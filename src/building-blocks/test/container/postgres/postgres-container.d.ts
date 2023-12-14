@@ -11,6 +11,7 @@ export interface PostgresContainerOptions {
     password: string;
     synchronize: boolean;
     entities: MixedList<Function | string | EntitySchema>;
+    migrationsRun: boolean;
 }
 export declare class PostgresContainer {
     start(): Promise<[StartedTestContainer, DataSourceOptions]>;

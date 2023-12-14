@@ -20,6 +20,7 @@ declare const _default: {
         entities: any;
         migrations: any;
         logging: any;
+        migrationsRun: any;
     };
     jwt: {
         secret: any;

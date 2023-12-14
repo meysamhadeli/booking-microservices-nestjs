@@ -13,6 +13,7 @@ export interface PostgresContainerOptions {
   password: string;
   synchronize: boolean;
   entities: MixedList<Function | string | EntitySchema>;
+  migrationsRun: boolean;
 }
 
 export class PostgresContainer{
@@ -55,6 +56,7 @@ export class PostgresContainer{
       password: 'testcontainers',
       imageName: 'postgres:latest',
       synchronize: true,
+      migrationsRun: false,
       entities: ['src/**/entities/*.{js,ts}']
     };
 

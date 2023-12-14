@@ -12,7 +12,8 @@ export const postgresOptions: DataSourceOptions = {
     synchronize: configs.postgres.synchronize,
     entities: [__dirname + configs.postgres.entities],
     migrations: [__dirname + configs.postgres.migrations],
-    logging: configs.postgres.logging
+    logging: configs.postgres.logging,
+    migrationsRun: configs.postgres.migrationsRun
 };
 
 const dataSource = new DataSource(postgresOptions);
