@@ -9,16 +9,7 @@ class PostgresContainer {
         const defaultPostgresOptions = await this.getDefaultPostgresTestContainers();
         const pgContainerStarted = await this.getContainerStarted(defaultPostgresOptions);
         const containerPort = pgContainerStarted.getMappedPort(defaultPostgresOptions.port);
-        const dataSourceOptions = {
-            type: 'postgres',
-            host: defaultPostgresOptions.host,
-            port: containerPort,
-            database: defaultPostgresOptions.database,
-            username: defaultPostgresOptions.username,
-            password: defaultPostgresOptions.password,
-            synchronize: true,
-            entities: [defaultPostgresOptions.entities]
-        };
+        const dataSourceOptions = Object.assign(Object.assign({}, defaultPostgresOptions), { type: 'postgres', port: containerPort });
         common_1.Logger.log(`Test postgres with port ${containerPort} established`);
         return [pgContainerStarted, dataSourceOptions];
     }
@@ -42,7 +33,7 @@ class PostgresContainer {
             password: 'testcontainers',
             imageName: 'postgres:latest',
             synchronize: true,
-            entities: 'src/**/entities/*.{js,ts}'
+            entities: ['src/**/entities/*.{js,ts}']
         };
         return postgresOptions;
     }

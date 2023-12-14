@@ -1,6 +1,6 @@
 import 'reflect-metadata';
 import { StartedTestContainer } from 'testcontainers';
-import { DataSourceOptions } from "typeorm";
+import { DataSourceOptions, EntitySchema, MixedList } from "typeorm";
 export interface PostgresContainerOptions {
     imageName: string;
     type: string;
@@ -10,7 +10,7 @@ export interface PostgresContainerOptions {
     username: string;
     password: string;
     synchronize: boolean;
-    entities: string;
+    entities: MixedList<Function | string | EntitySchema>;
 }
 export declare class PostgresContainer {
     start(): Promise<[StartedTestContainer, DataSourceOptions]>;

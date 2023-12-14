@@ -5,10 +5,7 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import {PrometheusMetrics} from "building-blocks/monitoring/prometheus.metrics";
 import {ErrorHandlersFilter} from "building-blocks/filters/error-handlers.filter";
 import configs from "building-blocks/configs/configs";
-import {NextFunction, Request, Response} from "express";
-import {HttpContext} from "building-blocks/context/context";
-import * as Prometheus from "prom-client";
-
+import {Request, Response} from "express";
 
 async function bootstrap() {
     const app = await NestFactory.create(AppModule);
@@ -31,6 +28,8 @@ async function bootstrap() {
     SwaggerModule.setup('swagger', app, document);
 
     app.useGlobalPipes(new ValidationPipe({ transform: true }));
+
+    app.use((req: Request, res: Response, next: any) => {req.url === '/' ? res.send(configs.serviceName) : next();});
 
     PrometheusMetrics.registerMetricsEndpoint(app);
 

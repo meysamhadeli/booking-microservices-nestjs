@@ -1,7 +1,7 @@
 import 'reflect-metadata';
 import { GenericContainer, StartedTestContainer } from 'testcontainers';
 import {Logger} from "@nestjs/common";
-import {DataSourceOptions} from "typeorm";
+import {DataSourceOptions, EntitySchema, MixedList} from "typeorm";
 
 export interface PostgresContainerOptions {
   imageName: string;
@@ -12,7 +12,7 @@ export interface PostgresContainerOptions {
   username: string;
   password: string;
   synchronize: boolean;
-  entities: string;
+  entities: MixedList<Function | string | EntitySchema>;
 }
 
 export class PostgresContainer{
@@ -24,14 +24,9 @@ export class PostgresContainer{
     const containerPort = pgContainerStarted.getMappedPort(defaultPostgresOptions.port);
 
     const dataSourceOptions: DataSourceOptions = {
+      ...defaultPostgresOptions,
       type: 'postgres',
-      host: defaultPostgresOptions.host,
-      port: containerPort,
-      database: defaultPostgresOptions.database,
-      username: defaultPostgresOptions.username,
-      password: defaultPostgresOptions.password,
-      synchronize: true,
-      entities: [defaultPostgresOptions.entities]
+      port: containerPort
     };
 
     Logger.log(`Test postgres with port ${containerPort} established`);
@@ -60,7 +55,7 @@ export class PostgresContainer{
       password: 'testcontainers',
       imageName: 'postgres:latest',
       synchronize: true,
-      entities: 'src/**/entities/*.{js,ts}'
+      entities: ['src/**/entities/*.{js,ts}']
     };
 
     return postgresOptions;
