@@ -8,7 +8,6 @@ import {IUserRepository} from "../../../../data/repositories/user.repository";
 import {User} from "../../../entities/user.entity";
 import {JwtGuard} from "../../../../../../building-blocks/passport/jwt.guard";
 import {PagedResult} from "building-blocks/types/pagination/paged-result";
-import {string} from "yup";
 
 export class GetUsers {
   page = 1;

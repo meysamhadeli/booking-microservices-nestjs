@@ -25,7 +25,7 @@ const jaegerExporter = new JaegerExporter({
 export const otelSDK = initializeOpenTelemetrySDK();
 
 function initializeOpenTelemetrySDK() {
-  console.log(configs.serviceName);
+
   const provider = new NodeTracerProvider({
     resource: new Resource({
       [SemanticResourceAttributes.SERVICE_NAME]: configs.serviceName

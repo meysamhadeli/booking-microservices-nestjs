@@ -30,7 +30,7 @@ async function bootstrap() {
 
     app.useGlobalPipes(new ValidationPipe({ transform: true }));
 
-    app.use((req: Request, res: Response, next: any) => {req.url === '/' ? res.send(configs.serviceName) : next();});
+    app.use((req: Request, res: Response, next: any) => {req.url === '/' || '/favicon.ico' ? res.send(configs.serviceName) : next();});
 
     PrometheusMetrics.registerMetricsEndpoint(app);
 

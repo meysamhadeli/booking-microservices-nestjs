@@ -26,7 +26,6 @@ const jaegerExporter = new exporter_jaeger_1.JaegerExporter({
 });
 exports.otelSDK = initializeOpenTelemetrySDK();
 function initializeOpenTelemetrySDK() {
-    console.log(configs_1.default.serviceName);
     const provider = new sdk_trace_node_1.NodeTracerProvider({
         resource: new resources_1.Resource({
             [semantic_conventions_1.SemanticResourceAttributes.SERVICE_NAME]: configs_1.default.serviceName
