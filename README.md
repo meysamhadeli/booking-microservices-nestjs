@@ -22,7 +22,11 @@
 - [Structure of Project](#structure-of-project)
 - [How to Use Migrations](#how-to-use-migrations)
 - [How to Run](#how-to-run)
-    - [Docker Compose](#docker-compose)
+  - [Docker-Compose](#docker-compose)
+  - [Build](#build)
+  - [Run](#run)
+  - [Test](#test)
+- [Documentation Apis](#documentation-apis)
 - [Support](#support)
 - [Contribution](#contribution)
 
@@ -154,11 +158,10 @@ npm run migration:run
 
 ## How to Run
 
-> ### Docker
 
-#### Docker Compose
+> ### Docker Compose
 
-Run our infrastructure with docker using the [infrastructure.yaml](./deployments/docker-compose/infrastructure.yaml) file with the below command at the root of app:
+Run our `infrastructure` with `docker` using the [infrastructure.yaml](./deployments/docker-compose/infrastructure.yaml) file with the below command at the `root` of app:
 
 ```bash
 docker-compose -f ./deployments/docker-compose/infrastructure.yaml up -d
@@ -166,10 +169,31 @@ docker-compose -f ./deployments/docker-compose/infrastructure.yaml up -d
 ##### Todo
 I will add `docker-compsoe` for up and running whole app here in the next...
 
-### Documentation Apis
+> ### Build
+For `building` each microservice, Run this command in root of each microservice where `package.json` located:
+```bash
+npm run build
+```
 
-Each microservice uses swagger open api, navigate to /swagger for a list of every endpoint.
-For testing apis I used the [REST Client](https://github.com/Huachao/vscode-restclient) plugin for VS Code running this file [booking.rest](./booking.rest).
+> ### Run
+For `runing` each microservice, Run this command in root of each microservice where `package.json` located:
+```bash
+npm run dev
+```
+
+> ### Test
+
+For `testing` each microservice, Run this command in root of each microservice where `package.json` located:
+```bash
+npm test
+```
+
+
+> ### Documentation Apis
+
+Each microservice uses swagger open api, navigate to `/swagger` for getting the list endpoints.
+
+Also, to test apis, I created the [booking.rest](./booking.rest) file. This file run with [REST Client](https://github.com/Huachao/vscode-restclient) `VSCode plugin`.
 
 # Support
 
