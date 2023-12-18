@@ -11,7 +11,7 @@ import {CreateBookingController, CreateBookingHandler} from "./features/v1/creat
 
 
 @Module({
-    imports: [CqrsModule, RabbitmqModule, TypeOrmModule.forFeature([Booking])],
+    imports: [CqrsModule, RabbitmqModule.forRoot(), TypeOrmModule.forFeature([Booking])],
     controllers: [CreateBookingController],
     providers: [ CreateBookingHandler,
         {

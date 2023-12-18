@@ -1,5 +1,5 @@
 import { Injectable, Logger, OnModuleInit } from '@nestjs/common';
-import { RabbitmqConnection } from './rabbitmq-connection';
+import {IRabbitmqConnection, RabbitmqConnection} from './rabbitmq-connection';
 import { getTypeName } from '../utils/reflection';
 import { snakeCase } from 'lodash';
 import { deserializeObject } from '../utils/serilization';

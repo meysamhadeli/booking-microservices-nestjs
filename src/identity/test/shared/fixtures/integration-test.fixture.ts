@@ -51,7 +51,7 @@ export class IntegrationTestFixture {
           secret: configs.jwt.secret,
           signOptions: {expiresIn: configs.jwt.refreshExpirationDays},
         }),
-        OpenTelemetryModule,
+        OpenTelemetryModule.forRoot(),
         TypeOrmModule.forRoot(postgresOptions),
         UserModule,
         AuthModule,

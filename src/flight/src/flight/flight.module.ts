@@ -14,7 +14,7 @@ import {GetFlightByIdController, GetFlightByIdHandler} from "./features/v1/get-f
 import {RabbitmqModule} from "building-blocks/rabbitmq/rabbitmq.module";
 
 @Module({
-    imports: [CqrsModule, RabbitmqModule, TypeOrmModule.forFeature([Flight, Aircraft, Airport, Seat])],
+    imports: [CqrsModule, RabbitmqModule.forRoot(), TypeOrmModule.forFeature([Flight, Aircraft, Airport, Seat])],
     controllers: [CreateFlightController, GetFlightByIdController],
     providers: [
         CreateFlightHandler, GetFlightByIdHandler,

@@ -14,7 +14,7 @@ import {ReserveSeatController, ReserveSeatHandler} from "./features/v1/reserve-s
 import {RabbitmqModule} from "building-blocks/rabbitmq/rabbitmq.module";
 
 @Module({
-    imports: [CqrsModule, RabbitmqModule, TypeOrmModule.forFeature([Seat, Flight])],
+    imports: [CqrsModule, RabbitmqModule.forRoot(), TypeOrmModule.forFeature([Seat, Flight])],
     controllers: [CreateSeatController, GetAvailableSeatsController, ReserveSeatController],
     providers: [
         CreateSeatHandler, GetAvailableSeatsHandler, ReserveSeatHandler,

@@ -1,17 +1,24 @@
-import { Injectable, Logger, OnModuleInit } from '@nestjs/common';
+import { Injectable, Inject, Logger, OnModuleInit } from '@nestjs/common';
 import * as amqp from 'amqplib';
 import configs from '../configs/configs';
 import asyncRetry from 'async-retry';
 
-export interface RabbitmqOptions {
-  host: string,
-  port: number,
-  username: string,
-  password: string,
-  exchange: string;
+export class RabbitmqOptions {
+  host: string;
+  port: number;
+  password: string;
+  username: string;
+  constructor(partial?: Partial<RabbitmqOptions>) {
+    Object.assign(this, partial);
+  }
 }
 
+let connection: amqp.Connection = null;
+let channel: amqp.Channel = null;
+
 export interface IRabbitmqConnection {
+  createConnection(options?: RabbitmqOptions): Promise<amqp.Connection>;
+
   getChannel(): Promise<amqp.Channel>;
 
   closeChanel(): Promise<void>;
@@ -21,23 +28,56 @@ export interface IRabbitmqConnection {
 
 @Injectable()
 export class RabbitmqConnection implements OnModuleInit, IRabbitmqConnection {
-  private connection: amqp.Connection = null;
-  private channel: amqp.Channel = null;
+
+  constructor(@Inject(RabbitmqOptions) private readonly options?: RabbitmqOptions) {}
 
   async onModuleInit(): Promise<void> {
-    await this.initializeConnection();
+    await this.createConnection(this.options);
   }
 
-  async getChannel(): Promise<amqp.Channel> {
-    try {
-      if (!this.connection) {
-        await this.initializeConnection();
-      }
+  async createConnection(options?: RabbitmqOptions): Promise<amqp.Connection> {
+    if (!connection || !connection == undefined) {
+      try {
 
-      if ((this.connection && !this.channel) || !this.channel) {
+        const host = options?.host ?? configs.rabbitmq.host;
+        const port = options?.port ?? configs.rabbitmq.port;
+
         await asyncRetry(
           async () => {
-            this.channel = await this.connection.createChannel();
+            connection = await amqp.connect(`amqp://${host}:${port}`, {
+              username: options?.username ?? configs.rabbitmq.username,
+              password: options?.password ?? configs.rabbitmq.password
+            });
+          },
+          {
+            retries: configs.retry.count,
+            factor: configs.retry.factor,
+            minTimeout: configs.retry.minTimeout,
+            maxTimeout: configs.retry.maxTimeout
+          }
+        );
+
+        connection.on('error', async (error): Promise<void> => {
+          Logger.error(`Error occurred on connection: ${error}`);
+          await this.closeConnection();
+          await this.createConnection();
+        });
+      } catch (error) {
+        throw new Error('Rabbitmq connection is failed!');
+      }
+    }
+    return connection;
+  }
+  async getChannel(): Promise<amqp.Channel> {
+    try {
+      if (!connection) {
+        throw new Error('Rabbitmq connection is failed!');
+      }
+
+      if ((connection && !channel) || !channel) {
+        await asyncRetry(
+          async () => {
+            channel = await connection.createChannel();
             Logger.log('Channel Created successfully');
           },
           {
@@ -49,13 +89,13 @@ export class RabbitmqConnection implements OnModuleInit, IRabbitmqConnection {
         );
       }
 
-      this.channel.on("error", async (error): Promise<void> => {
-        Logger.error(`Error occurred on channel rabbitmq: ${error}`);
+      channel.on('error', async (error): Promise<void> => {
+        Logger.error(`Error occurred on channel: ${error}`);
         await this.closeChanel();
         await this.getChannel();
       });
 
-      return this.channel;
+      return channel;
     } catch (error) {
       Logger.error('Failed to get channel!');
     }
@@ -63,8 +103,8 @@ export class RabbitmqConnection implements OnModuleInit, IRabbitmqConnection {
 
   async closeChanel(): Promise<void> {
     try {
-      if (this.channel) {
-        await this.channel.close();
+      if (channel) {
+        await channel.close();
         Logger.log('Channel closed successfully');
       }
     } catch (error) {
@@ -74,48 +114,12 @@ export class RabbitmqConnection implements OnModuleInit, IRabbitmqConnection {
 
   async closeConnection(): Promise<void> {
     try {
-      if (this.connection) {
-        await this.connection.close();
+      if (connection) {
+        await connection.close();
         Logger.log('Connection closed successfully');
       }
     } catch (error) {
       Logger.error('Connection close failed!');
-    }
-  }
-
-
-  private async initializeConnection(): Promise<void> {
-
-    try {
-      if (!this.connection || this.connection == undefined) {
-        await asyncRetry(
-          async () => {
-            this.connection = await amqp.connect(
-              `amqp://${configs.rabbitmq.host}:${configs.rabbitmq.port}`,
-              {
-                username: configs.rabbitmq.username,
-                password: configs.rabbitmq.password
-              }
-            );
-
-            Logger.log('RabbitMq connection created successfully');
-          },
-          {
-            retries: configs.retry.count,
-            factor: configs.retry.factor,
-            minTimeout: configs.retry.minTimeout,
-            maxTimeout: configs.retry.maxTimeout
-          }
-        );
-
-        this.connection.on("error", async (error): Promise<void> => {
-          Logger.error(`Error occurred on connection rabbitmq: ${error}`);
-          await this.closeConnection();
-          await this.initializeConnection();
-        });
-      }
-    } catch (error) {
-      throw new Error('Rabbitmq connection failed!');
     }
   }
 }

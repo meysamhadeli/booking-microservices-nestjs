@@ -11,9 +11,10 @@ import {ValidateTokenHandler} from "./features/v1/validateToken/validate-token";
 import {User} from "../user/entities/user.entity";
 import {UserRepository} from "../data/repositories/user.repository";
 import {RabbitmqModule} from "building-blocks/rabbitmq/rabbitmq.module";
+import {RabbitmqOptions} from "building-blocks/rabbitmq/rabbitmq-connection";
 
 @Module({
-    imports: [CqrsModule, RabbitmqModule, TypeOrmModule.forFeature([Token, User])],
+    imports: [CqrsModule, RabbitmqModule.forRoot(), TypeOrmModule.forFeature([Token, User])],
     controllers: [LoginController, LogoutController, RefreshTokenController],
     providers: [LoginHandler, GenerateTokenHandler, LogoutHandler, RefreshTokenHandler, ValidateTokenHandler,
         {

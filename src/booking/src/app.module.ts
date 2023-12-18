@@ -17,7 +17,7 @@ import {HttpContextMiddleware} from "building-blocks/context/context";
             secret: configs.jwt.secret,
             signOptions: {expiresIn: configs.jwt.refreshExpirationDays},
         }),
-        OpenTelemetryModule,
+        OpenTelemetryModule.forRoot(),
         TypeOrmModule.forRoot(postgresOptions),
         BookingModule,
         RouterModule.register([

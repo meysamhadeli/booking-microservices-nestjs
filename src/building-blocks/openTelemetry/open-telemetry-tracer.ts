@@ -1,4 +1,4 @@
-import { OnModuleInit } from '@nestjs/common';
+import {Inject, Injectable, OnModuleInit} from '@nestjs/common';
 import { BatchSpanProcessor, NodeTracerProvider } from '@opentelemetry/sdk-trace-node';
 import { ZipkinExporter } from '@opentelemetry/exporter-zipkin';
 import { AmqplibInstrumentation } from '@opentelemetry/instrumentation-amqplib';
@@ -13,13 +13,29 @@ import { JaegerExporter } from '@opentelemetry/exporter-jaeger';
 import { trace, Tracer } from '@opentelemetry/api';
 import configs from '../configs/configs';
 
+export class OpenTelemetryOptions {
+  jaegerEndpoint: string;
+  zipkinEndpoint: string;
+  serviceName: string;
+
+  constructor(partial?: Partial<OpenTelemetryOptions>) {
+    Object.assign(this, partial);
+  }
+}
+
+let openTelemetryOptions: OpenTelemetryOptions;
+
+export interface IOpenTelemetryTracer {
+  createTracer(tracerName: string): Tracer;
+}
+
 const zipkinExporter = new ZipkinExporter({
-  url: configs.monitoring.zipkinEndpoint,
-  serviceName: configs.serviceName
+  url: openTelemetryOptions?.zipkinEndpoint ?? configs.monitoring.zipkinEndpoint,
+  serviceName: openTelemetryOptions?.serviceName ?? configs.serviceName
 });
 
 const jaegerExporter = new JaegerExporter({
-  endpoint: configs.monitoring.jaegerEndpoint
+  endpoint: openTelemetryOptions?.jaegerEndpoint ?? configs.monitoring.jaegerEndpoint
 });
 
 export const otelSDK = initializeOpenTelemetrySDK();
@@ -28,7 +44,7 @@ function initializeOpenTelemetrySDK() {
 
   const provider = new NodeTracerProvider({
     resource: new Resource({
-      [SemanticResourceAttributes.SERVICE_NAME]: configs.serviceName
+      [SemanticResourceAttributes.SERVICE_NAME]: openTelemetryOptions?.serviceName ?? configs.serviceName
     })
   });
 
@@ -50,7 +66,12 @@ function initializeOpenTelemetrySDK() {
   });
 }
 
-export class OpenTelemetryTracer implements OnModuleInit {
+@Injectable()
+export class OpenTelemetryTracer implements IOpenTelemetryTracer, OnModuleInit {
+  constructor(@Inject(OpenTelemetryOptions) private readonly options?: OpenTelemetryOptions) {
+    openTelemetryOptions = options;
+  }
+
   onModuleInit(): void {
     otelSDK.start();
   }
@@ -60,3 +81,4 @@ export class OpenTelemetryTracer implements OnModuleInit {
     return tracer;
   }
 }
+

@@ -1,23 +1,24 @@
 import { OnModuleInit } from '@nestjs/common';
 import * as amqp from 'amqplib';
-export interface RabbitmqOptions {
+export declare class RabbitmqOptions {
     host: string;
     port: number;
-    username: string;
     password: string;
-    exchange: string;
+    username: string;
+    constructor(partial?: Partial<RabbitmqOptions>);
 }
 export interface IRabbitmqConnection {
+    createConnection(options?: RabbitmqOptions): Promise<amqp.Connection>;
     getChannel(): Promise<amqp.Channel>;
     closeChanel(): Promise<void>;
     closeConnection(): Promise<void>;
 }
 export declare class RabbitmqConnection implements OnModuleInit, IRabbitmqConnection {
-    private connection;
-    private channel;
+    private readonly options?;
+    constructor(options?: RabbitmqOptions);
     onModuleInit(): Promise<void>;
+    createConnection(options?: RabbitmqOptions): Promise<amqp.Connection>;
     getChannel(): Promise<amqp.Channel>;
     closeChanel(): Promise<void>;
     closeConnection(): Promise<void>;
-    private initializeConnection;
 }

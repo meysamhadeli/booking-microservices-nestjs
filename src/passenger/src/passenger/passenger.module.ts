@@ -16,7 +16,7 @@ import {IRabbitmqConsumer} from "building-blocks/rabbitmq/rabbitmq-subscriber";
 
 
 @Module({
-    imports: [CqrsModule, RabbitmqModule, TypeOrmModule.forFeature([Passenger])],
+    imports: [CqrsModule, RabbitmqModule.forRoot(), TypeOrmModule.forFeature([Passenger])],
     controllers: [GetPassengerByIdController, GetPassengersController],
     providers: [GetPassengerByIdHandler, GetPassengersHandler,
         {

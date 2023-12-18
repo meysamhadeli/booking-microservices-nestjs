@@ -10,6 +10,8 @@ import {Request, Response} from "express";
 async function bootstrap() {
     const app = await NestFactory.create(AppModule);
 
+    app.enableShutdownHooks();
+
     const globalPrefix = 'api';
     app.setGlobalPrefix(globalPrefix);
     const port = configs.port || 3344;
@@ -29,7 +31,12 @@ async function bootstrap() {
 
     app.useGlobalPipes(new ValidationPipe({ transform: true }));
 
-    app.use((req: Request, res: Response, next: any) => {req.url === '/' || '/favicon.ico' ? res.send(configs.serviceName) : next();});
+    app.use((req: Request, res: Response, next: any) => {
+        if (req.originalUrl == '/' || req.originalUrl.includes('favicon.ico')) {
+            return res.send(configs.serviceName);
+        }
+        return next();
+    });
 
     PrometheusMetrics.registerMetricsEndpoint(app);
 

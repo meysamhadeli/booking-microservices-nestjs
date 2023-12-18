@@ -7,7 +7,7 @@ import {CreateAirportController, CreateAirportHandler} from "./features/v1/creat
 import {RabbitmqModule} from "building-blocks/rabbitmq/rabbitmq.module";
 
 @Module({
-    imports: [CqrsModule, RabbitmqModule, TypeOrmModule.forFeature([Airport])],
+    imports: [CqrsModule, RabbitmqModule.forRoot(), TypeOrmModule.forFeature([Airport])],
     controllers: [CreateAirportController],
     providers: [
         CreateAirportHandler,
