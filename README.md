@@ -191,6 +191,7 @@ npm test
 > ### Documentation Apis
 
 Each microservice has a `Swagger OpenAPI`. Browse to `/swagger` for a list of endpoints.
+
 As part of API testing, I created the [booking.rest](./booking.rest) file which can be run with the [REST Client](https://github.com/Huachao/vscode-restclient) `VSCode plugin`.
 
 # Support
