@@ -1,5 +1,4 @@
 import Joi from 'joi';
-import mapper from '../../../mappings';
 import { ISeatRepository } from '../../../../data/repositories/seatRepository';
 import {ApiBearerAuth, ApiResponse, ApiTags} from "@nestjs/swagger";
 import {Controller, Get, Inject, Post, Query, UseGuards} from "@nestjs/common";
@@ -8,6 +7,7 @@ import {SeatDto} from "../../../dtos/seat.dto";
 import {Seat} from "../../../entities/seat.entity";
 import {JwtGuard} from "building-blocks/passport/jwt.guard";
 import {IRabbitmqPublisher} from "building-blocks/rabbitmq/rabbitmq-publisher";
+import mapper from "../../../mappings";
 
 export class GetAvailableSeats {
   flightId: number;

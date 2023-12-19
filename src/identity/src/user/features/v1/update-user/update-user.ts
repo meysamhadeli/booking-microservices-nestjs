@@ -1,5 +1,3 @@
-import {UserDto} from '../../../dtos/user.dto';
-import mapper from '../../../mapping';
 import Joi from 'joi';
 import {Role} from "../../../enums/role.enum";
 import {ApiBearerAuth, ApiProperty, ApiResponse, ApiTags} from "@nestjs/swagger";
@@ -11,7 +9,6 @@ import {
     NotFoundException,
     Param,
     Put,
-    Query,
     Res,
     UseGuards
 } from "@nestjs/common";

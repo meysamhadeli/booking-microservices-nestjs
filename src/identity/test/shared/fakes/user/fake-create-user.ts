@@ -1,7 +1,7 @@
 import { faker } from '@faker-js/faker';
 import {User} from "../../../../src/user/entities/user.entity";
 import {Role} from "../../../../src/user/enums/role.enum";
-import {CreateUser} from "../../../../src/user/features/v1/createUser/create-user";
+import {CreateUser} from "../../../../src/user/features/v1/create-user/create-user";
 
 export class FakeCreateUser {
   static generate(user?: User): CreateUser {

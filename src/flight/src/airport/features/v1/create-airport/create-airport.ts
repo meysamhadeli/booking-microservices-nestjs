@@ -1,6 +1,5 @@
 import Joi from 'joi';
 import {IAirportRepository} from '../../../../data/repositories/airportRepository';
-import mapper from '../../../../aircraft/mappings';
 import {ApiBearerAuth, ApiProperty, ApiResponse, ApiTags} from "@nestjs/swagger";
 import {Body, ConflictException, Controller, HttpStatus, Inject, Post, Res, UseGuards} from "@nestjs/common";
 import {CommandBus, CommandHandler, ICommandHandler} from "@nestjs/cqrs";
@@ -10,6 +9,7 @@ import {Airport} from "../../../entities/airport.entity";
 import {JwtGuard} from "building-blocks/passport/jwt.guard";
 import {IRabbitmqPublisher} from "building-blocks/rabbitmq/rabbitmq-publisher";
 import {AirportCreated} from "building-blocks/contracts/flight.contract";
+import mapper from "../../../mappings";
 
 export class CreateAirport {
     code: string;

@@ -1,6 +1,5 @@
 import Joi from 'joi';
 import {IAircraftRepository} from '../../../../data/repositories/aircraftRepository';
-import mapper from '../../../mappings';
 import {ApiBearerAuth, ApiProperty, ApiResponse, ApiTags} from "@nestjs/swagger";
 import {Body, ConflictException, Controller, HttpStatus, Inject, Post, Res, UseGuards} from "@nestjs/common";
 import {AircraftDto} from "../../../dtos/aircraft.dto";
@@ -10,6 +9,7 @@ import {Aircraft} from "../../../entities/aircraft.entity";
 import {JwtGuard} from "building-blocks/passport/jwt.guard";
 import {IRabbitmqPublisher} from "building-blocks/rabbitmq/rabbitmq-publisher";
 import {AircraftCreated} from "building-blocks/contracts/flight.contract";
+import mapper from "../../../mappings";
 
 export class CreateAircraft {
     model: string;

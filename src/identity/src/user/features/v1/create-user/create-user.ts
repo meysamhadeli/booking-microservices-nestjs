@@ -1,5 +1,4 @@
 import {UserDto} from '../../../dtos/user.dto';
-import mapper from '../../../mapping';
 import {Role} from "../../../enums/role.enum";
 import {ApiBearerAuth, ApiProperty, ApiResponse, ApiTags} from "@nestjs/swagger";
 import {Body, ConflictException, Controller, HttpStatus, Inject, Post, Res, UseGuards} from "@nestjs/common";
@@ -13,6 +12,7 @@ import {IRabbitmqPublisher} from "building-blocks/rabbitmq/rabbitmq-publisher";
 import {password} from "building-blocks/utils/validation";
 import {UserCreated} from "building-blocks/contracts/identity.contract";
 import {encryptPassword} from "building-blocks/utils/encryption";
+import mapper from "../../../mapping";
 
 export class CreateUser {
     email: string;

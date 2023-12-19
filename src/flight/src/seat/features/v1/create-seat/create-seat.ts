@@ -1,5 +1,4 @@
 import Joi from 'joi';
-import mapper from '../../../../aircraft/mappings';
 import {ISeatRepository} from '../../../../data/repositories/seatRepository';
 import {IFlightRepository} from '../../../../data/repositories/flightRepository';
 import {ApiBearerAuth, ApiProperty, ApiResponse, ApiTags} from "@nestjs/swagger";
@@ -13,6 +12,7 @@ import {Seat} from "../../../entities/seat.entity";
 import {JwtGuard} from "building-blocks/passport/jwt.guard";
 import {IRabbitmqPublisher} from "building-blocks/rabbitmq/rabbitmq-publisher";
 import {SeatCreated} from "building-blocks/contracts/flight.contract";
+import mapper from "../../../mappings";
 
 export class CreateSeat {
     seatNumber: string;

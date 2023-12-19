@@ -1,6 +1,5 @@
 import {UserDto} from '../../../dtos/user.dto';
 import Joi from 'joi';
-import mapper from '../../../mapping';
 import {ApiBearerAuth, ApiResponse, ApiTags} from "@nestjs/swagger";
 import {CommandBus, CommandHandler, ICommandHandler} from "@nestjs/cqrs";
 import {Controller, Delete, HttpStatus, Inject, NotFoundException, Query, Res, UseGuards} from "@nestjs/common";
@@ -10,6 +9,7 @@ import {User} from "../../../entities/user.entity";
 import {JwtGuard} from "building-blocks/passport/jwt.guard";
 import {IRabbitmqPublisher} from "building-blocks/rabbitmq/rabbitmq-publisher";
 import {UserDeleted} from "building-blocks/contracts/identity.contract";
+import mapper from "../../../mapping";
 
 export class DeleteUserById {
     id: number;

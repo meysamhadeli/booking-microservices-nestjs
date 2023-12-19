@@ -7,7 +7,7 @@ import {IUserRepository} from "../../../../src/data/repositories/user.repository
 import {UserDto} from "../../../../src/user/dtos/user.dto";
 import {FakeCreateUser} from "../../../shared/fakes/user/fake-create-user";
 import {IRabbitmqPublisher} from "building-blocks/rabbitmq/rabbitmq-publisher";
-import {CreateUserHandler} from "../../../../src/user/features/v1/createUser/create-user";
+import {CreateUserHandler} from "../../../../src/user/features/v1/create-user/create-user";
 
 describe('unit test for create user', () => {
   let createUserHandler: CreateUserHandler;
