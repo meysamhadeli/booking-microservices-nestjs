@@ -11,6 +11,7 @@ exports.OpenTelemetryModule = void 0;
 const common_1 = require("@nestjs/common");
 const open_telemetry_tracer_1 = require("./open-telemetry-tracer");
 let OpenTelemetryModule = OpenTelemetryModule_1 = class OpenTelemetryModule {
+    async onApplicationShutdown(signal) { }
     static forRoot(options) {
         return {
             module: OpenTelemetryModule_1,
@@ -22,8 +23,11 @@ exports.OpenTelemetryModule = OpenTelemetryModule;
 exports.OpenTelemetryModule = OpenTelemetryModule = OpenTelemetryModule_1 = __decorate([
     (0, common_1.Global)(),
     (0, common_1.Module)({
-        providers: [open_telemetry_tracer_1.OpenTelemetryTracer],
-        exports: [open_telemetry_tracer_1.OpenTelemetryTracer]
+        providers: [{
+                provide: 'IOpenTelemetryTracer',
+                useClass: open_telemetry_tracer_1.OpenTelemetryTracer
+            }],
+        exports: ['IOpenTelemetryTracer']
     })
 ], OpenTelemetryModule);
 //# sourceMappingURL=open-telemetry.module.js.map

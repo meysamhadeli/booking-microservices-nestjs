@@ -1,5 +1,5 @@
 import { RabbitmqConnection } from './rabbitmq-connection';
-import { OpenTelemetryTracer } from '../openTelemetry/open-telemetry-tracer';
+import { IOpenTelemetryTracer } from '../openTelemetry/open-telemetry-tracer';
 export interface IRabbitmqPublisher {
     publishMessage<T>(message: T): Promise<void>;
     isPublished<T>(message: T): Promise<boolean>;
@@ -7,7 +7,7 @@ export interface IRabbitmqPublisher {
 export declare class RabbitmqPublisher implements IRabbitmqPublisher {
     private readonly rabbitMQConnection;
     private readonly openTelemetryTracer;
-    constructor(rabbitMQConnection: RabbitmqConnection, openTelemetryTracer: OpenTelemetryTracer);
+    constructor(rabbitMQConnection: RabbitmqConnection, openTelemetryTracer: IOpenTelemetryTracer);
     publishMessage<T>(message: T): Promise<void>;
     isPublished<T>(message: T): Promise<boolean>;
 }

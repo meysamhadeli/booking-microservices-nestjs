@@ -116,10 +116,10 @@ export class RabbitmqConnection implements OnModuleInit, IRabbitmqConnection {
     try {
       if (connection) {
         await connection.close();
-        Logger.log('Connection closed successfully');
+        Logger.log('Connection Rabbitmq closed gracefully');
       }
     } catch (error) {
-      Logger.error('Connection close failed!');
+      Logger.error('Connection Rabbitmq close failed!');
     }
   }
 }

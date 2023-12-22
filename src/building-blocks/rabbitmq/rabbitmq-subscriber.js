@@ -8,6 +8,9 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+var __param = (this && this.__param) || function (paramIndex, decorator) {
+    return function (target, key) { decorator(target, key, paramIndex); }
+};
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
@@ -18,7 +21,6 @@ const rabbitmq_connection_1 = require("./rabbitmq-connection");
 const reflection_1 = require("../utils/reflection");
 const lodash_1 = require("lodash");
 const serilization_1 = require("../utils/serilization");
-const open_telemetry_tracer_1 = require("../openTelemetry/open-telemetry-tracer");
 const time_1 = require("../utils/time");
 const configs_1 = __importDefault(require("../configs/configs"));
 const async_retry_1 = __importDefault(require("async-retry"));
@@ -32,7 +34,7 @@ let RabbitmqConsumer = class RabbitmqConsumer {
         try {
             await (0, async_retry_1.default)(async () => {
                 const channel = await this.rabbitMQConnection.getChannel();
-                const tracer = await this.openTelemetryTracer.createTracer('rabbitmq_subscriber_tracer');
+                const tracer = await this.openTelemetryTracer.createTracer({ serviceName: 'rabbitmq_subscriber_tracer' });
                 const exchangeName = (0, lodash_1.snakeCase)((0, reflection_1.getTypeName)(type));
                 await channel.assertExchange(exchangeName, 'fanout', {
                     durable: false
@@ -88,7 +90,7 @@ let RabbitmqConsumer = class RabbitmqConsumer {
 exports.RabbitmqConsumer = RabbitmqConsumer;
 exports.RabbitmqConsumer = RabbitmqConsumer = __decorate([
     (0, common_1.Injectable)(),
-    __metadata("design:paramtypes", [rabbitmq_connection_1.RabbitmqConnection,
-        open_telemetry_tracer_1.OpenTelemetryTracer])
+    __param(1, (0, common_1.Inject)('IOpenTelemetryTracer')),
+    __metadata("design:paramtypes", [rabbitmq_connection_1.RabbitmqConnection, Object])
 ], RabbitmqConsumer);
 //# sourceMappingURL=rabbitmq-subscriber.js.map

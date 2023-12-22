@@ -130,11 +130,11 @@ let RabbitmqConnection = class RabbitmqConnection {
         try {
             if (connection) {
                 await connection.close();
-                common_1.Logger.log('Connection closed successfully');
+                common_1.Logger.log('Connection Rabbitmq closed gracefully');
             }
         }
         catch (error) {
-            common_1.Logger.error('Connection close failed!');
+            common_1.Logger.error('Connection Rabbitmq close failed!');
         }
     }
 };

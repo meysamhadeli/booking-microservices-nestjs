@@ -1,11 +1,17 @@
-import {DynamicModule, Global, Module} from '@nestjs/common';
-import {OpenTelemetryOptions, OpenTelemetryTracer} from './open-telemetry-tracer';
+import {DynamicModule, Global, Module, OnApplicationShutdown} from '@nestjs/common';
+import { OpenTelemetryOptions, OpenTelemetryTracer} from './open-telemetry-tracer';
 @Global()
 @Module({
-  providers: [OpenTelemetryTracer],
-  exports: [OpenTelemetryTracer]
+  providers: [     {
+    provide: 'IOpenTelemetryTracer',
+    useClass: OpenTelemetryTracer
+  }],
+  exports: ['IOpenTelemetryTracer']
 })
-export class OpenTelemetryModule {
+export class OpenTelemetryModule implements OnApplicationShutdown {
+
+  async onApplicationShutdown(signal?: string) {}
+
   static forRoot(options?: OpenTelemetryOptions): DynamicModule {
     return {
       module: OpenTelemetryModule,
