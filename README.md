@@ -96,6 +96,7 @@ High-level plan is represented in the table
 - ✔️ **[`eslint/eslint`](https://github.com/eslint/eslint)** - ESLint is a tool for identifying and reporting on patterns found in ECMAScript/JavaScript code
 - ✔️ **[`prettier/prettier`](https://github.com/prettier/prettier)** - Opinionated Code Formatter
 - ✔️ **[`vercel/async-retry`](https://github.com/vercel/async-retry)** - Retrying made simple, easy, and async
+- ✔️ **[`MarluanEspiritusanto/ts-mapper`](https://github.com/MarluanEspiritusanto/ts-mapper)** - A mapper for mapping one object to another
 
 ## The Domain And Bounded Context - Service Boundary
 
