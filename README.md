@@ -162,13 +162,12 @@ npm run migration:run
 
 > ### Docker Compose
 
-Use the command below to run our `infrastructure` with `docker` using the [infrastructure.yaml](./deployments/docker-compose/infrastructure.yaml) file at the `root` of the app:
+Use the commands below to run both `infrastructure` and `services` with `docker` using the `compose.taml` files located in the [associated directory](./deployments/docker-compose/) :
 
 ```bash
-docker-compose -f ./deployments/docker-compose/infrastructure.yaml up -d
+docker-compose -f ./deployments/docker-compose/compose.infrastructure.yaml up -d
+docker-compose -f ./deployments/docker-compose/compose.services.yaml up -d
 ```
-##### Todo
-I will add `docker-compsoe` for up and running whole app here in the next...
 
 > ### Build
 To `build` each microservice, run this command in the root directory of each microservice where the `package.json` file is located:
