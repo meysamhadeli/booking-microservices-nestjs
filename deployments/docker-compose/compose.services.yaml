@@ -1,0 +1,83 @@
+version: "3.3"
+services:
+
+  #######################################################
+  #  Identities
+  #######################################################
+  identity:
+    container_name: bmn-identity
+    build:
+      context: ../../
+      dockerfile: ./src/Dockerfile
+      args:
+        TARGET: identity
+    restart: unless-stopped
+    ports:
+      - 3333:3333
+    environment:
+      # Used to select which .env file should be used
+      - NODE_ENV=devdocker
+    networks:
+      - booking
+
+  #######################################################
+  #  Passengers
+  #######################################################
+  passenger:
+    container_name: bmn-passenger
+    build:
+      context: ../../
+      dockerfile: ./src/Dockerfile
+      args:
+        TARGET: passenger
+    restart: unless-stopped
+    ports:
+      - 3355:3355
+    environment:
+      # Used to select which .env file should be used
+      - NODE_ENV=devdocker
+    networks:
+      - booking
+
+  #######################################################
+  # Flights
+  #######################################################
+  flight:
+    container_name: bmn-flight
+    build:
+      context: ../../
+      dockerfile: ./src/Dockerfile
+      args:
+        TARGET: flight
+    restart: unless-stopped
+    ports:
+      - 3344:3344
+    environment:
+      # Used to select which .env file should be used
+      - NODE_ENV=devdocker
+    networks:
+      - booking
+
+  #######################################################
+  # Bookings
+  #######################################################
+  booking:
+    container_name: bmn-booking
+    build:
+      context: ../../
+      dockerfile: ./src/Dockerfile
+      args:
+        TARGET: booking
+    restart: unless-stopped
+    ports:
+      - 3366:3366
+    environment:
+      # Used to select which .env file should be used
+      - NODE_ENV=devdocker
+    networks:
+      - booking
+
+networks:
+  booking:
+    name: bmn_network
+    external: true
