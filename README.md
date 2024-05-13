@@ -8,7 +8,7 @@
            
 > **A practical and imaginary microservices for implementing an infrastructure for up and running distributed system with the latest technology and architecture like Vertical Slice Architecture, Event Driven Architecture, CQRS, Postgres, RabbitMq and Nestjs.** 🚀
 
-> 💡 **This project not business oriented and most of my focus was in the thechnical part for implement a distributed system with a sample project. In this project I implemented some concept in microservices like Messaging, tracing, Event Driven Architecture, vertical Slice Architecture, CQRS and DDD.**
+> 💡 **This project not business oriented and most of my focus was in the thechnical part for implement a distributed system with a sample project. In this project I implemented some concept in microservices like Messaging, Tracing, Event Driven Architecture, Vertical Slice Architecture, CQRS and DDD.**
 
 **You can find `Expressjs` ported of this project in this link:**
 🔗 [booking-microservices-expressjs](https://github.com/meysamhadeli/booking-microservices-expressjs)
