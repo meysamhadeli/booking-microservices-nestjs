@@ -35,7 +35,7 @@ const envVarsSchema = Joi.object()
         POSTGRES_PASSWORD: Joi.string()
             .default('postgres')
             .description('Postgres password'),
-        POSTGRES_Database: Joi.string()
+        POSTGRES_DATABASE: Joi.string()
             .default('default_database')
             .description('Postgres database name'),
         POSTGRES_SYNCHRONIZE: Joi.boolean()
@@ -52,7 +52,7 @@ const envVarsSchema = Joi.object()
       POSTGRES_MIGRATIONS_RUN: Joi.boolean()
         .default(false)
         .description('Run migrations after running project'),
-      RABBITMQ_Host: Joi.string()
+      RABBITMQ_HOST: Joi.string()
             .default('localhost')
             .description('Rabbitmq host'),
         RABBITMQ_PORT: Joi.number().default(5672).description('Rabbitmq port'),
@@ -95,7 +95,7 @@ export default {
     serviceName: envVars.SERVICE_NAME,
     port: envVars.PORT,
     rabbitmq: {
-        host: envVars.RABBITMQ_Host,
+        host: envVars.RABBITMQ_HOST,
         port: envVars.RABBITMQ_PORT,
         username: envVars.RABBITMQ_USERNAME,
         password: envVars.RABBITMQ_PASSWORD,
@@ -106,7 +106,7 @@ export default {
         port: envVars.POSTGRES_PORT,
         username: envVars.POSTGRES_USERNAME,
         password: envVars.POSTGRES_PASSWORD,
-        database: envVars.POSTGRES_Database,
+        database: envVars.POSTGRES_DATABASE,
         synchronize: envVars.POSTGRES_SYNCHRONIZE,
         autoLoadEntities: envVars.POSTGRES_AUTO_LOAD_ENTITIES,
         entities: envVars.POSTGRES_ENTITIES,
