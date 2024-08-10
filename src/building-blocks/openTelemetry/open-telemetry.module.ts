@@ -6,7 +6,7 @@ import { OpenTelemetryOptions, OpenTelemetryTracer} from './open-telemetry-trace
     provide: 'IOpenTelemetryTracer',
     useClass: OpenTelemetryTracer
   }],
-  exports: ['IOpenTelemetryTracer']
+  exports: ['IOpenTelemetryTracer', OpenTelemetryOptions]
 })
 export class OpenTelemetryModule implements OnApplicationShutdown {
 
