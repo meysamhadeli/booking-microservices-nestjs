@@ -1,7 +1,7 @@
-import { Repository, SelectQueryBuilder } from "typeorm";
-import { User } from "../../user/entities/user.entity";
-import { InjectRepository } from "@nestjs/typeorm";
-import {Injectable} from "@nestjs/common";
+import { Repository, SelectQueryBuilder } from 'typeorm';
+import { User } from '../../user/entities/user.entity';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Injectable } from '@nestjs/common';
 
 export interface IUserRepository {
   createUser(user: User): Promise<User>;
@@ -12,7 +12,7 @@ export interface IUserRepository {
     page: number,
     pageSize: number,
     orderBy: string,
-    order: "ASC" | "DESC",
+    order: 'ASC' | 'DESC',
     searchTerm?: string
   ): Promise<[User[], number]>;
 
@@ -29,9 +29,10 @@ export interface IUserRepository {
 
 @Injectable()
 export class UserRepository implements IUserRepository {
-  constructor(@InjectRepository(User)
-              private readonly userRepository: Repository<User>) {
-  }
+  constructor(
+    @InjectRepository(User)
+    private readonly userRepository: Repository<User>
+  ) {}
 
   async createUser(user: User): Promise<User> {
     return await this.userRepository.save(user);
@@ -45,21 +46,21 @@ export class UserRepository implements IUserRepository {
     page: number,
     pageSize: number,
     orderBy: string,
-    order: "ASC" | "DESC",
+    order: 'ASC' | 'DESC',
     searchTerm?: string
   ): Promise<[User[], number]> {
     const skip = (page - 1) * pageSize;
     const take = pageSize;
 
     const queryBuilder: SelectQueryBuilder<User> = this.userRepository
-      .createQueryBuilder("user")
+      .createQueryBuilder('user')
       .orderBy(`user.${orderBy}`, order)
       .skip(skip)
       .take(take);
 
     // Apply filter criteria to the query
     if (searchTerm) {
-      queryBuilder.andWhere("user.name LIKE :name", { name: `%${searchTerm}%` });
+      queryBuilder.andWhere('user.name LIKE :name', { name: `%${searchTerm}%` });
     }
 
     return await queryBuilder.getManyAndCount();

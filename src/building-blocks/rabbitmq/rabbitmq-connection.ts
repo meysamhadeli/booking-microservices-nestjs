@@ -28,7 +28,6 @@ export interface IRabbitmqConnection {
 
 @Injectable()
 export class RabbitmqConnection implements OnModuleInit, IRabbitmqConnection {
-
   constructor(@Inject(RabbitmqOptions) private readonly options?: RabbitmqOptions) {}
 
   async onModuleInit(): Promise<void> {
@@ -38,7 +37,6 @@ export class RabbitmqConnection implements OnModuleInit, IRabbitmqConnection {
   async createConnection(options?: RabbitmqOptions): Promise<amqp.Connection> {
     if (!connection || !connection == undefined) {
       try {
-
         const host = options?.host ?? configs.rabbitmq.host;
         const port = options?.port ?? configs.rabbitmq.port;
 

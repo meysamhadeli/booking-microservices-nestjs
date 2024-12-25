@@ -1,6 +1,6 @@
 import { Repository } from 'typeorm';
-import {InjectRepository} from "@nestjs/typeorm";
-import {Flight} from "../../flight/entities/flight.entity";
+import { InjectRepository } from '@nestjs/typeorm';
+import { Flight } from '../../flight/entities/flight.entity';
 
 export interface IFlightRepository {
   createFlight(flight: Flight): Promise<Flight>;
@@ -10,9 +10,10 @@ export interface IFlightRepository {
 }
 
 export class FlightRepository implements IFlightRepository {
-  constructor(@InjectRepository(Flight)
-              private readonly flightRepository: Repository<Flight>) {
-  }
+  constructor(
+    @InjectRepository(Flight)
+    private readonly flightRepository: Repository<Flight>
+  ) {}
 
   async createFlight(flight: Flight): Promise<Flight> {
     return await this.flightRepository.save(flight);

@@ -1,6 +1,6 @@
 import 'reflect-metadata';
 import { StartedTestContainer } from 'testcontainers';
-import { RabbitmqOptions } from "../../../rabbitmq/rabbitmq-connection";
+import { RabbitmqOptions } from '../../../rabbitmq/rabbitmq-connection';
 export interface RabbitmqContainerOptions {
     host: string;
     port: number;

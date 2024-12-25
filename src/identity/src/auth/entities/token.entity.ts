@@ -1,38 +1,38 @@
 import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
-import { TokenType } from "../enums/token-type.enum";
-import { User } from "../../user/entities/user.entity";
+import { TokenType } from '../enums/token-type.enum';
+import { User } from '../../user/entities/user.entity';
 
 @Entity()
 export class Token {
-    @PrimaryGeneratedColumn()
-    id: number;
+  @PrimaryGeneratedColumn()
+  id: number;
 
-    @Column()
-    token: string;
+  @Column()
+  token: string;
 
-    @Column()
-    refreshToken: string;
+  @Column()
+  refreshToken: string;
 
-    @Column()
-    expires: Date;
+  @Column()
+  expires: Date;
 
-    @Column()
-    type: TokenType;
+  @Column()
+  type: TokenType;
 
-    @Column()
-    blacklisted: boolean;
+  @Column()
+  blacklisted: boolean;
 
-    @Column()
-    createdAt: Date;
+  @Column()
+  createdAt: Date;
 
-    @ManyToOne(() => User, (user) => user.tokens, { onDelete: 'CASCADE' })
-    user?: User;
+  @ManyToOne(() => User, (user) => user.tokens, { onDelete: 'CASCADE' })
+  user?: User;
 
-    @Column()
-    userId: number;
+  @Column()
+  userId: number;
 
-    constructor(partial?: Partial<Token>) {
-        Object.assign(this, partial);
-        this.createdAt = partial?.createdAt ?? new Date();
-    }
+  constructor(partial?: Partial<Token>) {
+    Object.assign(this, partial);
+    this.createdAt = partial?.createdAt ?? new Date();
+  }
 }

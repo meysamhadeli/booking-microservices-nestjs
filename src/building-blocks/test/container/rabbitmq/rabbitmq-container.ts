@@ -1,8 +1,8 @@
 import 'reflect-metadata';
 import { GenericContainer, StartedTestContainer } from 'testcontainers';
-import {Logger} from "@nestjs/common";
-import configs from "../../../configs/configs";
-import {RabbitmqOptions} from "../../../rabbitmq/rabbitmq-connection";
+import { Logger } from '@nestjs/common';
+import configs from '../../../configs/configs';
+import { RabbitmqOptions } from '../../../rabbitmq/rabbitmq-connection';
 
 export interface RabbitmqContainerOptions {
   host: string;
@@ -12,8 +12,8 @@ export interface RabbitmqContainerOptions {
   imageName: string;
 }
 
-export class RabbitmqContainer{
-  public async start(): Promise<[StartedTestContainer, RabbitmqOptions]>{
+export class RabbitmqContainer {
+  public async start(): Promise<[StartedTestContainer, RabbitmqOptions]> {
     const defaultRabbitmqOptions = await this.getDefaultRabbitmqTestContainers();
 
     const rabbitmqContainerStarted = await this.getContainerStarted(defaultRabbitmqOptions);
@@ -37,7 +37,9 @@ export class RabbitmqContainer{
     return [rabbitmqContainerStarted, rabbitmqOptions];
   }
 
-  private async getContainerStarted(options: RabbitmqContainerOptions): Promise<StartedTestContainer>{
+  private async getContainerStarted(
+    options: RabbitmqContainerOptions
+  ): Promise<StartedTestContainer> {
     const rabbitmqContainer = new GenericContainer(options.imageName)
       .withExposedPorts(options.port)
       .withEnvironment({ RABBITMQ_DEFAULT_USER: options.username })
@@ -47,7 +49,7 @@ export class RabbitmqContainer{
     return rabbitmqContainerStarted;
   }
 
-  private async getDefaultRabbitmqTestContainers(): Promise<RabbitmqContainerOptions>{
+  private async getDefaultRabbitmqTestContainers(): Promise<RabbitmqContainerOptions> {
     const rabbitmqOptions: RabbitmqContainerOptions = {
       port: 5672,
       host: 'localhost',

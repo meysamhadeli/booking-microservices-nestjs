@@ -1,4 +1,4 @@
-import { IEvent } from "@nestjs/cqrs";
+import { IEvent } from '@nestjs/cqrs';
 
 export class UserCreated implements IEvent {
   id: number;

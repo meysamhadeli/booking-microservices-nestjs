@@ -1,4 +1,4 @@
-import { TokenDto } from "./token.dto";
+import { TokenDto } from './token.dto';
 
 export class AuthDto {
   access: TokenDto;

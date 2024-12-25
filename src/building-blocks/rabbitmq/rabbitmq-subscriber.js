@@ -34,7 +34,9 @@ let RabbitmqConsumer = class RabbitmqConsumer {
         try {
             await (0, async_retry_1.default)(async () => {
                 const channel = await this.rabbitMQConnection.getChannel();
-                const tracer = await this.openTelemetryTracer.createTracer({ serviceName: 'rabbitmq_subscriber_tracer' });
+                const tracer = await this.openTelemetryTracer.createTracer({
+                    serviceName: 'rabbitmq_subscriber_tracer'
+                });
                 const exchangeName = (0, lodash_1.snakeCase)((0, reflection_1.getTypeName)(type));
                 await channel.assertExchange(exchangeName, 'fanout', {
                     durable: false

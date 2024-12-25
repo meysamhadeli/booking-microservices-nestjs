@@ -1,6 +1,7 @@
 {
   "collection": "@nestjs/schematics",
-  "sourceRoot": "src",
+  "sourceRoot": "booking/src",
+  "entryFile": "main",
   "compilerOptions": {
     "plugins": ["@nestjs/swagger/plugin"]
   }

@@ -23,10 +23,12 @@ exports.OpenTelemetryModule = OpenTelemetryModule;
 exports.OpenTelemetryModule = OpenTelemetryModule = OpenTelemetryModule_1 = __decorate([
     (0, common_1.Global)(),
     (0, common_1.Module)({
-        providers: [{
+        providers: [
+            {
                 provide: 'IOpenTelemetryTracer',
                 useClass: open_telemetry_tracer_1.OpenTelemetryTracer
-            }],
+            }
+        ],
         exports: ['IOpenTelemetryTracer']
     })
 ], OpenTelemetryModule);

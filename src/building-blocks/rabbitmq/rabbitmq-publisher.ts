@@ -1,11 +1,11 @@
-import {Inject, Injectable, Logger} from '@nestjs/common';
-import {IRabbitmqConnection, RabbitmqConnection} from './rabbitmq-connection';
+import { Inject, Injectable, Logger } from '@nestjs/common';
+import { IRabbitmqConnection, RabbitmqConnection } from './rabbitmq-connection';
 import { serializeObject } from '../utils/serilization';
 import { getTypeName } from '../utils/reflection';
 import { snakeCase } from 'lodash';
 import { v4 as uuidv4 } from 'uuid';
 import { getUnixTime } from 'date-fns';
-import {IOpenTelemetryTracer, OpenTelemetryTracer} from '../openTelemetry/open-telemetry-tracer';
+import { IOpenTelemetryTracer, OpenTelemetryTracer } from '../openTelemetry/open-telemetry-tracer';
 import configs from '../configs/configs';
 import asyncRetry from 'async-retry';
 
@@ -29,7 +29,9 @@ export class RabbitmqPublisher implements IRabbitmqPublisher {
         async () => {
           const channel = await this.rabbitMQConnection.getChannel();
 
-          const tracer = await this.openTelemetryTracer.createTracer({ serviceName: 'rabbitmq_publisher_tracer' });
+          const tracer = await this.openTelemetryTracer.createTracer({
+            serviceName: 'rabbitmq_publisher_tracer'
+          });
 
           const exchangeName = snakeCase(getTypeName(message));
           const serializedMessage = serializeObject(message);

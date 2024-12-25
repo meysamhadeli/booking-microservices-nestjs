@@ -1,4 +1,4 @@
-import { IEvent } from "@nestjs/cqrs";
+import { IEvent } from '@nestjs/cqrs';
 export declare class FlightCreated implements IEvent {
     id: number;
     flightNumber: string;

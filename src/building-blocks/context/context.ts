@@ -1,6 +1,6 @@
 import { NestMiddleware } from '@nestjs/common';
 import { Request, Response, NextFunction } from 'express';
-import {IncomingHttpHeaders} from "http";
+import { IncomingHttpHeaders } from 'http';
 
 export class HttpContext {
   static request: Request;
@@ -8,16 +8,14 @@ export class HttpContext {
   static headers: IncomingHttpHeaders;
 }
 
-
 export class HttpContextMiddleware implements NestMiddleware {
   use(req: Request, res: Response, next: NextFunction) {
+    HttpContext.request = req;
 
-      HttpContext.request = req;
+    HttpContext.response = res;
 
-      HttpContext.response = res;
+    HttpContext.headers = req.headers;
 
-      HttpContext.headers = req.headers;
-
-      next();
+    next();
   }
 }

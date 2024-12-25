@@ -9,7 +9,6 @@ import {
     GetPassengerByIdHandler
 } from "./features/v1/get-passenger-by-id/get-passenger-by-id";
 import {GetPassengersController, GetPassengersHandler} from "./features/v1/get-passengers/get-passengers";
-import {OpenTelemetryTracer} from "building-blocks/openTelemetry/open-telemetry-tracer";
 import {UserCreated} from "building-blocks/contracts/identity.contract";
 import {CreateUserHandler} from "../user/consumers/create-user";
 import {IRabbitmqConsumer} from "building-blocks/rabbitmq/rabbitmq-subscriber";
@@ -23,7 +22,6 @@ import {IRabbitmqConsumer} from "building-blocks/rabbitmq/rabbitmq-subscriber";
             provide: 'IPassengerRepository',
             useClass: PassengerRepository,
         },
-        OpenTelemetryTracer
     ],
     exports: [],
 })

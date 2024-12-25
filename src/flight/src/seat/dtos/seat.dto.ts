@@ -1,5 +1,5 @@
-import {SeatClass} from "../enums/seat-class.enum";
-import {SeatType} from "../enums/seat-type.enum";
+import { SeatClass } from '../enums/seat-class.enum';
+import { SeatType } from '../enums/seat-type.enum';
 
 export class SeatDto {
   id: number;

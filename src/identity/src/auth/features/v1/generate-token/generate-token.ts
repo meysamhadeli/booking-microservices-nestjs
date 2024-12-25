@@ -1,13 +1,13 @@
 import moment from 'moment';
 import Joi from 'joi';
 import jwt from 'jsonwebtoken';
-import {TokenType} from "../../../enums/token-type.enum";
-import {CommandHandler, ICommandHandler} from "@nestjs/cqrs";
-import {AuthDto} from "../../../dtos/auth.dto";
-import {Inject} from "@nestjs/common";
-import {IAuthRepository} from "../../../../data/repositories/auth.repository";
-import {Token} from "../../../entities/token.entity";
-import configs from "building-blocks/configs/configs";
+import { TokenType } from '../../../enums/token-type.enum';
+import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
+import { AuthDto } from '../../../dtos/auth.dto';
+import { Inject } from '@nestjs/common';
+import { IAuthRepository } from '../../../../data/repositories/auth.repository';
+import { Token } from '../../../entities/token.entity';
+import configs from 'building-blocks/configs/configs';
 
 export class GenerateToken {
   userId: number;
@@ -38,16 +38,11 @@ const generateJwtToken = (
   return jwt.sign(payload, secret);
 };
 
-
 @CommandHandler(GenerateToken)
 export class GenerateTokenHandler implements ICommandHandler<GenerateToken> {
+  constructor(@Inject('IAuthRepository') private readonly authRepository: IAuthRepository) {}
 
-    constructor(
-        @Inject('IAuthRepository') private readonly authRepository: IAuthRepository,
-    ) {}
-
-    async execute(command: GenerateToken): Promise<AuthDto> {
-
+  async execute(command: GenerateToken): Promise<AuthDto> {
     await generateTokenValidations.params.validateAsync(command);
 
     const accessTokenExpires = moment().add(configs.jwt.accessExpirationMinutes, 'minutes');

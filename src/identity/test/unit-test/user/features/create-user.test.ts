@@ -1,13 +1,13 @@
 import { UserCreated } from 'building-blocks/contracts/identity.contract';
 import { faker } from '@faker-js/faker';
 import * as TypeMoq from 'typemoq';
-import {FakeUser} from "../../../shared/fakes/user/fake-user.entity";
-import {User} from "../../../../src/user/entities/user.entity";
-import {IUserRepository} from "../../../../src/data/repositories/user.repository";
-import {UserDto} from "../../../../src/user/dtos/user.dto";
-import {FakeCreateUser} from "../../../shared/fakes/user/fake-create-user";
-import {IRabbitmqPublisher} from "building-blocks/rabbitmq/rabbitmq-publisher";
-import {CreateUserHandler} from "../../../../src/user/features/v1/create-user/create-user";
+import { FakeUser } from '../../../shared/fakes/user/fake-user.entity';
+import { User } from '../../../../src/user/entities/user.entity';
+import { IUserRepository } from '../../../../src/data/repositories/user.repository';
+import { UserDto } from '../../../../src/user/dtos/user.dto';
+import { FakeCreateUser } from '../../../shared/fakes/user/fake-create-user';
+import { IRabbitmqPublisher } from 'building-blocks/rabbitmq/rabbitmq-publisher';
+import { CreateUserHandler } from '../../../../src/user/features/v1/create-user/create-user';
 
 describe('unit test for create user', () => {
   let createUserHandler: CreateUserHandler;
@@ -15,7 +15,8 @@ describe('unit test for create user', () => {
   const fakeUser: User = FakeUser.generate();
 
   const mockUserRepository: TypeMoq.IMock<IUserRepository> = TypeMoq.Mock.ofType<IUserRepository>();
-  const mockPublisher: TypeMoq.IMock<IRabbitmqPublisher> = TypeMoq.Mock.ofType<IRabbitmqPublisher>();
+  const mockPublisher: TypeMoq.IMock<IRabbitmqPublisher> =
+    TypeMoq.Mock.ofType<IRabbitmqPublisher>();
 
   beforeEach(() => {
     createUserHandler = new CreateUserHandler(mockPublisher.object, mockUserRepository.object);

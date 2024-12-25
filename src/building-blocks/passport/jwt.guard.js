@@ -24,4 +24,3 @@ exports.JwtGuard = JwtGuard;
 exports.JwtGuard = JwtGuard = __decorate([
     (0, common_1.Injectable)()
 ], JwtGuard);
-//# sourceMappingURL=jwt.guard.js.map
