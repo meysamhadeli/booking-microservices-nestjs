@@ -1,9 +1,9 @@
-import {Inject, Injectable, Logger} from '@nestjs/common';
+import { Inject, Injectable, Logger } from '@nestjs/common';
 import { RabbitmqConnection } from './rabbitmq-connection';
 import { getTypeName } from '../utils/reflection';
 import { snakeCase } from 'lodash';
 import { deserializeObject } from '../utils/serilization';
-import {IOpenTelemetryTracer, OpenTelemetryTracer} from '../openTelemetry/open-telemetry-tracer';
+import { IOpenTelemetryTracer, OpenTelemetryTracer } from '../openTelemetry/open-telemetry-tracer';
 import { sleep } from '../utils/time';
 import configs from '../configs/configs';
 import asyncRetry from 'async-retry';
@@ -29,7 +29,9 @@ export class RabbitmqConsumer<T> implements IRabbitmqConsumer {
         async () => {
           const channel = await this.rabbitMQConnection.getChannel();
 
-          const tracer = await this.openTelemetryTracer.createTracer({ serviceName: 'rabbitmq_subscriber_tracer' });
+          const tracer = await this.openTelemetryTracer.createTracer({
+            serviceName: 'rabbitmq_subscriber_tracer'
+          });
 
           const exchangeName = snakeCase(getTypeName(type));
 

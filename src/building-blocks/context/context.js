@@ -2,6 +2,9 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.HttpContextMiddleware = exports.HttpContext = void 0;
 class HttpContext {
+    static request;
+    static response;
+    static headers;
 }
 exports.HttpContext = HttpContext;
 class HttpContextMiddleware {

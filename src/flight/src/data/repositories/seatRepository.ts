@@ -1,6 +1,6 @@
 import { Repository } from 'typeorm';
-import {InjectRepository} from "@nestjs/typeorm";
-import {Seat} from "../../seat/entities/seat.entity";
+import { InjectRepository } from '@nestjs/typeorm';
+import { Seat } from '../../seat/entities/seat.entity';
 
 export interface ISeatRepository {
   createSeat(seat: Seat): Promise<Seat>;
@@ -15,16 +15,17 @@ export interface ISeatRepository {
 }
 
 export class SeatRepository implements ISeatRepository {
-  constructor(@InjectRepository(Seat)
-              private readonly seatRepository: Repository<Seat>) {
-  }
+  constructor(
+    @InjectRepository(Seat)
+    private readonly seatRepository: Repository<Seat>
+  ) {}
 
   async createSeat(seat: Seat): Promise<Seat> {
     return await this.seatRepository.save(seat);
   }
 
   async reserveSeat(seat: Seat): Promise<void> {
-     await this.seatRepository.update(seat.id, seat);
+    await this.seatRepository.update(seat.id, seat);
   }
 
   async getAll(): Promise<Seat[]> {

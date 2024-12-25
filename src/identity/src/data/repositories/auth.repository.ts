@@ -1,32 +1,29 @@
-import {Repository} from 'typeorm';
-import {InjectRepository} from "@nestjs/typeorm";
-import {TokenType} from "../../auth/enums/token-type.enum";
-import {Token} from "../../auth/entities/token.entity";
+import { Repository } from 'typeorm';
+import { InjectRepository } from '@nestjs/typeorm';
+import { TokenType } from '../../auth/enums/token-type.enum';
+import { Token } from '../../auth/entities/token.entity';
 
 export interface IAuthRepository {
   createToken(token: Token): Promise<void>;
 
   findToken(token: string, tokenType: TokenType): Promise<Token>;
 
-  findTokenByUserId(
-    token: string,
-    userId: number,
-    blacklisted: boolean
-  ): Promise<Token>;
+  findTokenByUserId(token: string, userId: number, blacklisted: boolean): Promise<Token>;
 
   findRefreshTokenByUserId(
-      refreshToken: string,
-      userId: number,
-      blacklisted: boolean
+    refreshToken: string,
+    userId: number,
+    blacklisted: boolean
   ): Promise<Token>;
 
   removeToken(token: Token): Promise<Token>;
 }
 
 export class AuthRepository implements IAuthRepository {
-  constructor(@InjectRepository(Token)
-              private readonly tokenRepository: Repository<Token>) {
-  }
+  constructor(
+    @InjectRepository(Token)
+    private readonly tokenRepository: Repository<Token>
+  ) {}
 
   async createToken(token: Token): Promise<void> {
     await this.tokenRepository.save(token);
@@ -39,11 +36,7 @@ export class AuthRepository implements IAuthRepository {
     });
   }
 
-  async findTokenByUserId(
-    token: string,
-    userId: number,
-    blacklisted: boolean
-  ): Promise<Token> {
+  async findTokenByUserId(token: string, userId: number, blacklisted: boolean): Promise<Token> {
     return await this.tokenRepository.findOneBy({
       token: token,
       userId: userId,
@@ -52,9 +45,9 @@ export class AuthRepository implements IAuthRepository {
   }
 
   async findRefreshTokenByUserId(
-      refreshToken: string,
-      userId: number,
-      blacklisted: boolean
+    refreshToken: string,
+    userId: number,
+    blacklisted: boolean
   ): Promise<Token> {
     return await this.tokenRepository.findOneBy({
       refreshToken: refreshToken,

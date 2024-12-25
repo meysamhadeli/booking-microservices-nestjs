@@ -31,6 +31,9 @@ const api_1 = require("@opentelemetry/api");
 const configs_1 = __importDefault(require("../configs/configs"));
 const sdk_node_1 = require("@opentelemetry/sdk-node");
 class OpenTelemetryOptions {
+    jaegerEndpoint;
+    zipkinEndpoint;
+    serviceName;
     constructor(partial) {
         Object.assign(this, partial);
     }
@@ -39,18 +42,17 @@ exports.OpenTelemetryOptions = OpenTelemetryOptions;
 let openTelemetryOptions = new OpenTelemetryOptions();
 const otelSDK = initSdk();
 async function initSdk() {
-    var _a, _b, _c, _d;
     const provider = new sdk_trace_node_1.NodeTracerProvider({
         resource: new resources_1.Resource({
-            [semantic_conventions_1.SemanticResourceAttributes.SERVICE_NAME]: (_a = openTelemetryOptions === null || openTelemetryOptions === void 0 ? void 0 : openTelemetryOptions.serviceName) !== null && _a !== void 0 ? _a : configs_1.default.serviceName
+            [semantic_conventions_1.SemanticResourceAttributes.SERVICE_NAME]: openTelemetryOptions?.serviceName ?? configs_1.default.serviceName
         })
     });
     const jaegerExporter = new exporter_jaeger_1.JaegerExporter({
-        endpoint: (_b = openTelemetryOptions === null || openTelemetryOptions === void 0 ? void 0 : openTelemetryOptions.jaegerEndpoint) !== null && _b !== void 0 ? _b : configs_1.default.monitoring.jaegerEndpoint
+        endpoint: openTelemetryOptions?.jaegerEndpoint ?? configs_1.default.monitoring.jaegerEndpoint
     });
     const zipkinExporter = new exporter_zipkin_1.ZipkinExporter({
-        url: (_c = openTelemetryOptions === null || openTelemetryOptions === void 0 ? void 0 : openTelemetryOptions.zipkinEndpoint) !== null && _c !== void 0 ? _c : configs_1.default.monitoring.zipkinEndpoint,
-        serviceName: (_d = openTelemetryOptions === null || openTelemetryOptions === void 0 ? void 0 : openTelemetryOptions.serviceName) !== null && _d !== void 0 ? _d : configs_1.default.serviceName
+        url: openTelemetryOptions?.zipkinEndpoint ?? configs_1.default.monitoring.zipkinEndpoint,
+        serviceName: openTelemetryOptions?.serviceName ?? configs_1.default.serviceName
     });
     provider.addSpanProcessor(new sdk_trace_base_1.SimpleSpanProcessor(jaegerExporter));
     provider.addSpanProcessor(new sdk_trace_node_1.BatchSpanProcessor(zipkinExporter));
@@ -67,6 +69,7 @@ async function initSdk() {
     });
 }
 let OpenTelemetryTracer = class OpenTelemetryTracer {
+    options;
     constructor(options) {
         this.options = options;
         openTelemetryOptions = this.options;
@@ -75,8 +78,7 @@ let OpenTelemetryTracer = class OpenTelemetryTracer {
         (await otelSDK).start();
     }
     async createTracer(options) {
-        var _a;
-        const tracer = api_1.trace.getTracer((_a = options === null || options === void 0 ? void 0 : options.serviceName) !== null && _a !== void 0 ? _a : configs_1.default.serviceName);
+        const tracer = api_1.trace.getTracer(options?.serviceName ?? configs_1.default.serviceName);
         return tracer;
     }
 };

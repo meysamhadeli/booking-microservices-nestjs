@@ -21,13 +21,23 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
-var __importStar = (this && this.__importStar) || function (mod) {
-    if (mod && mod.__esModule) return mod;
-    var result = {};
-    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
-    __setModuleDefault(result, mod);
-    return result;
-};
+var __importStar = (this && this.__importStar) || (function () {
+    var ownKeys = function(o) {
+        ownKeys = Object.getOwnPropertyNames || function (o) {
+            var ar = [];
+            for (var k in o) if (Object.prototype.hasOwnProperty.call(o, k)) ar[ar.length] = k;
+            return ar;
+        };
+        return ownKeys(o);
+    };
+    return function (mod) {
+        if (mod && mod.__esModule) return mod;
+        var result = {};
+        if (mod != null) for (var k = ownKeys(mod), i = 0; i < k.length; i++) if (k[i] !== "default") __createBinding(result, mod, k[i]);
+        __setModuleDefault(result, mod);
+        return result;
+    };
+})();
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
@@ -44,6 +54,10 @@ const amqp = __importStar(require("amqplib"));
 const configs_1 = __importDefault(require("../configs/configs"));
 const async_retry_1 = __importDefault(require("async-retry"));
 class RabbitmqOptions {
+    host;
+    port;
+    password;
+    username;
     constructor(partial) {
         Object.assign(this, partial);
     }
@@ -52,6 +66,7 @@ exports.RabbitmqOptions = RabbitmqOptions;
 let connection = null;
 let channel = null;
 let RabbitmqConnection = class RabbitmqConnection {
+    options;
     constructor(options) {
         this.options = options;
     }
@@ -59,16 +74,14 @@ let RabbitmqConnection = class RabbitmqConnection {
         await this.createConnection(this.options);
     }
     async createConnection(options) {
-        var _a, _b;
         if (!connection || !connection == undefined) {
             try {
-                const host = (_a = options === null || options === void 0 ? void 0 : options.host) !== null && _a !== void 0 ? _a : configs_1.default.rabbitmq.host;
-                const port = (_b = options === null || options === void 0 ? void 0 : options.port) !== null && _b !== void 0 ? _b : configs_1.default.rabbitmq.port;
+                const host = options?.host ?? configs_1.default.rabbitmq.host;
+                const port = options?.port ?? configs_1.default.rabbitmq.port;
                 await (0, async_retry_1.default)(async () => {
-                    var _a, _b;
                     connection = await amqp.connect(`amqp://${host}:${port}`, {
-                        username: (_a = options === null || options === void 0 ? void 0 : options.username) !== null && _a !== void 0 ? _a : configs_1.default.rabbitmq.username,
-                        password: (_b = options === null || options === void 0 ? void 0 : options.password) !== null && _b !== void 0 ? _b : configs_1.default.rabbitmq.password
+                        username: options?.username ?? configs_1.default.rabbitmq.username,
+                        password: options?.password ?? configs_1.default.rabbitmq.password
                     });
                 }, {
                     retries: configs_1.default.retry.count,

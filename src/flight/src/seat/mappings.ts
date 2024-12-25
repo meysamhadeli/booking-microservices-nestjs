@@ -1,6 +1,6 @@
 import { TypeMapper } from 'ts-mapper';
-import {SeatDto} from "./dtos/seat.dto";
-import {Seat} from "./entities/seat.entity";
+import { SeatDto } from './dtos/seat.dto';
+import { Seat } from './entities/seat.entity';
 
 export class Mapper extends TypeMapper {
   constructor() {

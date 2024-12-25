@@ -27,6 +27,8 @@ const configs_1 = __importDefault(require("../configs/configs"));
 const async_retry_1 = __importDefault(require("async-retry"));
 const publishedMessages = [];
 let RabbitmqPublisher = class RabbitmqPublisher {
+    rabbitMQConnection;
+    openTelemetryTracer;
     constructor(rabbitMQConnection, openTelemetryTracer) {
         this.rabbitMQConnection = rabbitMQConnection;
         this.openTelemetryTracer = openTelemetryTracer;
@@ -35,7 +37,9 @@ let RabbitmqPublisher = class RabbitmqPublisher {
         try {
             await (0, async_retry_1.default)(async () => {
                 const channel = await this.rabbitMQConnection.getChannel();
-                const tracer = await this.openTelemetryTracer.createTracer({ serviceName: 'rabbitmq_publisher_tracer' });
+                const tracer = await this.openTelemetryTracer.createTracer({
+                    serviceName: 'rabbitmq_publisher_tracer'
+                });
                 const exchangeName = (0, lodash_1.snakeCase)((0, reflection_1.getTypeName)(message));
                 const serializedMessage = (0, serilization_1.serializeObject)(message);
                 const span = tracer.startSpan(`publish_message_${exchangeName}`);

@@ -1,4 +1,4 @@
-import {FlightStatus} from "../enums/flight-status.enum";
+import { FlightStatus } from '../enums/flight-status.enum';
 
 export class FlightDto {
   id: number;

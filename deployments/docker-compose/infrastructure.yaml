@@ -5,7 +5,7 @@ services:
     #  Rabbitmq
     #######################################################
   rabbitmq:
-    image: rabbitmq:3-management
+    image: rabbitmq:management
     container_name: rabbitmq
     restart: unless-stopped
     ports:

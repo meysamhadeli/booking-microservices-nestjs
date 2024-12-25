@@ -2,48 +2,112 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.SeatType = exports.SeatClass = exports.FlightStatus = exports.ReserveSeatRequestDto = exports.SeatDto = exports.FlightDto = exports.SeatReserved = exports.SeatCreated = exports.AirportCreated = exports.AircraftCreated = exports.FlightCreated = void 0;
 class FlightCreated {
+    id;
+    flightNumber;
+    price;
+    flightStatus;
+    flightDate;
+    departureDate;
+    departureAirportId;
+    aircraftId;
+    arriveDate;
+    arriveAirportId;
+    durationMinutes;
+    createdAt;
+    updatedAt;
     constructor(request = {}) {
         Object.assign(this, request);
     }
 }
 exports.FlightCreated = FlightCreated;
 class AircraftCreated {
+    id;
+    model;
+    name;
+    manufacturingYear;
+    createdAt;
+    updatedAt;
     constructor(request = {}) {
         Object.assign(this, request);
     }
 }
 exports.AircraftCreated = AircraftCreated;
 class AirportCreated {
+    id;
+    code;
+    name;
+    address;
+    createdAt;
+    updatedAt;
     constructor(request = {}) {
         Object.assign(this, request);
     }
 }
 exports.AirportCreated = AirportCreated;
 class SeatCreated {
+    id;
+    seatNumber;
+    seatClass;
+    seatType;
+    flightId;
+    isReserved;
+    createdAt;
+    updatedAt;
     constructor(request = {}) {
         Object.assign(this, request);
     }
 }
 exports.SeatCreated = SeatCreated;
 class SeatReserved {
+    id;
+    seatNumber;
+    seatClass;
+    seatType;
+    flightId;
+    isReserved;
+    createdAt;
+    updatedAt;
     constructor(request = {}) {
         Object.assign(this, request);
     }
 }
 exports.SeatReserved = SeatReserved;
 class FlightDto {
+    id;
+    flightNumber;
+    price;
+    flightStatus;
+    flightDate;
+    departureDate;
+    departureAirportId;
+    aircraftId;
+    arriveDate;
+    arriveAirportId;
+    durationMinutes;
+    createdAt;
+    updatedAt;
     constructor(request = {}) {
         Object.assign(this, request);
     }
 }
 exports.FlightDto = FlightDto;
 class SeatDto {
+    id;
+    seatNumber;
+    seatClass;
+    seatType;
+    flightId;
+    isReserved;
+    createdAt;
+    updatedAt;
     constructor(request = {}) {
         Object.assign(this, request);
     }
 }
 exports.SeatDto = SeatDto;
 class ReserveSeatRequestDto {
+    seatNumber;
+    flightId;
     constructor(request = {}) {
         Object.assign(this, request);
     }

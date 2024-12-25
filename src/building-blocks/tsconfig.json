@@ -1,15 +1,34 @@
 {
   "compilerOptions": {
-    "module": "commonjs",
-    "declaration": true,
-    "removeComments": true,
-    "emitDecoratorMetadata": true,
-    "experimentalDecorators": true,
-    "allowSyntheticDefaultImports": true,
-    "target": "es2017",
-    "sourceMap": true,
-    "baseUrl": "./",
-    "incremental": true,
-    "esModuleInterop": true
-  }
+    // Language and Environment
+    "target": "es2022",                     // Modern JavaScript features
+    "module": "commonjs",                   // Module system for Node.js
+    "lib": ["es2022"],                      // Include all ES2022 features
+
+    // Modules and Output
+    "moduleResolution": "node",             // Use Node.js module resolution
+    "baseUrl": "./",                        // Base directory for paths
+    "declaration": true,                    // Generate .d.ts files
+    "sourceMap": true,                      // Generate source maps
+    "removeComments": true,                 // Remove comments in output
+
+    // Decorators (needed for NestJS)
+    "experimentalDecorators": true,         // Enable decorators
+    "emitDecoratorMetadata": true,          // Emit decorator metadata
+
+    // Type Checking
+    "strict": false,                         // Enable all strict type checking
+    "skipLibCheck": true,                   // Skip type checking of declaration files
+    "forceConsistentCasingInFileNames": true, // Ensure consistent casing in imports
+
+    // Interop Constraints
+    "esModuleInterop": true,               // Enable ES Module interop
+    "allowSyntheticDefaultImports": true,  // Allow default imports from modules
+
+    // Advanced
+    "incremental": true,                   // Enable incremental compilation
+    "preserveConstEnums": true,            // Keep const enums in output
+    "resolveJsonModule": true,             // Allow importing JSON files
+    "isolatedModules": false,              // Forces each file to be a module or not
+  },
 }

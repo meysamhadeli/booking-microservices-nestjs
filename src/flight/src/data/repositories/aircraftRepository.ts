@@ -1,6 +1,6 @@
 import { Repository } from 'typeorm';
-import {Aircraft} from "../../aircraft/entities/aircraft.entity";
-import {InjectRepository} from "@nestjs/typeorm";
+import { Aircraft } from '../../aircraft/entities/aircraft.entity';
+import { InjectRepository } from '@nestjs/typeorm';
 
 export interface IAircraftRepository {
   createAircraft(aircraft: Aircraft): Promise<Aircraft>;
@@ -11,9 +11,10 @@ export interface IAircraftRepository {
 }
 
 export class AircraftRepository implements IAircraftRepository {
-  constructor(@InjectRepository(Aircraft)
-              private readonly aircraftRepository: Repository<Aircraft>) {
-  }
+  constructor(
+    @InjectRepository(Aircraft)
+    private readonly aircraftRepository: Repository<Aircraft>
+  ) {}
 
   async createAircraft(aircraft: Aircraft): Promise<Aircraft> {
     return await this.aircraftRepository.save(aircraft);
