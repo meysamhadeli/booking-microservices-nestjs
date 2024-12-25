@@ -9,16 +9,19 @@ class PostgresContainer {
         const defaultPostgresOptions = await this.getDefaultPostgresTestContainers();
         const pgContainerStarted = await this.getContainerStarted(defaultPostgresOptions);
         const containerPort = pgContainerStarted.getMappedPort(defaultPostgresOptions.port);
-        const dataSourceOptions = Object.assign(Object.assign({}, defaultPostgresOptions), { type: 'postgres', port: containerPort });
+        const dataSourceOptions = {
+            ...defaultPostgresOptions,
+            type: 'postgres',
+            port: containerPort
+        };
         common_1.Logger.log(`Test postgres with port ${containerPort} established`);
         return [pgContainerStarted, dataSourceOptions];
     }
     async getContainerStarted(options) {
-        var _a;
         const pgContainer = new testcontainers_1.GenericContainer(options.imageName)
             .withExposedPorts(options.port)
             .withEnvironment({ POSTGRES_USER: options.username })
-            .withEnvironment({ POSTGRES_PASSWORD: (_a = options.password) === null || _a === void 0 ? void 0 : _a.toString() })
+            .withEnvironment({ POSTGRES_PASSWORD: options.password?.toString() })
             .withEnvironment({ POSTGRES_DB: options.database });
         const pgContainerStarted = await pgContainer.start();
         return pgContainerStarted;

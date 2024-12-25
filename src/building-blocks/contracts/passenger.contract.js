@@ -2,6 +2,13 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.PassengerType = exports.PassengerDto = void 0;
 class PassengerDto {
+    id;
+    name;
+    age;
+    passportNumber;
+    passportType;
+    createdAt;
+    updatedAt;
     constructor(partial) {
         Object.assign(this, partial);
     }

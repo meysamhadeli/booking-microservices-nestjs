@@ -27,6 +27,8 @@ const configs_1 = __importDefault(require("../configs/configs"));
 const async_retry_1 = __importDefault(require("async-retry"));
 const publishedMessages = [];
 let RabbitmqPublisher = class RabbitmqPublisher {
+    rabbitMQConnection;
+    openTelemetryTracer;
     constructor(rabbitMQConnection, openTelemetryTracer) {
         this.rabbitMQConnection = rabbitMQConnection;
         this.openTelemetryTracer = openTelemetryTracer;

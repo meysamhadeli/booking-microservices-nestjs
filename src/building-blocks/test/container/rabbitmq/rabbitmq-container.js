@@ -13,17 +13,24 @@ class RabbitmqContainer {
         const defaultRabbitmqOptions = await this.getDefaultRabbitmqTestContainers();
         const rabbitmqContainerStarted = await this.getContainerStarted(defaultRabbitmqOptions);
         const containerPort = rabbitmqContainerStarted.getMappedPort(defaultRabbitmqOptions.port);
-        configs_1.default.rabbitmq = Object.assign(Object.assign({}, configs_1.default.rabbitmq), { port: containerPort, username: defaultRabbitmqOptions.username, password: defaultRabbitmqOptions.password, host: defaultRabbitmqOptions.host });
-        const rabbitmqOptions = Object.assign({}, configs_1.default.rabbitmq);
+        configs_1.default.rabbitmq = {
+            ...configs_1.default.rabbitmq,
+            port: containerPort,
+            username: defaultRabbitmqOptions.username,
+            password: defaultRabbitmqOptions.password,
+            host: defaultRabbitmqOptions.host
+        };
+        const rabbitmqOptions = {
+            ...configs_1.default.rabbitmq
+        };
         common_1.Logger.log(`Test rabbitmq with port ${containerPort} established`);
         return [rabbitmqContainerStarted, rabbitmqOptions];
     }
     async getContainerStarted(options) {
-        var _a;
         const rabbitmqContainer = new testcontainers_1.GenericContainer(options.imageName)
             .withExposedPorts(options.port)
             .withEnvironment({ RABBITMQ_DEFAULT_USER: options.username })
-            .withEnvironment({ RABBITMQ_DEFAULT_PASS: (_a = options.password) === null || _a === void 0 ? void 0 : _a.toString() });
+            .withEnvironment({ RABBITMQ_DEFAULT_PASS: options.password?.toString() });
         const rabbitmqContainerStarted = await rabbitmqContainer.start();
         return rabbitmqContainerStarted;
     }
@@ -33,7 +40,7 @@ class RabbitmqContainer {
             host: 'localhost',
             username: 'guest',
             password: 'guest',
-            imageName: 'rabbitmq:3-management'
+            imageName: 'rabbitmq:management'
         };
         return rabbitmqOptions;
     }

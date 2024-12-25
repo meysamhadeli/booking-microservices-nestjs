@@ -26,6 +26,8 @@ const configs_1 = __importDefault(require("../configs/configs"));
 const async_retry_1 = __importDefault(require("async-retry"));
 const consumedMessages = [];
 let RabbitmqConsumer = class RabbitmqConsumer {
+    rabbitMQConnection;
+    openTelemetryTracer;
     constructor(rabbitMQConnection, openTelemetryTracer) {
         this.rabbitMQConnection = rabbitMQConnection;
         this.openTelemetryTracer = openTelemetryTracer;
@@ -45,10 +47,9 @@ let RabbitmqConsumer = class RabbitmqConsumer {
                 await channel.bindQueue(q.queue, exchangeName, '');
                 common_1.Logger.log(`Waiting for messages with exchange name "${exchangeName}". To exit, press CTRL+C`);
                 await channel.consume(q.queue, (message) => {
-                    var _a;
                     if (message !== null) {
                         const span = tracer.startSpan(`receive_message_${exchangeName}`);
-                        const messageContent = (_a = message === null || message === void 0 ? void 0 : message.content) === null || _a === void 0 ? void 0 : _a.toString();
+                        const messageContent = message?.content?.toString();
                         const headers = message.properties.headers || {};
                         handler(q.queue, (0, serilization_1.deserializeObject)(messageContent));
                         common_1.Logger.log(`Message: ${messageContent} delivered to queue: ${q.queue} with exchange name ${exchangeName}`);

@@ -1,7 +1,7 @@
 import 'reflect-metadata';
 import { GenericContainer, StartedTestContainer } from 'testcontainers';
-import { Logger } from '@nestjs/common';
-import { DataSourceOptions, EntitySchema, MixedList } from 'typeorm';
+import {Logger} from "@nestjs/common";
+import {DataSourceOptions, EntitySchema, MixedList} from "typeorm";
 
 export interface PostgresContainerOptions {
   imageName: string;
@@ -16,8 +16,8 @@ export interface PostgresContainerOptions {
   migrationsRun: boolean;
 }
 
-export class PostgresContainer {
-  public async start(): Promise<[StartedTestContainer, DataSourceOptions]> {
+export class PostgresContainer{
+  public async start(): Promise<[StartedTestContainer, DataSourceOptions]>{
     const defaultPostgresOptions = await this.getDefaultPostgresTestContainers();
 
     const pgContainerStarted = await this.getContainerStarted(defaultPostgresOptions);
@@ -35,9 +35,7 @@ export class PostgresContainer {
     return [pgContainerStarted, dataSourceOptions];
   }
 
-  private async getContainerStarted(
-    options: PostgresContainerOptions
-  ): Promise<StartedTestContainer> {
+  private async getContainerStarted(options: PostgresContainerOptions): Promise<StartedTestContainer>{
     const pgContainer = new GenericContainer(options.imageName)
       .withExposedPorts(options.port)
       .withEnvironment({ POSTGRES_USER: options.username })
@@ -48,7 +46,7 @@ export class PostgresContainer {
     return pgContainerStarted;
   }
 
-  private async getDefaultPostgresTestContainers(): Promise<PostgresContainerOptions> {
+  private async getDefaultPostgresTestContainers(): Promise<PostgresContainerOptions>{
     const postgresOptions: PostgresContainerOptions = {
       type: 'postgres',
       database: 'test_db',
@@ -64,4 +62,5 @@ export class PostgresContainer {
 
     return postgresOptions;
   }
+
 }

@@ -3,6 +3,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.ApplicationException = void 0;
 const common_1 = require("@nestjs/common");
 class ApplicationException extends Error {
+    statusCode;
+    isOperational;
     constructor(message, statusCode = common_1.HttpStatus.BAD_REQUEST, isOperational = true, stack = '') {
         super(message);
         this.statusCode = statusCode;

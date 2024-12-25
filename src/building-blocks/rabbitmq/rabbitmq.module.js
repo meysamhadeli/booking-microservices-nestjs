@@ -17,6 +17,7 @@ const rabbitmq_connection_1 = require("./rabbitmq-connection");
 const open_telemetry_module_1 = require("../openTelemetry/open-telemetry.module");
 const rabbitmq_subscriber_1 = require("./rabbitmq-subscriber");
 let RabbitmqModule = RabbitmqModule_1 = class RabbitmqModule {
+    rabbitmqConnection;
     constructor(rabbitmqConnection) {
         this.rabbitmqConnection = rabbitmqConnection;
     }

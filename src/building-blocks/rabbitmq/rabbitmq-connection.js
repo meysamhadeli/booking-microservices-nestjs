@@ -54,6 +54,10 @@ const amqp = __importStar(require("amqplib"));
 const configs_1 = __importDefault(require("../configs/configs"));
 const async_retry_1 = __importDefault(require("async-retry"));
 class RabbitmqOptions {
+    host;
+    port;
+    password;
+    username;
     constructor(partial) {
         Object.assign(this, partial);
     }
@@ -62,6 +66,7 @@ exports.RabbitmqOptions = RabbitmqOptions;
 let connection = null;
 let channel = null;
 let RabbitmqConnection = class RabbitmqConnection {
+    options;
     constructor(options) {
         this.options = options;
     }
@@ -69,16 +74,14 @@ let RabbitmqConnection = class RabbitmqConnection {
         await this.createConnection(this.options);
     }
     async createConnection(options) {
-        var _a, _b;
         if (!connection || !connection == undefined) {
             try {
-                const host = (_a = options === null || options === void 0 ? void 0 : options.host) !== null && _a !== void 0 ? _a : configs_1.default.rabbitmq.host;
-                const port = (_b = options === null || options === void 0 ? void 0 : options.port) !== null && _b !== void 0 ? _b : configs_1.default.rabbitmq.port;
+                const host = options?.host ?? configs_1.default.rabbitmq.host;
+                const port = options?.port ?? configs_1.default.rabbitmq.port;
                 await (0, async_retry_1.default)(async () => {
-                    var _a, _b;
                     connection = await amqp.connect(`amqp://${host}:${port}`, {
-                        username: (_a = options === null || options === void 0 ? void 0 : options.username) !== null && _a !== void 0 ? _a : configs_1.default.rabbitmq.username,
-                        password: (_b = options === null || options === void 0 ? void 0 : options.password) !== null && _b !== void 0 ? _b : configs_1.default.rabbitmq.password
+                        username: options?.username ?? configs_1.default.rabbitmq.username,
+                        password: options?.password ?? configs_1.default.rabbitmq.password
                     });
                 }, {
                     retries: configs_1.default.retry.count,

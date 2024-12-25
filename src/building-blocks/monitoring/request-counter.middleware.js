@@ -50,9 +50,15 @@ const requestCounterMiddleware = (err, req, res, next) => {
     requestCounter.inc(labels);
     res.on('finish', () => {
         const status = res.statusCode.toString();
-        requestCounter.inc(Object.assign(Object.assign({}, labels), { status }));
+        requestCounter.inc({
+            ...labels,
+            status
+        });
         if (status.startsWith('4') || status.startsWith('5')) {
-            errorCounter.inc(Object.assign(Object.assign({}, labels), { status }));
+            errorCounter.inc({
+                ...labels,
+                status
+            });
         }
     });
     next();

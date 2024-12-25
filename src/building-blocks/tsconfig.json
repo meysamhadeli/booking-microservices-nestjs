@@ -8,14 +8,13 @@
     // Modules and Output
     "moduleResolution": "node",             // Use Node.js module resolution
     "baseUrl": "./",                        // Base directory for paths
-    "outDir": "./dist",                     // Output directory
-    "declaration": true,                    // Generate .d.ts files (mostly use in library development)
-    "sourceMap": true,                      // Generate source maps (mostly use in library development)
+    "declaration": true,                    // Generate .d.ts files
+    "sourceMap": true,                      // Generate source maps
     "removeComments": true,                 // Remove comments in output
 
     // Decorators (needed for NestJS)
     "experimentalDecorators": true,         // Enable decorators
-    "emitDecoratorMetadata": true,         // Emit decorator metadata
+    "emitDecoratorMetadata": true,          // Emit decorator metadata
 
     // Type Checking
     "strict": false,                         // Enable all strict type checking
@@ -29,6 +28,7 @@
     // Advanced
     "incremental": true,                   // Enable incremental compilation
     "preserveConstEnums": true,            // Keep const enums in output
-    "resolveJsonModule": true              // Allow importing JSON files
+    "resolveJsonModule": true,             // Allow importing JSON files
+    "isolatedModules": false,              // Forces each file to be a module or not
   },
 }
