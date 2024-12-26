@@ -17,8 +17,6 @@ import {
 import { Token } from '../auth/entities/token.entity';
 import { AuthRepository } from '../data/repositories/auth.repository';
 import { RabbitmqModule } from 'building-blocks/rabbitmq/rabbitmq.module';
-import { RabbitmqOptions } from 'building-blocks/rabbitmq/rabbitmq-connection';
-
 @Module({
   imports: [CqrsModule, RabbitmqModule.forRoot(), TypeOrmModule.forFeature([User, Token])],
   controllers: [

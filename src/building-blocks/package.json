@@ -6,13 +6,12 @@
   "scripts": {
     "build": "tsc",
     "format": "prettier --write \"**/*.{ts,js}\"",
-    "lint": "eslint . --fix"
+    "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix"
   },
   "author": "Meysam",
   "license": "ISC",
   "keywords": [],
   "dependencies": {
-    "@eslint/js": "^9.17.0",
     "@nestjs/cli": "10.4.9",
     "@nestjs/cqrs": "^10.2.8",
     "@nestjs/passport": "^10.0.3",
@@ -47,7 +46,6 @@
     "bcryptjs": "^2.4.3",
     "date-fns": "^4.1.0",
     "dotenv": "^16.4.7",
-    "eslint": "9.17.0",
     "express": "4.21.2",
     "http-problem-details": "^0.1.5",
     "joi": "^17.13.3",
@@ -61,5 +59,11 @@
     "ts-node": "10.9.2",
     "typeorm": "^0.3.20",
     "typescript": "5.7.2"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.17.0",
+    "eslint": "^9.17.0",
+    "globals": "^15.14.0",
+    "typescript-eslint": "^8.18.2"
   }
 }

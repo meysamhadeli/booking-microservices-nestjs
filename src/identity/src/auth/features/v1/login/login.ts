@@ -1,7 +1,7 @@
 import Joi from 'joi';
 import { GenerateToken } from '../generate-token/generate-token';
 import { ApiBearerAuth, ApiProperty, ApiResponse, ApiTags } from '@nestjs/swagger';
-import { Body, Controller, Get, HttpStatus, Inject, Post, UseGuards } from '@nestjs/common';
+import { Body, Controller, Inject, Post } from '@nestjs/common';
 import { AuthDto } from '../../../dtos/auth.dto';
 import { CommandBus, CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 import { IAuthRepository } from '../../../../data/repositories/auth.repository';

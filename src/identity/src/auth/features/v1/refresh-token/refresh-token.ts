@@ -1,7 +1,7 @@
 import Joi from 'joi';
 import { GenerateToken } from '../generate-token/generate-token';
 import { ApiBearerAuth, ApiResponse, ApiTags } from '@nestjs/swagger';
-import { Body, Controller, Inject, Post, Query, UnauthorizedException } from '@nestjs/common';
+import { Body, Controller, Inject, Post, UnauthorizedException } from '@nestjs/common';
 import { CommandBus, CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 import { AuthDto } from '../../../dtos/auth.dto';
 import { IAuthRepository } from '../../../../data/repositories/auth.repository';
@@ -69,7 +69,7 @@ export class RefreshTokenHandler implements ICommandHandler<RefreshToken> {
       const result = await this.commandBus.execute(new GenerateToken({ userId: userId }));
 
       return result;
-    } catch (error) {
+    } catch {
       throw new UnauthorizedException('Please authenticate');
     }
   }

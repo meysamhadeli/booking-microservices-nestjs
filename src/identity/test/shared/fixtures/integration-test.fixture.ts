@@ -41,7 +41,7 @@ export class IntegrationTestFixture {
         const [postgresContainer, postgresOptions] = await new PostgresContainer().start();
         this.fixture.postgresContainer = postgresContainer;
 
-        const [rabbitmqContainer, rabbitmqOptions] = await new RabbitmqContainer().start();
+        const rabbitmqContainer = await new RabbitmqContainer().start();
         this.fixture.rabbitmqContainer = rabbitmqContainer;
 
         const module: TestingModule = await Test.createTestingModule({

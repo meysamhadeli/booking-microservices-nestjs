@@ -1,5 +1,4 @@
 import { UserCreated } from 'building-blocks/contracts/identity.contract';
-import { faker } from '@faker-js/faker';
 import * as TypeMoq from 'typemoq';
 import { FakeUser } from '../../../shared/fakes/user/fake-user.entity';
 import { User } from '../../../../src/user/entities/user.entity';
@@ -23,8 +22,6 @@ describe('unit test for create user', () => {
   });
 
   it('should create a user and retrieve a valid data', async () => {
-    const email = faker.internet.email();
-
     mockUserRepository
       .setup((x) => x.findUserByEmail(TypeMoq.It.isAnyString()))
       .returns(() => null);

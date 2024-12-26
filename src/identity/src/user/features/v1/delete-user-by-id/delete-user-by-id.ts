@@ -5,14 +5,11 @@ import { CommandBus, CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 import {
   Controller,
   Delete,
-  HttpStatus,
   Inject,
   NotFoundException,
   Query,
-  Res,
   UseGuards
 } from '@nestjs/common';
-import { Response } from 'express';
 import { IUserRepository } from '../../../../data/repositories/user.repository';
 import { User } from '../../../entities/user.entity';
 import { JwtGuard } from 'building-blocks/passport/jwt.guard';
@@ -49,7 +46,7 @@ export class DeleteUserByIdController {
   @ApiResponse({ status: 401, description: 'UNAUTHORIZED' })
   @ApiResponse({ status: 400, description: 'BAD_REQUEST' })
   @ApiResponse({ status: 403, description: 'FORBIDDEN' })
-  public async deleteUserById(@Query('id') id: number, @Res() res: Response): Promise<UserDto> {
+  public async deleteUserById(@Query('id') id: number): Promise<UserDto> {
     const user = await this.commandBus.execute(
       new DeleteUserById({
         id: id
