@@ -5,7 +5,6 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import {PrometheusMetrics} from "building-blocks/monitoring/prometheus.metrics";
 import {ErrorHandlersFilter} from "building-blocks/filters/error-handlers.filter";
 import configs from "building-blocks/configs/configs";
-import {Request, Response} from "express";
 
 async function bootstrap() {
     const app = await NestFactory.create(AppModule);
@@ -31,7 +30,7 @@ async function bootstrap() {
 
     app.useGlobalPipes(new ValidationPipe({ transform: true }));
 
-    app.use((req: Request, res: Response, next: any) => {
+    app.use((req, res, next) => {
         if (req.originalUrl == '/' || req.originalUrl.includes('favicon.ico')) {
             return res.send(configs.serviceName);
         }

@@ -10,7 +10,7 @@ export interface PostgresContainerOptions {
     username: string;
     password: string;
     synchronize: boolean;
-    entities: MixedList<Function | string | EntitySchema>;
+    entities: MixedList<string | EntitySchema>;
     migrationsRun: boolean;
 }
 export declare class PostgresContainer {

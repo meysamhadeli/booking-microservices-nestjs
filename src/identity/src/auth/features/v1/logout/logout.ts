@@ -6,9 +6,7 @@ import {
   HttpStatus,
   Inject,
   NotFoundException,
-  Param,
   Post,
-  Query,
   Res
 } from '@nestjs/common';
 import { CommandBus, CommandHandler, ICommandHandler } from '@nestjs/cqrs';

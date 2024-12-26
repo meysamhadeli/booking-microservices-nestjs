@@ -1,4 +1,4 @@
-import { Entity, Column, PrimaryGeneratedColumn, OneToMany, ManyToOne, JoinColumn } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
 import { SeatClass } from '../enums/seat-class.enum';
 import { SeatType } from '../enums/seat-type.enum';
 import { Flight } from '../../flight/entities/flight.entity';

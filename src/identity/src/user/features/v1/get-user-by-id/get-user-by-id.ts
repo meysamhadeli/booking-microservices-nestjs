@@ -6,7 +6,6 @@ import {
   Get,
   Inject,
   NotFoundException,
-  Param,
   Query,
   UseGuards
 } from '@nestjs/common';

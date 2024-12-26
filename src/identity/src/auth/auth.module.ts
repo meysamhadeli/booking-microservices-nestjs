@@ -14,7 +14,6 @@ import { ValidateTokenHandler } from './features/v1/validate-token/validate-toke
 import { User } from '../user/entities/user.entity';
 import { UserRepository } from '../data/repositories/user.repository';
 import { RabbitmqModule } from 'building-blocks/rabbitmq/rabbitmq.module';
-import { RabbitmqOptions } from 'building-blocks/rabbitmq/rabbitmq-connection';
 
 @Module({
   imports: [CqrsModule, RabbitmqModule.forRoot(), TypeOrmModule.forFeature([Token, User])],
