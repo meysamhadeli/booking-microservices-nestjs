@@ -215,7 +215,6 @@ authorization: bearer {{Login.response.body.access.token}}
 }
 ###
 
-
 ################################# Passenger API #################################
 
 ###
