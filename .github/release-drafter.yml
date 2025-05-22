@@ -27,8 +27,8 @@ categories:
       - test
   - title: 👷 CI
     labels:
-      - ci       
-  - title: ♻️ Changes
+      - ci
+  - title: ♻️ Refactor
     labels:
       - changed
       - enhancement
@@ -66,34 +66,32 @@ autolabeler:
       - '/(security)\/.*/'
   - label: 'refactor'
     branch:
-      - '/(refactor)\/.*/'    
+      - '/(refactor)\/.*/'
   - label: 'docs'
     branch:
       - '/(docs)\/.*/'
   - label: 'ci'
     branch:
-      - '/(ci)\/.*/'  
+      - '/(ci)\/.*/'
   - label: 'test'
     branch:
-      - '/(test)\/.*/'    
+      - '/(test)\/.*/'
   - label: 'bug'
     branch:
-      - '/(fix)\/.*/'  
+      - '/(fix)\/.*/'
   - label: 'feature'
     branch:
       - '/(feat)\/.*/'
   - label: 'minor'
     branch:
-      - '/(feat)\/.*/'    
+      - '/(feat)\/.*/'
   - label: 'patch'
     branch:
-      - '/(fix)\/.*/'         
+      - '/(fix)\/.*/'
     body:
       - '/JIRA-[0-9]{1,4}/'
-      
-change-template: '- $TITLE (#$NUMBER)'
-exclude-contributors:
-  - 'meysamhadeli'
+
+change-template: '- $TITLE @$AUTHOR (#$NUMBER)'
 change-title-escapes: '\<*_&' # You can add # and @ to disable mentions, and add ` to disable code blocks.
 version-resolver:
   major:
