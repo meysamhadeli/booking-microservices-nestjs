@@ -31,7 +31,7 @@
     "@opentelemetry/sdk-trace-base": "^1.30.0",
     "@opentelemetry/sdk-trace-node": "^1.30.0",
     "@opentelemetry/semantic-conventions": "^1.28.0",
-    "@types/amqplib": "^0.10.6",
+    "@types/amqplib": "0.10.6",
     "@types/dotenv": "8.2.3",
     "@types/express": "5.0.0",
     "@types/node": "^22.10.2",

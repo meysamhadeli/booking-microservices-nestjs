@@ -1,0 +1,118 @@
+version: "3.8"
+
+services:
+  # Infrastructure
+  postgres:
+    image: postgres:16
+    container_name: postgres
+    restart: unless-stopped
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    networks:
+      - booking
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: rabbitmq
+    restart: unless-stopped
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    networks:
+      - booking
+
+  jaeger:
+    image: jaegertracing/all-in-one:1.56
+    container_name: jaeger
+    restart: unless-stopped
+    ports:
+      - "5775:5775/udp"
+      - "5778:5778"
+      - "6831:6831/udp"
+      - "6832:6832/udp"
+      - "9412:9411"
+      - "14268:14268"
+      - "16686:16686"
+    networks:
+      - booking
+
+  zipkin:
+    image: openzipkin/zipkin:latest
+    container_name: zipkin
+    restart: unless-stopped
+    ports:
+      - "9411:9411"
+    networks:
+      - booking
+
+  # Services
+  identity:
+    build:
+      context: .
+      dockerfile: src/identity/Dockerfile
+    container_name: identity
+    depends_on:
+      - postgres
+      - rabbitmq
+    env_file:
+      - ./src/identity/.env.docker
+    ports:
+      - "3333:3333"
+    networks:
+      - booking
+
+  flight:
+    build:
+      context: .
+      dockerfile: src/flight/Dockerfile
+    container_name: flight
+    depends_on:
+      - postgres
+      - rabbitmq
+    env_file:
+      - ./src/flight/.env.docker
+    ports:
+      - "3344:3344"
+    networks:
+      - booking
+
+  passenger:
+    build:
+      context: .
+      dockerfile: src/passenger/Dockerfile
+    container_name: passenger
+    depends_on:
+      - postgres
+      - rabbitmq
+    env_file:
+      - ./src/passenger/.env.docker
+    ports:
+      - "3355:3355"
+    networks:
+      - booking
+
+  booking:
+    build:
+      context: .
+      dockerfile: src/booking/Dockerfile
+    container_name: booking
+    depends_on:
+      - postgres
+      - rabbitmq
+    env_file:
+      - ./src/booking/.env.docker
+    ports:
+      - "3366:3366"
+    networks:
+      - booking
+
+networks:
+  booking:
+
+volumes:
+  pgdata:
