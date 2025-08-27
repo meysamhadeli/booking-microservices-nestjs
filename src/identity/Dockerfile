@@ -15,7 +15,7 @@ RUN npm install && npm run build
 FROM node:20.19.2-alpine AS runner
 WORKDIR /app
 
-ENV NODE_ENV=development
+ENV NODE_ENV=docker
 
 # Copy package files first
 COPY src/identity/package*.json ./

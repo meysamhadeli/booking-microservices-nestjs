@@ -13,7 +13,6 @@ services:
       POSTGRES_PASSWORD: postgres
     volumes:
       - pgdata:/var/lib/postgresql/data
-      - ./deployments/docker-compose/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
     networks:
       - booking
 
@@ -61,12 +60,7 @@ services:
       - postgres
       - rabbitmq
     env_file:
-      - ./src/identity/.env.development
-    environment:
-      POSTGRES_HOST: postgres
-      RABBITMQ_Host: rabbitmq
-      MONITORING_JAEGER_ENDPOINT: http://jaeger:14268/api/traces
-      MONITORING_ZIPKIN_ENDPOINT: http://zipkin:9411/api/v2/spans
+      - ./src/identity/.env.docker
     ports:
       - "3333:3333"
     networks:
@@ -81,12 +75,7 @@ services:
       - postgres
       - rabbitmq
     env_file:
-      - ./src/flight/.env.development
-    environment:
-      POSTGRES_HOST: postgres
-      RABBITMQ_Host: rabbitmq
-      MONITORING_JAEGER_ENDPOINT: http://jaeger:14268/api/traces
-      MONITORING_ZIPKIN_ENDPOINT: http://zipkin:9411/api/v2/spans
+      - ./src/flight/.env.docker
     ports:
       - "3344:3344"
     networks:
@@ -101,12 +90,7 @@ services:
       - postgres
       - rabbitmq
     env_file:
-      - ./src/passenger/.env.development
-    environment:
-      POSTGRES_HOST: postgres
-      RABBITMQ_Host: rabbitmq
-      MONITORING_JAEGER_ENDPOINT: http://jaeger:14268/api/traces
-      MONITORING_ZIPKIN_ENDPOINT: http://zipkin:9411/api/v2/spans
+      - ./src/passenger/.env.docker
     ports:
       - "3355:3355"
     networks:
@@ -121,12 +105,7 @@ services:
       - postgres
       - rabbitmq
     env_file:
-      - ./src/booking/.env.development
-    environment:
-      POSTGRES_HOST: postgres
-      RABBITMQ_Host: rabbitmq
-      MONITORING_JAEGER_ENDPOINT: http://jaeger:14268/api/traces
-      MONITORING_ZIPKIN_ENDPOINT: http://zipkin:9411/api/v2/spans
+      - ./src/booking/.env.docker
     ports:
       - "3366:3366"
     networks:
