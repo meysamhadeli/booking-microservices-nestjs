@@ -1,12 +1,12 @@
 import moment from 'moment';
 import Joi from 'joi';
 import jwt from 'jsonwebtoken';
-import { TokenType } from '../../../enums/token-type.enum';
+import { TokenType } from '@/auth/enums/token-type.enum';
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
-import { AuthDto } from '../../../dtos/auth.dto';
+import { AuthDto } from '@/auth/dtos/auth.dto';
 import { Inject } from '@nestjs/common';
-import { IAuthRepository } from '../../../../data/repositories/auth.repository';
-import { Token } from '../../../entities/token.entity';
+import { IAuthRepository } from '@/data/repositories/auth.repository';
+import { Token } from '@/auth/entities/token.entity';
 import configs from 'building-blocks/configs/configs';
 
 export class GenerateToken {

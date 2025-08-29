@@ -1,18 +1,18 @@
 import { Module } from '@nestjs/common';
 import { CqrsModule } from '@nestjs/cqrs';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { Token } from '../auth/entities/token.entity';
-import { AuthRepository } from '../data/repositories/auth.repository';
-import { LoginController, LoginHandler } from './features/v1/login/login';
-import { LogoutController, LogoutHandler } from './features/v1/logout/logout';
+import { Token } from '@/auth/entities/token.entity';
+import { AuthRepository } from '@/data/repositories/auth.repository';
+import { LoginController, LoginHandler } from '@/auth/features/v1/login/login';
+import { LogoutController, LogoutHandler } from '@/auth/features/v1/logout/logout';
 import {
   RefreshTokenController,
   RefreshTokenHandler
-} from './features/v1/refresh-token/refresh-token';
-import { GenerateTokenHandler } from './features/v1/generate-token/generate-token';
-import { ValidateTokenHandler } from './features/v1/validate-token/validate-token';
-import { User } from '../user/entities/user.entity';
-import { UserRepository } from '../data/repositories/user.repository';
+} from '@/auth/features/v1/refresh-token/refresh-token';
+import { GenerateTokenHandler } from '@/auth/features/v1/generate-token/generate-token';
+import { ValidateTokenHandler } from '@/auth/features/v1/validate-token/validate-token';
+import { User } from '@/user/entities/user.entity';
+import { UserRepository } from '@/data/repositories/user.repository';
 import { RabbitmqModule } from 'building-blocks/rabbitmq/rabbitmq.module';
 
 @Module({
