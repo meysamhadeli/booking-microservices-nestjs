@@ -1,0 +1,147 @@
+version: "3.8"
+
+services:
+  #######################################################
+  #  Rabbitmq
+  #######################################################
+  rabbitmq:
+    image: rabbitmq:management
+    container_name: rabbitmq
+    restart: unless-stopped
+    ports:
+      - 5672:5672
+      - 15672:15672
+    networks:
+      - booking
+
+
+    #######################################################
+    #  Postgress
+    #######################################################
+  postgres:
+    container_name: postgres
+    image: postgres:latest
+    restart: unless-stopped
+    ports:
+      - '5432:5432'
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    networks:
+      - booking
+
+
+      #######################################################
+      #  Jaeger
+      #######################################################
+  jaeger:
+    image: jaegertracing/all-in-one
+    container_name: jaeger
+    restart: unless-stopped
+    ports:
+      - 5775:5775/udp
+      - 5778:5778
+      - 6831:6831/udp
+      - 6832:6832/udp
+      - 9412:9411
+      - 14268:14268
+      - 16686:16686
+    networks:
+      - booking
+
+    #######################################################
+    #  Zipkin
+    #######################################################
+  zipkin:
+    image: openzipkin/zipkin:latest
+    container_name: zipkin
+    restart: unless-stopped
+    ports:
+      - '9411:9411'
+    networks:
+      - infrastructure
+
+
+    #######################################################
+    #  Identity
+    #######################################################
+  identity:
+    build:
+      context: ../..
+      dockerfile: ../../src/identity/Dockerfile
+    container_name: identity
+    depends_on:
+      - postgres
+      - rabbitmq
+    env_file:
+      - ../../src/identity/.env.docker
+    ports:
+      - "3333:3333"
+    networks:
+      - booking
+
+
+    #######################################################
+    #  Flight
+    #######################################################
+  flight:
+    build:
+      context: ../..
+      dockerfile: ../../src/flight/Dockerfile
+    container_name: flight
+    depends_on:
+      - postgres
+      - rabbitmq
+    env_file:
+      - ../../src/flight/.env.docker
+    ports:
+      - "3344:3344"
+    networks:
+      - booking
+
+
+    #######################################################
+    #  Passenger
+    #######################################################
+  passenger:
+    build:
+      context: ../..
+      dockerfile: ../../src/passenger/Dockerfile
+    container_name: passenger
+    depends_on:
+      - postgres
+      - rabbitmq
+    env_file:
+      - ../../src/passenger/.env.docker
+    ports:
+      - "3355:3355"
+    networks:
+      - booking
+
+
+    #######################################################
+    #  Booking
+    #######################################################
+  booking:
+    build:
+      context: ../..
+      dockerfile: ../../src/booking/Dockerfile
+    container_name: booking
+    depends_on:
+      - postgres
+      - rabbitmq
+    env_file:
+      - ../../src/booking/.env.docker
+    ports:
+      - "3366:3366"
+    networks:
+      - booking
+
+
+networks:
+  booking:
+
+volumes:
+  postgres-data:

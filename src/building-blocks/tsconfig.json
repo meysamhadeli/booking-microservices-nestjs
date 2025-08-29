@@ -8,6 +8,9 @@
     // Modules and Output
     "moduleResolution": "node",             // Use Node.js module resolution
     "baseUrl": "./",                        // Base directory for paths
+    "paths": {
+      "@/*": ["*"]  // Map @/ directly to root files
+    },
     "declaration": true,                    // Generate .d.ts files
     "sourceMap": true,                      // Generate source maps
     "removeComments": true,                 // Remove comments in output
