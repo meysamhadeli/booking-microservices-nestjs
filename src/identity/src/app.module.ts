@@ -1,16 +1,16 @@
 import { MiddlewareConsumer, Module, NestModule, OnApplicationBootstrap } from '@nestjs/common';
 import { RouterModule } from '@nestjs/core';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { UserModule } from './user/user.module';
-import { AuthModule } from './auth/auth.module';
+import { UserModule } from '@/user/user.module';
+import { AuthModule } from '@/auth/auth.module';
 import { PassportModule } from '@nestjs/passport';
 import { JwtModule } from '@nestjs/jwt';
 import { OpenTelemetryModule } from 'building-blocks/openTelemetry/open-telemetry.module';
 import { JwtStrategy } from 'building-blocks/passport/jwt.strategy';
 import configs from 'building-blocks/configs/configs';
-import { DataSeeder } from './data/seeds/data-seeder';
+import { DataSeeder } from '@/data/seeds/data-seeder';
 import { HttpContextMiddleware } from 'building-blocks/context/context';
-import { postgresOptions } from './data/data-source';
+import { postgresOptions } from '@/data/data-source';
 
 @Module({
   imports: [
