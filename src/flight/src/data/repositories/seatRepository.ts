@@ -1,6 +1,6 @@
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Seat } from '../../seat/entities/seat.entity';
+import { Seat } from '@/seat/entities/seat.entity';
 
 export interface ISeatRepository {
   createSeat(seat: Seat): Promise<Seat>;

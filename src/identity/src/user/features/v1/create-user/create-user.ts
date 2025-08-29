@@ -1,5 +1,5 @@
-import { UserDto } from '../../../dtos/user.dto';
-import { Role } from '../../../enums/role.enum';
+import { UserDto } from '@/user/dtos/user.dto';
+import { Role } from '@/user/enums/role.enum';
 import { ApiBearerAuth, ApiProperty, ApiResponse, ApiTags } from '@nestjs/swagger';
 import {
   Body,
@@ -12,8 +12,8 @@ import {
   UseGuards
 } from '@nestjs/common';
 import { CommandBus, CommandHandler, ICommandHandler } from '@nestjs/cqrs';
-import { User } from '../../../entities/user.entity';
-import { IUserRepository } from '../../../../data/repositories/user.repository';
+import { User } from '@/user/entities/user.entity';
+import { IUserRepository } from '@/data/repositories/user.repository';
 import Joi from 'joi';
 import { Response } from 'express';
 import { JwtGuard } from 'building-blocks/passport/jwt.guard';
@@ -21,7 +21,7 @@ import { IRabbitmqPublisher } from 'building-blocks/rabbitmq/rabbitmq-publisher'
 import { password } from 'building-blocks/utils/validation';
 import { UserCreated } from 'building-blocks/contracts/identity.contract';
 import { encryptPassword } from 'building-blocks/utils/encryption';
-import mapper from '../../../mapping';
+import mapper from '@/user/mapping';
 
 export class CreateUser {
   email: string;

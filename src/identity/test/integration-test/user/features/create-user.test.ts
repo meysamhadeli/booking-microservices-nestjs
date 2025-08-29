@@ -1,6 +1,6 @@
 import 'reflect-metadata';
-import {Fixture, IntegrationTestFixture} from "../../../shared/fixtures/integration-test.fixture";
-import {FakeCreateUser} from "../../../shared/fakes/user/fake-create-user";
+import {Fixture, IntegrationTestFixture} from '@tests/shared/fixtures/integration-test.fixture';
+import {FakeCreateUser} from '@tests/shared/fakes/user/fake-create-user';
 import {UserCreated} from "building-blocks/contracts/identity.contract";
 
 describe('integration test for create user', () => {

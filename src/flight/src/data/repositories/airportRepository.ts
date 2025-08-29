@@ -1,6 +1,6 @@
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Airport } from '../../airport/entities/airport.entity';
+import { Airport } from '@/airport/entities/airport.entity';
 
 export interface IAirportRepository {
   createAirport(airport: Airport): Promise<Airport>;

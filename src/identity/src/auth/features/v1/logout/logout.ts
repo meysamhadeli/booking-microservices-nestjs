@@ -11,9 +11,9 @@ import {
 } from '@nestjs/common';
 import { CommandBus, CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 import { Response } from 'express';
-import { IAuthRepository } from '../../../../data/repositories/auth.repository';
-import { IUserRepository } from '../../../../data/repositories/user.repository';
-import { TokenType } from '../../../enums/token-type.enum';
+import { IAuthRepository } from '@/data/repositories/auth.repository';
+import { IUserRepository } from '@/data/repositories/user.repository';
+import { TokenType } from '@/auth/enums/token-type.enum';
 
 export class Logout {
   accessToken: string;

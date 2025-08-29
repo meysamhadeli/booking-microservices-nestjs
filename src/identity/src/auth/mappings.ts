@@ -1,6 +1,6 @@
 import { TypeMapper } from 'ts-mapper';
-import { Token } from './entities/token.entity';
-import { TokenDto } from './dtos/token.dto';
+import { Token } from '@/auth/entities/token.entity';
+import { TokenDto } from '@/auth/dtos/token.dto';
 
 export class Mapper extends TypeMapper {
   constructor() {

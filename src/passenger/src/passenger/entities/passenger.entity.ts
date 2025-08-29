@@ -1,5 +1,5 @@
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
-import {PassengerType} from "../enums/passenger-type.enum";
+import {PassengerType} from '@/passenger/enums/passenger-type.enum';
 
 @Entity()
 export class Passenger {

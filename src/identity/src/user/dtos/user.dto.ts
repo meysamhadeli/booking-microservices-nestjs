@@ -1,4 +1,4 @@
-import { Role } from '../enums/role.enum';
+import { Role } from '@/user/enums/role.enum';
 
 export class UserDto {
   id: number;

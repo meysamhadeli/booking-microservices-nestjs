@@ -1,7 +1,7 @@
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
-import { TokenType } from '../../auth/enums/token-type.enum';
-import { Token } from '../../auth/entities/token.entity';
+import { TokenType } from '@/auth/enums/token-type.enum';
+import { Token } from '@/auth/entities/token.entity';
 
 export interface IAuthRepository {
   createToken(token: Token): Promise<void>;

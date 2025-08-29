@@ -1,7 +1,7 @@
 import 'reflect-metadata';
-import { EndToEndTestFixture } from '../../../shared/fixtures/end-to-end.fixture';
-import { Fixture } from '../../../shared/fixtures/integration-test.fixture';
-import { FakeCreateUserRequestDto } from '../../../shared/fakes/user/fake-create-user-request.dto';
+import { EndToEndTestFixture } from '@tests/shared/fixtures/end-to-end.fixture';
+import { Fixture } from '@tests/shared/fixtures/integration-test.fixture';
+import { FakeCreateUserRequestDto } from '@tests/shared/fakes/user/fake-create-user-request.dto';
 import request from "supertest";
 
 describe('end-to-end test for create user', () => {

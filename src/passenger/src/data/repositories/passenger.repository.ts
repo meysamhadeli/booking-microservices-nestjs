@@ -1,6 +1,6 @@
 import { Repository, SelectQueryBuilder } from 'typeorm';
 import {InjectRepository} from "@nestjs/typeorm";
-import {Passenger} from "../../passenger/entities/passenger.entity";
+import {Passenger} from '@/passenger/entities/passenger.entity';
 import {Injectable} from "@nestjs/common";
 
 export interface IPassengerRepository {

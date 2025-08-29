@@ -1,8 +1,8 @@
 import { Entity, Column, PrimaryGeneratedColumn, OneToMany, ManyToOne } from 'typeorm';
-import { FlightStatus } from '../enums/flight-status.enum';
-import { Aircraft } from '../../aircraft/entities/aircraft.entity';
-import { Airport } from '../../airport/entities/airport.entity';
-import { Seat } from '../../seat/entities/seat.entity';
+import { FlightStatus } from '@/flight/enums/flight-status.enum';
+import { Aircraft } from '@/aircraft/entities/aircraft.entity';
+import { Airport } from '@/airport/entities/airport.entity';
+import { Seat } from '@/seat/entities/seat.entity';
 
 @Entity()
 export class Flight {

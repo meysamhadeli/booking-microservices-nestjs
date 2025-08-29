@@ -1,11 +1,11 @@
 import Joi from 'joi';
-import { GenerateToken } from '../generate-token/generate-token';
+import { GenerateToken } from '@/auth/features/v1/generate-token/generate-token';
 import { ApiBearerAuth, ApiProperty, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { Body, Controller, Inject, Post } from '@nestjs/common';
-import { AuthDto } from '../../../dtos/auth.dto';
+import { AuthDto } from '@/auth/dtos/auth.dto';
 import { CommandBus, CommandHandler, ICommandHandler } from '@nestjs/cqrs';
-import { IAuthRepository } from '../../../../data/repositories/auth.repository';
-import { IUserRepository } from '../../../../data/repositories/user.repository';
+import { IAuthRepository } from '@/data/repositories/auth.repository';
+import { IUserRepository } from '@/data/repositories/user.repository';
 import { password } from 'building-blocks/utils/validation';
 import { isPasswordMatch } from 'building-blocks/utils/encryption';
 import ApplicationException from 'building-blocks/types/exeptions/application.exception';

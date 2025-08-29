@@ -1,4 +1,4 @@
-import {PassengerType} from "../enums/passenger-type.enum";
+import {PassengerType} from '@/passenger/enums/passenger-type.enum';
 
 export class PassengerDto {
     id: number;

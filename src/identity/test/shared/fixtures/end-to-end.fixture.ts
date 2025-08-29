@@ -1,3 +1,3 @@
-import { IntegrationTestFixture } from './integration-test.fixture';
+import { IntegrationTestFixture } from '@tests/shared/fixtures/integration-test.fixture';
 
 export class EndToEndTestFixture extends IntegrationTestFixture {}

@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { EntityManager } from 'typeorm';
-import { User } from '../../user/entities/user.entity';
-import { Role } from '../../user/enums/role.enum';
+import { User } from '@/user/entities/user.entity';
+import { Role } from '@/user/enums/role.enum';
 import { encryptPassword } from 'building-blocks/utils/encryption';
 
 @Injectable()
