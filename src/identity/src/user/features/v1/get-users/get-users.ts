@@ -1,13 +1,13 @@
-import { UserDto } from '../../../dtos/user.dto';
+import { UserDto } from '@/user/dtos/user.dto';
 import Joi from 'joi';
 import { ApiBearerAuth, ApiQuery, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { Controller, Get, Inject, Query, UseGuards } from '@nestjs/common';
 import { IQueryHandler, QueryBus, QueryHandler } from '@nestjs/cqrs';
-import { IUserRepository } from '../../../../data/repositories/user.repository';
-import { User } from '../../../entities/user.entity';
-import { JwtGuard } from '../../../../../../building-blocks/passport/jwt.guard';
+import { IUserRepository } from '@/data/repositories/user.repository';
+import { User } from '@/user/entities/user.entity';
+import { JwtGuard } from 'building-blocks/passport/jwt.guard';
 import { PagedResult } from 'building-blocks/types/pagination/paged-result';
-import mapper from '../../../mapping';
+import mapper from '@/user/mapping';
 
 export class GetUsers {
   page = 1;

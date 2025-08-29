@@ -1,5 +1,5 @@
 import Joi from 'joi';
-import { Role } from '../../../enums/role.enum';
+import { Role } from '@/user/enums/role.enum';
 import { ApiBearerAuth, ApiProperty, ApiResponse, ApiTags } from '@nestjs/swagger';
 import {
   Body,
@@ -14,8 +14,8 @@ import {
 } from '@nestjs/common';
 import { CommandBus, CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 import { Response } from 'express';
-import { IUserRepository } from '../../../../data/repositories/user.repository';
-import { User } from '../../../entities/user.entity';
+import { IUserRepository } from '@/data/repositories/user.repository';
+import { User } from '@/user/entities/user.entity';
 import { password } from 'building-blocks/utils/validation';
 import { JwtGuard } from 'building-blocks/passport/jwt.guard';
 import { IRabbitmqPublisher } from 'building-blocks/rabbitmq/rabbitmq-publisher';

@@ -1,4 +1,4 @@
-import { UserDto } from '../../../dtos/user.dto';
+import { UserDto } from '@/user/dtos/user.dto';
 import Joi from 'joi';
 import { ApiBearerAuth, ApiResponse, ApiTags } from '@nestjs/swagger';
 import {
@@ -10,10 +10,10 @@ import {
   UseGuards
 } from '@nestjs/common';
 import { IQueryHandler, QueryBus, QueryHandler } from '@nestjs/cqrs';
-import { IUserRepository } from '../../../../data/repositories/user.repository';
-import { User } from '../../../entities/user.entity';
-import { JwtGuard } from '../../../../../../building-blocks/passport/jwt.guard';
-import mapper from '../../../mapping';
+import { IUserRepository } from '@/data/repositories/user.repository';
+import { User } from '@/user/entities/user.entity';
+import { JwtGuard } from 'building-blocks/passport/jwt.guard';
+import mapper from '@/user/mapping';
 
 export class GetUserById {
   id: number;
