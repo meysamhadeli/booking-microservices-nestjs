@@ -7,7 +7,7 @@ import {
 import { Injectable } from '@nestjs/common';
 import { HttpContext } from 'building-blocks/context/context';
 import * as https from 'https';
-import { AxiosInstance } from 'axios/index';
+import { AxiosInstance } from 'axios';
 
 export interface IFlightClient {
   getFlightById(id: number): Promise<FlightDto>;

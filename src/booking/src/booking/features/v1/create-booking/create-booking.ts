@@ -11,16 +11,16 @@ import {
   UseGuards
 } from '@nestjs/common';
 import { CommandBus, CommandHandler, ICommandHandler } from '@nestjs/cqrs';
-import { BookingDto } from '../../../dtos/booking.dto';
+import { BookingDto } from '@/booking/dtos/booking.dto';
 import { JwtGuard } from 'building-blocks/passport/jwt.guard';
 import { Response } from 'express';
 import { IRabbitmqPublisher } from 'building-blocks/rabbitmq/rabbitmq-publisher';
-import { IFlightClient } from '../../../http-client/services/flight/flight.client';
-import { IPassengerClient } from '../../../http-client/services/passenger/passenger-client';
-import { IBookingRepository } from '../../../../data/repositories/booking.repository';
-import { Booking } from '../../../entities/booking.entity';
+import { IFlightClient } from '@/booking/http-client/services/flight/flight.client';
+import { IPassengerClient } from '@/booking/http-client/services/passenger/passenger-client';
+import { IBookingRepository } from '@/data/repositories/booking.repository';
+import { Booking } from '@/booking/entities/booking.entity';
 import { BookingCreated } from 'building-blocks/contracts/booking.contract';
-import mapper from '../../../mappings';
+import mapper from '@/booking/mappings';
 
 export class CreateBooking {
   passengerId: number;

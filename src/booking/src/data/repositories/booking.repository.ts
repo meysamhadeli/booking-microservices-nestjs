@@ -1,6 +1,6 @@
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Booking } from '../../booking/entities/booking.entity';
+import { Booking } from '@/booking/entities/booking.entity';
 
 export interface IBookingRepository {
   createBooking(booking: Booking): Promise<Booking>;
