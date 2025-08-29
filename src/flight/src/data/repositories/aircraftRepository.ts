@@ -1,5 +1,5 @@
 import { Repository } from 'typeorm';
-import { Aircraft } from '../../aircraft/entities/aircraft.entity';
+import { Aircraft } from '@/aircraft/entities/aircraft.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 
 export interface IAircraftRepository {

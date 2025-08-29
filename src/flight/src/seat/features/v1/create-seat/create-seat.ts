@@ -1,9 +1,9 @@
 import Joi from 'joi';
-import { ISeatRepository } from '../../../../data/repositories/seatRepository';
-import { IFlightRepository } from '../../../../data/repositories/flightRepository';
+import { ISeatRepository } from '@/data/repositories/seatRepository';
+import { IFlightRepository } from '@/data/repositories/flightRepository';
 import { ApiBearerAuth, ApiProperty, ApiResponse, ApiTags } from '@nestjs/swagger';
-import { SeatClass } from '../../../enums/seat-class.enum';
-import { SeatType } from '../../../enums/seat-type.enum';
+import { SeatClass } from '@/seat/enums/seat-class.enum';
+import { SeatType } from '@/seat/enums/seat-type.enum';
 import {
   Body,
   Controller,
@@ -14,14 +14,14 @@ import {
   Res,
   UseGuards
 } from '@nestjs/common';
-import { SeatDto } from '../../../dtos/seat.dto';
+import { SeatDto } from '@/seat/dtos/seat.dto';
 import { CommandBus, CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 import { Response } from 'express';
-import { Seat } from '../../../entities/seat.entity';
+import { Seat } from '@/seat/entities/seat.entity';
 import { JwtGuard } from 'building-blocks/passport/jwt.guard';
 import { IRabbitmqPublisher } from 'building-blocks/rabbitmq/rabbitmq-publisher';
 import { SeatCreated } from 'building-blocks/contracts/flight.contract';
-import mapper from '../../../mappings';
+import mapper from '@/seat/mappings';
 
 export class CreateSeat {
   seatNumber: string;

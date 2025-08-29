@@ -1,12 +1,12 @@
 import { Injectable } from '@nestjs/common';
 import { EntityManager } from 'typeorm';
-import { Aircraft } from '../../aircraft/entities/aircraft.entity';
-import { Airport } from '../../airport/entities/airport.entity';
-import { Flight } from '../../flight/entities/flight.entity';
-import { FlightStatus } from '../../flight/enums/flight-status.enum';
-import { Seat } from '../../seat/entities/seat.entity';
-import { SeatClass } from '../../seat/enums/seat-class.enum';
-import { SeatType } from '../../seat/enums/seat-type.enum';
+import { Aircraft } from '@/aircraft/entities/aircraft.entity';
+import { Airport } from '@/airport/entities/airport.entity';
+import { Flight } from '@/flight/entities/flight.entity';
+import { FlightStatus } from '@/flight/enums/flight-status.enum';
+import { Seat } from '@/seat/entities/seat.entity';
+import { SeatClass } from '@/seat/enums/seat-class.enum';
+import { SeatType } from '@/seat/enums/seat-type.enum';
 
 @Injectable()
 export class DataSeeder {

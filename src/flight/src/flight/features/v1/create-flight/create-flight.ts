@@ -1,8 +1,8 @@
 import Joi from 'joi';
-import { FlightDto } from '../../../dtos/flight.dto';
-import { IFlightRepository } from '../../../../data/repositories/flightRepository';
+import { FlightDto } from '@/flight/dtos/flight.dto';
+import { IFlightRepository } from '@/data/repositories/flightRepository';
 import { ApiBearerAuth, ApiProperty, ApiResponse, ApiTags } from '@nestjs/swagger';
-import { FlightStatus } from '../../../enums/flight-status.enum';
+import { FlightStatus } from '@/flight/enums/flight-status.enum';
 import {
   Body,
   ConflictException,
@@ -15,11 +15,11 @@ import {
 } from '@nestjs/common';
 import { CommandBus, CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 import { Response } from 'express';
-import { Flight } from '../../../entities/flight.entity';
+import { Flight } from '@/flight/entities/flight.entity';
 import { JwtGuard } from 'building-blocks/passport/jwt.guard';
 import { IRabbitmqPublisher } from 'building-blocks/rabbitmq/rabbitmq-publisher';
 import { FlightCreated } from 'building-blocks/contracts/flight.contract';
-import mapper from '../../../mappings';
+import mapper from '@/flight/mappings';
 
 export class CreateFlight {
   flightNumber: string;

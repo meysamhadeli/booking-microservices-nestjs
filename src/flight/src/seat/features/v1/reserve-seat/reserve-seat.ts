@@ -1,6 +1,6 @@
 import Joi from 'joi';
-import { ISeatRepository } from '../../../../data/repositories/seatRepository';
-import { IFlightRepository } from '../../../../data/repositories/flightRepository';
+import { ISeatRepository } from '@/data/repositories/seatRepository';
+import { IFlightRepository } from '@/data/repositories/flightRepository';
 import { ApiBearerAuth, ApiProperty, ApiResponse, ApiTags } from '@nestjs/swagger';
 import {
   Body,
@@ -14,7 +14,7 @@ import {
 } from '@nestjs/common';
 import { Response } from 'express';
 import { CommandBus, CommandHandler, ICommandHandler } from '@nestjs/cqrs';
-import { Seat } from '../../../entities/seat.entity';
+import { Seat } from '@/seat/entities/seat.entity';
 import { JwtGuard } from 'building-blocks/passport/jwt.guard';
 import { IRabbitmqPublisher } from 'building-blocks/rabbitmq/rabbitmq-publisher';
 import { SeatReserved } from 'building-blocks/contracts/flight.contract';

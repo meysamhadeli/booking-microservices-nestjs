@@ -1,12 +1,12 @@
 import { Module } from '@nestjs/common';
 import { CqrsModule } from '@nestjs/cqrs';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { Aircraft } from './entities/aircraft.entity';
-import { AircraftRepository } from '../data/repositories/aircraftRepository';
+import { Aircraft } from '@/aircraft/entities/aircraft.entity';
+import { AircraftRepository } from '@/data/repositories/aircraftRepository';
 import {
   CreateAircraftController,
   CreateAircraftHandler
-} from './features/v1/create-aircraft/create-aircraft';
+} from '@/aircraft/features/v1/create-aircraft/create-aircraft';
 import { RabbitmqModule } from 'building-blocks/rabbitmq/rabbitmq.module';
 
 @Module({

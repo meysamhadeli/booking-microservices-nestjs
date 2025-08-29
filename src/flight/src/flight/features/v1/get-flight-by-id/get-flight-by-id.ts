@@ -1,13 +1,13 @@
 import Joi from 'joi';
-import { FlightDto } from '../../../dtos/flight.dto';
-import { IFlightRepository } from '../../../../data/repositories/flightRepository';
+import { FlightDto } from '@/flight/dtos/flight.dto';
+import { IFlightRepository } from '@/data/repositories/flightRepository';
 import { ApiBearerAuth, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { Controller, Get, Inject, NotFoundException, Query, UseGuards } from '@nestjs/common';
 import { IQueryHandler, QueryBus, QueryHandler } from '@nestjs/cqrs';
-import { Flight } from '../../../entities/flight.entity';
+import { Flight } from '@/flight/entities/flight.entity';
 import { JwtGuard } from 'building-blocks/passport/jwt.guard';
 import { IRabbitmqPublisher } from 'building-blocks/rabbitmq/rabbitmq-publisher';
-import mapper from '../../../mappings';
+import mapper from '@/flight/mappings';
 
 export class GetFlightById {
   id: number;
