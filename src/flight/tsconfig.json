@@ -8,6 +8,10 @@
     // Modules and Output
     "moduleResolution": "node",             // Use Node.js module resolution
     "baseUrl": "./",                        // Base directory for paths
+    "paths": {
+      "@/*": ["src/*"],
+      "@tests/*": ["test/*"]
+    },
     "outDir": "./dist",                     // Output directory
     "removeComments": true,                 // Remove comments in output
 
