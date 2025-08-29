@@ -1,16 +1,16 @@
 import {Inject, Module, OnApplicationBootstrap} from '@nestjs/common';
 import {CqrsModule} from '@nestjs/cqrs';
 import {TypeOrmModule} from '@nestjs/typeorm';
-import {IPassengerRepository, PassengerRepository} from "../data/repositories/passenger.repository";
-import {Passenger} from "./entities/passenger.entity";
+import {IPassengerRepository, PassengerRepository} from '@/data/repositories/passenger.repository';
+import {Passenger} from '@/passenger/entities/passenger.entity';
 import {RabbitmqModule} from "building-blocks/rabbitmq/rabbitmq.module";
 import {
     GetPassengerByIdController,
     GetPassengerByIdHandler
-} from "./features/v1/get-passenger-by-id/get-passenger-by-id";
-import {GetPassengersController, GetPassengersHandler} from "./features/v1/get-passengers/get-passengers";
+} from '@/passenger/features/v1/get-passenger-by-id/get-passenger-by-id';
+import {GetPassengersController, GetPassengersHandler} from '@/passenger/features/v1/get-passengers/get-passengers';
 import {UserCreated} from "building-blocks/contracts/identity.contract";
-import {CreateUserHandler} from "../user/consumers/create-user";
+import {CreateUserHandler} from '@/user/consumers/create-user';
 import {IRabbitmqConsumer} from "building-blocks/rabbitmq/rabbitmq-subscriber";
 
 

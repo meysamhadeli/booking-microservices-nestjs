@@ -1,7 +1,7 @@
 import {Inject, Logger} from '@nestjs/common';
-import {Passenger} from "../../passenger/entities/passenger.entity";
-import {IPassengerRepository} from "../../data/repositories/passenger.repository";
-import {PassengerType} from "../../passenger/enums/passenger-type.enum";
+import {Passenger} from '@/passenger/entities/passenger.entity';
+import {IPassengerRepository} from '@/data/repositories/passenger.repository';
+import {PassengerType} from '@/passenger/enums/passenger-type.enum';
 import {UserCreated} from "building-blocks/contracts/identity.contract";
 
 let _passengerRepository: IPassengerRepository;
