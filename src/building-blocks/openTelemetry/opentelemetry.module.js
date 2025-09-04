@@ -28,18 +28,24 @@ let OpenTelemetryModule = class OpenTelemetryModule {
         const otelSdk = new sdk_node_1.NodeSDK({
             resource: (0, resources_1.defaultResource)().merge((0, resources_1.resourceFromAttributes)({
                 [semantic_conventions_1.ATTR_SERVICE_NAME]: configs_1.default.opentelemetry.serviceName,
-                [semantic_conventions_1.ATTR_SERVICE_VERSION]: configs_1.default.opentelemetry.serviceVersion,
+                [semantic_conventions_1.ATTR_SERVICE_VERSION]: configs_1.default.opentelemetry.serviceVersion
             })),
             instrumentations: [(0, auto_instrumentations_node_1.getNodeAutoInstrumentations)()],
             traceExporter: new exporter_trace_otlp_grpc_1.OTLPTraceExporter({ url: configs_1.default.opentelemetry.collectorUrl }),
-            metricReader: new sdk_node_1.metrics.PeriodicExportingMetricReader({ exporter: new exporter_metrics_otlp_grpc_1.OTLPMetricExporter({ url: configs_1.default.opentelemetry.collectorUrl }) }),
-            logRecordProcessors: [new sdk_logs_1.SimpleLogRecordProcessor(new exporter_logs_otlp_grpc_1.OTLPLogExporter({ url: configs_1.default.opentelemetry.collectorUrl }))],
-            textMapPropagator: new core_1.CompositePropagator({ propagators: [new core_1.W3CTraceContextPropagator(), new core_1.W3CBaggagePropagator()] }),
+            metricReader: new sdk_node_1.metrics.PeriodicExportingMetricReader({
+                exporter: new exporter_metrics_otlp_grpc_1.OTLPMetricExporter({ url: configs_1.default.opentelemetry.collectorUrl })
+            }),
+            logRecordProcessors: [
+                new sdk_logs_1.SimpleLogRecordProcessor(new exporter_logs_otlp_grpc_1.OTLPLogExporter({ url: configs_1.default.opentelemetry.collectorUrl }))
+            ],
+            textMapPropagator: new core_1.CompositePropagator({
+                propagators: [new core_1.W3CTraceContextPropagator(), new core_1.W3CBaggagePropagator()]
+            })
         });
         process.on('SIGTERM', () => {
             otelSdk
                 .shutdown()
-                .then(() => console.log('SDK shut down successfully'), err => console.log('Error shutting down SDK', err))
+                .then(() => console.log('SDK shut down successfully'), (err) => console.log('Error shutting down SDK', err))
                 .finally(() => process.exit(0));
         });
         otelSdk.start();
@@ -49,12 +55,8 @@ exports.OpenTelemetryModule = OpenTelemetryModule;
 exports.OpenTelemetryModule = OpenTelemetryModule = __decorate([
     (0, common_1.Module)({
         controllers: [],
-        providers: [
-            common_1.Logger,
-            otel_logger_1.OtelLogger,
-            otel_diagnostics_provider_1.OtelDiagnosticsProvider
-        ],
-        exports: [otel_logger_1.OtelLogger, otel_diagnostics_provider_1.OtelDiagnosticsProvider],
+        providers: [common_1.Logger, otel_logger_1.OtelLogger, otel_diagnostics_provider_1.OtelDiagnosticsProvider],
+        exports: [otel_logger_1.OtelLogger, otel_diagnostics_provider_1.OtelDiagnosticsProvider]
     })
 ], OpenTelemetryModule);
 //# sourceMappingURL=opentelemetry.module.js.map

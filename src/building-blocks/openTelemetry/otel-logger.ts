@@ -1,6 +1,6 @@
 import { Injectable, Logger, LoggerService, LogLevel } from '@nestjs/common';
 import { SeverityNumber } from '@opentelemetry/api-logs';
-import {logs} from '@opentelemetry/api-logs';
+import { logs } from '@opentelemetry/api-logs';
 
 @Injectable()
 export class OtelLogger implements LoggerService {
@@ -50,17 +50,20 @@ export class OtelLogger implements LoggerService {
     let msgText = typeof message === 'string' ? message : JSON.stringify(message);
     if (optionalParams && optionalParams.length > 0) {
       msgText +=
-        ' ' + optionalParams.map(param => (typeof param === 'string' ? param : JSON.stringify(param))).join(' ');
+        ' ' +
+        optionalParams
+          .map((param) => (typeof param === 'string' ? param : JSON.stringify(param)))
+          .join(' ');
     }
     return msgText;
   }
 
   private emit(severityNumber: SeverityNumber, severityText: string, msg: string): void {
-    const logger = logs.getLogger("booking")
+    const logger = logs.getLogger('booking');
     logger.emit({
       severityNumber,
       severityText,
-      body: msg,
+      body: msg
     });
   }
 }

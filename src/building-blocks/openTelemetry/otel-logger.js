@@ -54,16 +54,19 @@ let OtelLogger = class OtelLogger {
         let msgText = typeof message === 'string' ? message : JSON.stringify(message);
         if (optionalParams && optionalParams.length > 0) {
             msgText +=
-                ' ' + optionalParams.map(param => (typeof param === 'string' ? param : JSON.stringify(param))).join(' ');
+                ' ' +
+                    optionalParams
+                        .map((param) => (typeof param === 'string' ? param : JSON.stringify(param)))
+                        .join(' ');
         }
         return msgText;
     }
     emit(severityNumber, severityText, msg) {
-        const logger = api_logs_2.logs.getLogger("booking");
+        const logger = api_logs_2.logs.getLogger('booking');
         logger.emit({
             severityNumber,
             severityText,
-            body: msg,
+            body: msg
         });
     }
 };
