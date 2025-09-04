@@ -15,7 +15,7 @@ const common_1 = require("@nestjs/common");
 const rabbitmq_publisher_1 = require("./rabbitmq-publisher");
 const rabbitmq_connection_1 = require("./rabbitmq-connection");
 const rabbitmq_subscriber_1 = require("./rabbitmq-subscriber");
-const opentelemetry_module_1 = require("../opentelemetry/opentelemetry.module");
+const opentelemetry_module_1 = require("../openTelemetry/opentelemetry.module");
 let RabbitmqModule = RabbitmqModule_1 = class RabbitmqModule {
     rabbitmqConnection;
     constructor(rabbitmqConnection) {

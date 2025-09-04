@@ -1,5 +1,5 @@
 import { RabbitmqConnection } from './rabbitmq-connection';
-import { OtelDiagnosticsProvider } from '../opentelemetry/otel-diagnostics-provider';
+import { OtelDiagnosticsProvider } from '../openTelemetry/otel-diagnostics-provider';
 export interface IRabbitmqPublisher {
     publishMessage<T>(message: T): Promise<void>;
     isPublished<T>(message: T): Promise<boolean>;

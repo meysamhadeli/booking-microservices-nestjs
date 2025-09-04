@@ -7,7 +7,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { getUnixTime } from 'date-fns';
 import configs from '../configs/configs';
 import asyncRetry from 'async-retry';
-import { OtelDiagnosticsProvider } from '../opentelemetry/otel-diagnostics-provider';
+import { OtelDiagnosticsProvider } from '../openTelemetry/otel-diagnostics-provider';
 
 const publishedMessages: string[] = [];
 

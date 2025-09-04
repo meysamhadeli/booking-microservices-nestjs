@@ -8,7 +8,7 @@ import configs from 'building-blocks/configs/configs';
 import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { HttpContextMiddleware } from 'building-blocks/context/context';
 import {PassengerModule} from '@/passenger/passenger.module';
-import { OpenTelemetryModule } from 'building-blocks/opentelemetry/opentelemetry.module';
+import { OpenTelemetryModule } from 'building-blocks/openTelemetry/opentelemetry.module';
 
 @Module({
     imports: [

@@ -2,7 +2,7 @@ import { DynamicModule, Global, Module, OnApplicationShutdown } from '@nestjs/co
 import { RabbitmqPublisher } from './rabbitmq-publisher';
 import { RabbitmqConnection, RabbitmqOptions } from './rabbitmq-connection';
 import { RabbitmqConsumer } from './rabbitmq-subscriber';
-import { OpenTelemetryModule } from '../opentelemetry/opentelemetry.module';
+import { OpenTelemetryModule } from '../openTelemetry/opentelemetry.module';
 
 @Global()
 @Module({

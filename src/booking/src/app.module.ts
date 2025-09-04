@@ -8,7 +8,7 @@ import { BookingModule } from '@/booking/booking.module';
 import configs from 'building-blocks/configs/configs';
 import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { HttpContextMiddleware } from 'building-blocks/context/context';
-import { OpenTelemetryModule } from 'building-blocks/opentelemetry/opentelemetry.module';
+import { OpenTelemetryModule } from 'building-blocks/openTelemetry/opentelemetry.module';
 
 @Module({
   imports: [

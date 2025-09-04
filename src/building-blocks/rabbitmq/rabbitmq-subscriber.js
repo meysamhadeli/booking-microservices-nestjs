@@ -21,7 +21,7 @@ const serilization_1 = require("../utils/serilization");
 const time_1 = require("../utils/time");
 const configs_1 = __importDefault(require("../configs/configs"));
 const async_retry_1 = __importDefault(require("async-retry"));
-const otel_diagnostics_provider_1 = require("../opentelemetry/otel-diagnostics-provider");
+const otel_diagnostics_provider_1 = require("../openTelemetry/otel-diagnostics-provider");
 const consumedMessages = [];
 let RabbitmqConsumer = class RabbitmqConsumer {
     rabbitMQConnection;

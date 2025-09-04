@@ -22,7 +22,7 @@ const uuid_1 = require("uuid");
 const date_fns_1 = require("date-fns");
 const configs_1 = __importDefault(require("../configs/configs"));
 const async_retry_1 = __importDefault(require("async-retry"));
-const otel_diagnostics_provider_1 = require("../opentelemetry/otel-diagnostics-provider");
+const otel_diagnostics_provider_1 = require("../openTelemetry/otel-diagnostics-provider");
 const publishedMessages = [];
 let RabbitmqPublisher = class RabbitmqPublisher {
     rabbitMQConnection;

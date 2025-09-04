@@ -6,7 +6,7 @@ import { deserializeObject } from '../utils/serilization';
 import { sleep } from '../utils/time';
 import configs from '../configs/configs';
 import asyncRetry from 'async-retry';
-import { OtelDiagnosticsProvider } from '../opentelemetry/otel-diagnostics-provider';
+import { OtelDiagnosticsProvider } from '../openTelemetry/otel-diagnostics-provider';
 
 type handlerFunc<T> = (queue: string, message: T) => void;
 const consumedMessages: string[] = [];

@@ -12,7 +12,7 @@ import { DataSeeder } from '@/data/seeds/data-seeder';
 import { JwtStrategy } from 'building-blocks/passport/jwt.strategy';
 import configs from 'building-blocks/configs/configs';
 import { HttpContextMiddleware } from 'building-blocks/context/context';
-import { OpenTelemetryModule } from 'building-blocks/opentelemetry/opentelemetry.module';
+import { OpenTelemetryModule } from 'building-blocks/openTelemetry/opentelemetry.module';
 
 @Module({
   imports: [

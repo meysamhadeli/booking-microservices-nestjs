@@ -5,8 +5,8 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import {PrometheusMetrics} from "building-blocks/monitoring/prometheus.metrics";
 import {ErrorHandlersFilter} from "building-blocks/filters/error-handlers.filter";
 import configs from "building-blocks/configs/configs";
-import { OpenTelemetryModule } from 'building-blocks/opentelemetry/opentelemetry.module';
-import { OtelLogger } from 'building-blocks/opentelemetry/otel-logger';
+import { OtelLogger } from 'building-blocks/openTelemetry/otel-logger';
+import { OpenTelemetryModule } from 'building-blocks/openTelemetry/opentelemetry.module';
 
 async function bootstrap() {
 

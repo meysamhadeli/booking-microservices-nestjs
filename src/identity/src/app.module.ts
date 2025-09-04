@@ -10,7 +10,7 @@ import configs from 'building-blocks/configs/configs';
 import { DataSeeder } from '@/data/seeds/data-seeder';
 import { HttpContextMiddleware } from 'building-blocks/context/context';
 import { postgresOptions } from '@/data/data-source';
-import { OpenTelemetryModule } from 'building-blocks/opentelemetry/opentelemetry.module';
+import { OpenTelemetryModule } from 'building-blocks/openTelemetry/opentelemetry.module';
 
 @Module({
   imports: [
