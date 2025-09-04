@@ -19,7 +19,7 @@ import {JwtGuard} from 'building-blocks/passport/jwt.guard';
 import {IRabbitmqConnection} from 'building-blocks/rabbitmq/rabbitmq-connection';
 import {StartedTestContainer} from 'testcontainers';
 import {TypeOrmModuleOptions} from "@nestjs/typeorm/dist/interfaces/typeorm-options.interface";
-import { OpenTelemetryModule } from 'building-blocks/opentelemetry/opentelemetry.module';
+import { OpenTelemetryModule } from 'building-blocks/openTelemetry/opentelemetry.module';
 
 export class Fixture {
     userRepository: IUserRepository;
