@@ -1,6 +1,6 @@
 import 'reflect-metadata';
 import { StartedTestContainer } from 'testcontainers';
-import { DataSourceOptions, EntitySchema, MixedList } from "typeorm";
+import { DataSourceOptions, EntitySchema, MixedList } from 'typeorm';
 export interface PostgresContainerOptions {
     imageName: string;
     type: string;

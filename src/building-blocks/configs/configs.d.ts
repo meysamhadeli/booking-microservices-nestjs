@@ -33,9 +33,10 @@ declare const _default: {
         minTimeout: any;
         maxTimeout: any;
     };
-    monitoring: {
-        jaegerEndpoint: any;
-        zipkinEndpoint: any;
+    opentelemetry: {
+        serviceName: any;
+        serviceVersion: any;
+        collectorUrl: any;
     };
 };
 export default _default;

@@ -14,8 +14,8 @@ exports.RabbitmqModule = void 0;
 const common_1 = require("@nestjs/common");
 const rabbitmq_publisher_1 = require("./rabbitmq-publisher");
 const rabbitmq_connection_1 = require("./rabbitmq-connection");
-const open_telemetry_module_1 = require("../openTelemetry/open-telemetry.module");
 const rabbitmq_subscriber_1 = require("./rabbitmq-subscriber");
+const opentelemetry_module_1 = require("../openTelemetry/opentelemetry.module");
 let RabbitmqModule = RabbitmqModule_1 = class RabbitmqModule {
     rabbitmqConnection;
     constructor(rabbitmqConnection) {
@@ -35,7 +35,7 @@ exports.RabbitmqModule = RabbitmqModule;
 exports.RabbitmqModule = RabbitmqModule = RabbitmqModule_1 = __decorate([
     (0, common_1.Global)(),
     (0, common_1.Module)({
-        imports: [open_telemetry_module_1.OpenTelemetryModule.forRoot()],
+        imports: [opentelemetry_module_1.OpenTelemetryModule],
         providers: [
             rabbitmq_publisher_1.RabbitmqPublisher,
             {

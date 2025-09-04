@@ -1,12 +1,12 @@
-import { Inject, Injectable, Logger } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { RabbitmqConnection } from './rabbitmq-connection';
 import { getTypeName } from '../utils/reflection';
 import { snakeCase } from 'lodash';
 import { deserializeObject } from '../utils/serilization';
-import { IOpenTelemetryTracer, OpenTelemetryTracer } from '../openTelemetry/open-telemetry-tracer';
 import { sleep } from '../utils/time';
 import configs from '../configs/configs';
 import asyncRetry from 'async-retry';
+import { OtelDiagnosticsProvider } from '../openTelemetry/otel-diagnostics-provider';
 
 type handlerFunc<T> = (queue: string, message: T) => void;
 const consumedMessages: string[] = [];
@@ -20,7 +20,7 @@ export interface IRabbitmqConsumer {
 export class RabbitmqConsumer<T> implements IRabbitmqConsumer {
   constructor(
     private readonly rabbitMQConnection: RabbitmqConnection,
-    @Inject('IOpenTelemetryTracer') private readonly openTelemetryTracer: IOpenTelemetryTracer
+    private readonly otelDiagnosticsProvider: OtelDiagnosticsProvider
   ) {}
 
   async consumeMessage<T>(type: T, handler: handlerFunc<T>): Promise<void> {
@@ -29,9 +29,7 @@ export class RabbitmqConsumer<T> implements IRabbitmqConsumer {
         async () => {
           const channel = await this.rabbitMQConnection.getChannel();
 
-          const tracer = await this.openTelemetryTracer.createTracer({
-            serviceName: 'rabbitmq_subscriber_tracer'
-          });
+          const tracer = this.otelDiagnosticsProvider.getTracer();
 
           const exchangeName = snakeCase(getTypeName(type));
 

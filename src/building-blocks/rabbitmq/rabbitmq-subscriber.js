@@ -8,9 +8,6 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-var __param = (this && this.__param) || function (paramIndex, decorator) {
-    return function (target, key) { decorator(target, key, paramIndex); }
-};
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
@@ -24,21 +21,20 @@ const serilization_1 = require("../utils/serilization");
 const time_1 = require("../utils/time");
 const configs_1 = __importDefault(require("../configs/configs"));
 const async_retry_1 = __importDefault(require("async-retry"));
+const otel_diagnostics_provider_1 = require("../openTelemetry/otel-diagnostics-provider");
 const consumedMessages = [];
 let RabbitmqConsumer = class RabbitmqConsumer {
     rabbitMQConnection;
-    openTelemetryTracer;
-    constructor(rabbitMQConnection, openTelemetryTracer) {
+    otelDiagnosticsProvider;
+    constructor(rabbitMQConnection, otelDiagnosticsProvider) {
         this.rabbitMQConnection = rabbitMQConnection;
-        this.openTelemetryTracer = openTelemetryTracer;
+        this.otelDiagnosticsProvider = otelDiagnosticsProvider;
     }
     async consumeMessage(type, handler) {
         try {
             await (0, async_retry_1.default)(async () => {
                 const channel = await this.rabbitMQConnection.getChannel();
-                const tracer = await this.openTelemetryTracer.createTracer({
-                    serviceName: 'rabbitmq_subscriber_tracer'
-                });
+                const tracer = this.otelDiagnosticsProvider.getTracer();
                 const exchangeName = (0, lodash_1.snakeCase)((0, reflection_1.getTypeName)(type));
                 await channel.assertExchange(exchangeName, 'fanout', {
                     durable: false
@@ -93,7 +89,7 @@ let RabbitmqConsumer = class RabbitmqConsumer {
 exports.RabbitmqConsumer = RabbitmqConsumer;
 exports.RabbitmqConsumer = RabbitmqConsumer = __decorate([
     (0, common_1.Injectable)(),
-    __param(1, (0, common_1.Inject)('IOpenTelemetryTracer')),
-    __metadata("design:paramtypes", [rabbitmq_connection_1.RabbitmqConnection, Object])
+    __metadata("design:paramtypes", [rabbitmq_connection_1.RabbitmqConnection,
+        otel_diagnostics_provider_1.OtelDiagnosticsProvider])
 ], RabbitmqConsumer);
 //# sourceMappingURL=rabbitmq-subscriber.js.map

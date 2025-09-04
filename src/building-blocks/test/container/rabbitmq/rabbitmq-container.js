@@ -20,11 +20,8 @@ class RabbitmqContainer {
             password: defaultRabbitmqOptions.password,
             host: defaultRabbitmqOptions.host
         };
-        const rabbitmqOptions = {
-            ...configs_1.default.rabbitmq
-        };
         common_1.Logger.log(`Test rabbitmq with port ${containerPort} established`);
-        return [rabbitmqContainerStarted, rabbitmqOptions];
+        return rabbitmqContainerStarted;
     }
     async getContainerStarted(options) {
         const rabbitmqContainer = new testcontainers_1.GenericContainer(options.imageName)

@@ -56,12 +56,13 @@ const envVarsSchema = Joi.object()
     RETRY_MAX_TIMEOUT: Joi.number()
       .default(60000)
       .description('Maximum time before retrying (60 seconds)'),
-    MONITORING_JAEGER_ENDPOINT: Joi.string()
-      .default('http://localhost:14268/api/traces')
-      .description('Jaeger Endpoint'),
-    MONITORING_ZIPKIN_ENDPOINT: Joi.string()
-      .default('http://zipkin-server:9411/api/v2/spans')
-      .description('Zipkin Endpoint')
+    OPEN_TELEMETRY_COLLECTOR_URL: Joi.string()
+      .default('http://localhost:4317')
+      .description('Collector URL'),
+    OPEN_TELEMETRY_SERVICE_VERSION: Joi.number().default(1).description('Service Version'),
+    OPEN_TELEMETRY_SERVICE_NAME: Joi.string()
+      .default('default_service_name')
+      .description('Service Name')
   })
   .unknown();
 
@@ -108,8 +109,9 @@ export default {
     minTimeout: envVars.RETRY_MIN_TIMEOUT,
     maxTimeout: envVars.RETRY_MAX_TIMEOUT
   },
-  monitoring: {
-    jaegerEndpoint: envVars.MONITORING_JAEGER_ENDPOINT,
-    zipkinEndpoint: envVars.MONITORING_ZIPKIN_ENDPOINT
+  opentelemetry: {
+    serviceName: envVars.OPEN_TELEMETRY_SERVICE_NAME,
+    serviceVersion: envVars.OPEN_TELEMETRY_SERVICE_VERSION,
+    collectorUrl: envVars.OPEN_TELEMETRY_COLLECTOR_URL
   }
 };

@@ -1,0 +1,60 @@
+# https://grafana.com/docs/grafana/latest/administration/provisioning/
+# https://github.com/grafana/tempo/blob/main/example/docker-compose/shared/grafana-datasources.yaml
+# https://github.com/grafana/intro-to-mltp/blob/main/grafana/provisioning/datasources/datasources.yaml
+
+apiVersion: 1
+
+datasources:
+  # https://github.com/grafana/tempo/blob/main/example/docker-compose/shared/grafana-datasources.yaml
+  - name: Prometheus
+    type: prometheus
+    typeName: Prometheus
+    uid: prometheus-uid
+    access: proxy
+    orgId: 1
+    url: http://prometheus:9090
+    basicAuth: false
+    isDefault: true
+    readOnly: false
+    user: ''
+    database: ''
+    version: 1
+    editable: false
+    jsonData:
+      httpMethod: GET
+
+  # https://github.com/grafana/tempo/blob/main/example/docker-compose/shared/grafana-datasources.yaml
+  - name: Tempo
+    type: tempo
+    access: proxy
+    orgId: 1
+    url: http://tempo:3200
+    basicAuth: false
+    isDefault: false
+    version: 1
+    editable: false
+    apiVersion: 1
+    uid: tempo-uid
+    jsonData:
+      httpMethod: GET
+      serviceMap:
+        datasourceUid: prometheus-uid
+      streamingEnabled:
+        search: true
+        
+  #https://github.com/grafana/intro-to-mltp/blob/main/grafana/provisioning/datasources/datasources.yaml      
+  - name: Loki
+    type: loki
+    access: proxy
+    uid: loki-uid
+    url: http://loki:3100
+    user: ''
+    database: ''
+    readOnly: false
+    jsonData:
+      derivedFields:
+        - datasourceUid: tempo-uid
+          matcherRegex: "^.*?traceI[d|D]=(\\w+).*$"
+          name: traceId
+          url: '$${__value.raw}'
+          

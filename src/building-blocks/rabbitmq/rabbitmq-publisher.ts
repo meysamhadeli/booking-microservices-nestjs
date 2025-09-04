@@ -1,13 +1,13 @@
 import { Inject, Injectable, Logger } from '@nestjs/common';
-import { IRabbitmqConnection, RabbitmqConnection } from './rabbitmq-connection';
+import { RabbitmqConnection } from './rabbitmq-connection';
 import { serializeObject } from '../utils/serilization';
 import { getTypeName } from '../utils/reflection';
 import { snakeCase } from 'lodash';
 import { v4 as uuidv4 } from 'uuid';
 import { getUnixTime } from 'date-fns';
-import { IOpenTelemetryTracer, OpenTelemetryTracer } from '../openTelemetry/open-telemetry-tracer';
 import configs from '../configs/configs';
 import asyncRetry from 'async-retry';
+import { OtelDiagnosticsProvider } from '../openTelemetry/otel-diagnostics-provider';
 
 const publishedMessages: string[] = [];
 
@@ -20,7 +20,7 @@ export interface IRabbitmqPublisher {
 export class RabbitmqPublisher implements IRabbitmqPublisher {
   constructor(
     private readonly rabbitMQConnection: RabbitmqConnection,
-    @Inject('IOpenTelemetryTracer') private readonly openTelemetryTracer: IOpenTelemetryTracer
+    private readonly otelDiagnosticsProvider: OtelDiagnosticsProvider
   ) {}
 
   async publishMessage<T>(message: T): Promise<void> {
@@ -29,9 +29,7 @@ export class RabbitmqPublisher implements IRabbitmqPublisher {
         async () => {
           const channel = await this.rabbitMQConnection.getChannel();
 
-          const tracer = await this.openTelemetryTracer.createTracer({
-            serviceName: 'rabbitmq_publisher_tracer'
-          });
+          const tracer = this.otelDiagnosticsProvider.getTracer();
 
           const exchangeName = snakeCase(getTypeName(message));
           const serializedMessage = serializeObject(message);

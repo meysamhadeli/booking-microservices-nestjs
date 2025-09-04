@@ -34,32 +34,118 @@ services:
 
 
     #######################################################
-    #  Jaeger
+    #  Prometheus
     #######################################################
-  jaeger:
-    image: jaegertracing/all-in-one
-    container_name: jaeger
+  prometheus:
+    image: prom/prometheus:latest
     restart: unless-stopped
     ports:
-      - 5775:5775/udp
-      - 5778:5778
-      - 6831:6831/udp
-      - 6832:6832/udp
-      - 9412:9411
-      - 14268:14268
-      - 16686:16686
+      # just expose container port not host port - https://docs.docker.com/reference/compose-file/services/#expose
+      - 9090:9090 # http and ui port
+    volumes:
+      - ./../configs/prometheus.yaml:/etc/prometheus/prometheus.yml
+    # to passe one flag, such as "--log.level=debug" or "--web.enable-remote-write-receiver", we need to override the whole command, as we can't just pass one extra argument
+    command:
+      - "--config.file=/etc/prometheus/prometheus.yml"
+      - "--storage.tsdb.path=/prometheus"
+      - "--web.console.libraries=/usr/share/prometheus/console_libraries"
+      - "--web.console.templates=/usr/share/prometheus/consoles"
+      # need this for the OpenTelemetry collector to be able to put metrics into Prometheus
+      - "--web.enable-remote-write-receiver"
+      - "--log.level=debug"
     networks:
       - infrastructure
 
+
     #######################################################
-    #  Zipkin
+    #  Tempo
     #######################################################
-  zipkin:
-    image: openzipkin/zipkin:latest
-    container_name: zipkin
+  tempo:
+    image: grafana/tempo:latest
+    container_name: tempo
     restart: unless-stopped
+    command: ["-config.file=/etc/tempo.yaml"]
+    volumes:
+      - ./../configs/tempo.yaml:/etc/tempo.yaml
+    expose:
+      # just expose container port not host port - https://docs.docker.com/reference/compose-file/services/#expose
+      - 3200 # HTTP port, doesn't have direct ui port and should visualize in grafana (container port)
+      - 9095 # gRPC port (container port)
+      - 4317 # otlp grpc (container port)
+      - 4318 # otlp http (container port)
+    networks:
+      - infrastructure
+
+
+    #######################################################
+    #  Loki
+    #######################################################
+  loki:
+    image: grafana/loki:latest
+    hostname: loki
+    container_name: loki
+    expose:
+      # just expose container port not host port - https://docs.docker.com/reference/compose-file/services/#expose
+      - 3100 # HTTP port, doesn't have direct ui port and should visualize in grafana (container port)
+      - 9096 # gRPC port (container port)
+    command: -config.file=/etc/loki/local-config.yaml
+    volumes:
+      - ./../configs/loki-config.yaml:/etc/loki/local-config.yaml
+    networks:
+      - infrastructure
+
+
+    #######################################################
+    #  Grafana
+    #######################################################
+  grafana:
+    image: grafana/grafana:latest
+    container_name: grafana
+    restart: unless-stopped
+    environment:
+      - GF_INSTALL_PLUGINS=grafana-clock-panel,grafana-simple-json-datasource
+      - GF_SECURITY_ADMIN_USER=admin
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+      - GF_FEATURE_TOGGLES_ENABLE=traceqlEditor
+    depends_on:
+      - prometheus
     ports:
-      - '9411:9411'
+      - "3000:3000"
+    volumes:
+      - ./../configs/grafana/provisioning:/etc/grafana/provisioning
+      - ./../configs/grafana/dashboards:/var/lib/grafana/dashboards
+      ## https://grafana.com/docs/grafana/latest/setup-grafana/configure-grafana/
+      # - ./../configs/grafana/grafana.ini:/etc/grafana/grafana.ini
+    networks:
+      - infrastructure
+
+
+    #######################################################
+    #  OtelCollector
+    #######################################################      
+  otel-collector:
+    image: otel/opentelemetry-collector-contrib:latest
+    container_name: otel-collector
+    restart: unless-stopped
+    command: ["--config=/etc/otelcol-contrib/config.yaml"]
+    volumes:
+      - ./../configs/otel-collector-config.yaml:/etc/otelcol-contrib/config.yaml
+    ports:
+      - "11888:1888" # pprof extension
+      - "8888:8888" # Prometheus metrics exposed by the Collector
+      - "8889:8889" # Prometheus exporter metrics
+      - "13133:13133" # health_check extension
+      - "4317:4317" # OTLP gRPC receiver
+      - "4318:4318" # OTLP http receiver
+      - "55679:55679" # zpages extension
+    environment:
+      # set enviroments for otel collector configs to set Exporter endpoints (with defaults matching your original config)
+      - ASPIRE_OTLP_ENDPOINT=http://aspire-dashboard:18889 # Using Docker network DNS
+      - ASPIRE_API_KEY=your_api_key
+      - PROMETHEUS_ENDPOINT=0.0.0.0:8889
+      - PROMETHEUS_REMOTE_WRITE_ENDPOINT=http://prometheus:9090/api/v1/write
+      - LOKI_ENDPOINT=http://loki:3100/otlp
+      - TEMPO_ENDPOINT=http://tempo:4317
     networks:
       - infrastructure
 
