@@ -1,12 +1,12 @@
-import { DynamicModule, Global, Inject, Module, OnApplicationShutdown } from '@nestjs/common';
-import { IRabbitmqPublisher, RabbitmqPublisher } from './rabbitmq-publisher';
-import { IRabbitmqConnection, RabbitmqConnection, RabbitmqOptions } from './rabbitmq-connection';
-import { OpenTelemetryModule } from '../openTelemetry/open-telemetry.module';
+import { DynamicModule, Global, Module, OnApplicationShutdown } from '@nestjs/common';
+import { RabbitmqPublisher } from './rabbitmq-publisher';
+import { RabbitmqConnection, RabbitmqOptions } from './rabbitmq-connection';
 import { RabbitmqConsumer } from './rabbitmq-subscriber';
+import { OpenTelemetryModule } from '../opentelemetry/opentelemetry.module';
 
 @Global()
 @Module({
-  imports: [OpenTelemetryModule.forRoot()],
+  imports: [OpenTelemetryModule],
   providers: [
     RabbitmqPublisher,
     {

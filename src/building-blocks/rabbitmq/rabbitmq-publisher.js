@@ -8,9 +8,6 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-var __param = (this && this.__param) || function (paramIndex, decorator) {
-    return function (target, key) { decorator(target, key, paramIndex); }
-};
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
@@ -25,21 +22,20 @@ const uuid_1 = require("uuid");
 const date_fns_1 = require("date-fns");
 const configs_1 = __importDefault(require("../configs/configs"));
 const async_retry_1 = __importDefault(require("async-retry"));
+const otel_diagnostics_provider_1 = require("../opentelemetry/otel-diagnostics-provider");
 const publishedMessages = [];
 let RabbitmqPublisher = class RabbitmqPublisher {
     rabbitMQConnection;
-    openTelemetryTracer;
-    constructor(rabbitMQConnection, openTelemetryTracer) {
+    otelDiagnosticsProvider;
+    constructor(rabbitMQConnection, otelDiagnosticsProvider) {
         this.rabbitMQConnection = rabbitMQConnection;
-        this.openTelemetryTracer = openTelemetryTracer;
+        this.otelDiagnosticsProvider = otelDiagnosticsProvider;
     }
     async publishMessage(message) {
         try {
             await (0, async_retry_1.default)(async () => {
                 const channel = await this.rabbitMQConnection.getChannel();
-                const tracer = await this.openTelemetryTracer.createTracer({
-                    serviceName: 'rabbitmq_publisher_tracer'
-                });
+                const tracer = this.otelDiagnosticsProvider.getTracer();
                 const exchangeName = (0, lodash_1.snakeCase)((0, reflection_1.getTypeName)(message));
                 const serializedMessage = (0, serilization_1.serializeObject)(message);
                 const span = tracer.startSpan(`publish_message_${exchangeName}`);
@@ -81,7 +77,7 @@ let RabbitmqPublisher = class RabbitmqPublisher {
 exports.RabbitmqPublisher = RabbitmqPublisher;
 exports.RabbitmqPublisher = RabbitmqPublisher = __decorate([
     (0, common_1.Injectable)(),
-    __param(1, (0, common_1.Inject)('IOpenTelemetryTracer')),
-    __metadata("design:paramtypes", [rabbitmq_connection_1.RabbitmqConnection, Object])
+    __metadata("design:paramtypes", [rabbitmq_connection_1.RabbitmqConnection,
+        otel_diagnostics_provider_1.OtelDiagnosticsProvider])
 ], RabbitmqPublisher);
 //# sourceMappingURL=rabbitmq-publisher.js.map

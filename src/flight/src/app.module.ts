@@ -9,10 +9,10 @@ import { AircraftModule } from '@/aircraft/aircraft.module';
 import { AirportModule } from '@/airport/airport.module';
 import { SeatModule } from '@/seat/seat.module';
 import { DataSeeder } from '@/data/seeds/data-seeder';
-import { OpenTelemetryModule } from 'building-blocks/openTelemetry/open-telemetry.module';
 import { JwtStrategy } from 'building-blocks/passport/jwt.strategy';
 import configs from 'building-blocks/configs/configs';
 import { HttpContextMiddleware } from 'building-blocks/context/context';
+import { OpenTelemetryModule } from 'building-blocks/opentelemetry/opentelemetry.module';
 
 @Module({
   imports: [
@@ -21,7 +21,7 @@ import { HttpContextMiddleware } from 'building-blocks/context/context';
       secret: configs.jwt.secret,
       signOptions: { expiresIn: configs.jwt.refreshExpirationDays }
     }),
-    OpenTelemetryModule.forRoot(),
+    OpenTelemetryModule,
     TypeOrmModule.forRoot(postgresOptions),
     FlightModule,
     AircraftModule,

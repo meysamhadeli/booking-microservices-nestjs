@@ -5,12 +5,12 @@ import { UserModule } from '@/user/user.module';
 import { AuthModule } from '@/auth/auth.module';
 import { PassportModule } from '@nestjs/passport';
 import { JwtModule } from '@nestjs/jwt';
-import { OpenTelemetryModule } from 'building-blocks/openTelemetry/open-telemetry.module';
 import { JwtStrategy } from 'building-blocks/passport/jwt.strategy';
 import configs from 'building-blocks/configs/configs';
 import { DataSeeder } from '@/data/seeds/data-seeder';
 import { HttpContextMiddleware } from 'building-blocks/context/context';
 import { postgresOptions } from '@/data/data-source';
+import { OpenTelemetryModule } from 'building-blocks/opentelemetry/opentelemetry.module';
 
 @Module({
   imports: [
@@ -19,7 +19,7 @@ import { postgresOptions } from '@/data/data-source';
       secret: configs.jwt.secret,
       signOptions: { expiresIn: configs.jwt.refreshExpirationDays }
     }),
-    OpenTelemetryModule.forRoot(),
+    OpenTelemetryModule,
     TypeOrmModule.forRoot(postgresOptions),
     UserModule,
     AuthModule,

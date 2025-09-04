@@ -10,7 +10,6 @@ import {CommandBus, QueryBus} from '@nestjs/cqrs';
 import {PassportModule} from '@nestjs/passport';
 import {JwtModule} from '@nestjs/jwt';
 import configs from 'building-blocks/configs/configs';
-import {OpenTelemetryModule} from 'building-blocks/openTelemetry/open-telemetry.module';
 import {TypeOrmModule} from '@nestjs/typeorm';
 import {UserModule} from '@/user/user.module';
 import {AuthModule} from '@/auth/auth.module';
@@ -20,6 +19,7 @@ import {JwtGuard} from 'building-blocks/passport/jwt.guard';
 import {IRabbitmqConnection} from 'building-blocks/rabbitmq/rabbitmq-connection';
 import {StartedTestContainer} from 'testcontainers';
 import {TypeOrmModuleOptions} from "@nestjs/typeorm/dist/interfaces/typeorm-options.interface";
+import { OpenTelemetryModule } from 'building-blocks/opentelemetry/opentelemetry.module';
 
 export class Fixture {
     userRepository: IUserRepository;
@@ -51,7 +51,7 @@ export class IntegrationTestFixture {
                     secret: configs.jwt.secret,
                     signOptions: {expiresIn: configs.jwt.refreshExpirationDays}
                 }),
-                OpenTelemetryModule.forRoot(),
+                OpenTelemetryModule,
                 TypeOrmModule.forRoot(postgresOptions as TypeOrmModuleOptions),
                 UserModule,
                 AuthModule,
