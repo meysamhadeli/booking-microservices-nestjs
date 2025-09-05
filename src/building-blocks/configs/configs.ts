@@ -59,7 +59,7 @@ const envVarsSchema = Joi.object()
     OPEN_TELEMETRY_COLLECTOR_URL: Joi.string()
       .default('http://localhost:4317')
       .description('Collector URL'),
-    OPEN_TELEMETRY_SERVICE_VERSION: Joi.number().default(1).description('Service Version'),
+    OPEN_TELEMETRY_SERVICE_VERSION: Joi.string().default("1.0.0").description('Service Version'),
     OPEN_TELEMETRY_SERVICE_NAME: Joi.string()
       .default('default_service_name')
       .description('Service Name')
