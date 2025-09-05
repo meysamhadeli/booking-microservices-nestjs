@@ -1,8 +1,5 @@
 import {
   Context,
-  diag,
-  DiagConsoleLogger,
-  DiagLogLevel,
   Meter,
   Span,
   Tracer
@@ -12,9 +9,6 @@ import { Logger, logs as api_logs } from '@opentelemetry/api-logs';
 import configs from '../configs/configs';
 
 export class OtelDiagnosticsProvider {
-  constructor() {
-    diag.setLogger(new DiagConsoleLogger(), DiagLogLevel.INFO);
-  }
 
   getInstrumentationName(): string {
     return configs.opentelemetry.serviceName!;
