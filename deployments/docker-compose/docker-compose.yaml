@@ -11,16 +11,21 @@ services:
     ports:
       - 5672:5672
       - 15672:15672
+    healthcheck:
+      test: rabbitmq-diagnostics -q ping
+      interval: 10s
+      timeout: 5s
+      retries: 5
     networks:
       - booking
 
 
-    #######################################################
-    #  Postgress
-    #######################################################
+  #######################################################
+  #  Postgress
+  #######################################################
   postgres:
     container_name: postgres
-    image: postgres:latest
+    image: postgres:14.15-alpine
     restart: unless-stopped
     ports:
       - '5432:5432'
@@ -29,6 +34,12 @@ services:
       - POSTGRES_PASSWORD=postgres
     volumes:
       - postgres-data:/var/lib/postgresql/data
+      - ./../configs/init-postgres.sql:/docker-entrypoint-initdb.d/init-postgres.sql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
     networks:
       - booking
 
@@ -150,17 +161,19 @@ services:
       - booking
 
 
-    #######################################################
-    #  Identity
-    #######################################################
+  #######################################################
+  #  Identity
+  #######################################################
   identity:
     build:
       context: ../..
-      dockerfile: ../../src/identity/Dockerfile
+      dockerfile: src/identity/Dockerfile
     container_name: identity
     depends_on:
-      - postgres
-      - rabbitmq
+      postgres:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
     env_file:
       - ../../src/identity/.env.docker
     ports:
@@ -169,17 +182,19 @@ services:
       - booking
 
 
-    #######################################################
-    #  Flight
-    #######################################################
+  #######################################################
+  #  Flight
+  #######################################################
   flight:
     build:
       context: ../..
-      dockerfile: ../../src/flight/Dockerfile
+      dockerfile: src/flight/Dockerfile
     container_name: flight
     depends_on:
-      - postgres
-      - rabbitmq
+      postgres:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
     env_file:
       - ../../src/flight/.env.docker
     ports:
@@ -188,17 +203,19 @@ services:
       - booking
 
 
-    #######################################################
-    #  Passenger
-    #######################################################
+  #######################################################
+  #  Passenger
+  #######################################################
   passenger:
     build:
       context: ../..
-      dockerfile: ../../src/passenger/Dockerfile
+      dockerfile: src/passenger/Dockerfile
     container_name: passenger
     depends_on:
-      - postgres
-      - rabbitmq
+      postgres:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
     env_file:
       - ../../src/passenger/.env.docker
     ports:
@@ -207,17 +224,19 @@ services:
       - booking
 
 
-    #######################################################
-    #  Booking
-    #######################################################
+  #######################################################
+  #  Booking
+  #######################################################
   booking:
     build:
       context: ../..
-      dockerfile: ../../src/booking/Dockerfile
+      dockerfile: src/booking/Dockerfile
     container_name: booking
     depends_on:
-      - postgres
-      - rabbitmq
+      postgres:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
     env_file:
       - ../../src/booking/.env.docker
     ports:

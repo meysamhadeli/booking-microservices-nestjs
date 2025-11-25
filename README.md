@@ -161,33 +161,113 @@ npm run migration:run
 
 ## How to Run
 
+### Prerequisites
+- Docker and Docker Compose installed
+- Ports 3000, 3333, 3344, 3355, 3366, 5432, 5672, 9090, 15672 available
 
-> ### Docker Compose
+> ### Docker Compose (Recommended)
 
-Use the command below to run our `infrastructure` with `docker` using the [infrastructure.yaml](./deployments/docker-compose/infrastructure.yaml) file at the `root` of the app:
+#### Option 1: Run Everything (Full Stack)
+
+Start all microservices, databases, and monitoring tools with a single command:
 
 ```bash
-docker-compose -f ./deployments/docker-compose/infrastructure.yaml up -d
+docker compose -f ./deployments/docker-compose/docker-compose.yaml up -d
 ```
-##### Todo
-I will add `docker-compsoe` for up and running whole app here in the next...
 
-> ### Build
-To `build` each microservice, run this command in the root directory of each microservice where the `package.json` file is located:
+This will start:
+- **PostgreSQL** (with auto-created databases for all services)
+- **RabbitMQ** (message broker)
+- **All 4 Microservices** (Identity, Flight, Passenger, Booking)
+- **Monitoring Stack** (Prometheus, Grafana, Tempo, Loki, OpenTelemetry Collector)
+
+**Wait for services to be healthy** (30-60 seconds), then access:
+- **Identity Service**: http://localhost:3333/swagger
+- **Flight Service**: http://localhost:3344/swagger
+- **Passenger Service**: http://localhost:3355/swagger
+- **Booking Service**: http://localhost:3366/swagger
+- **RabbitMQ Management**: http://localhost:15672 (guest/guest)
+- **Grafana**: http://localhost:3000 (admin/admin)
+- **Prometheus**: http://localhost:9090
+
+**Check status:**
 ```bash
+docker compose -f ./deployments/docker-compose/docker-compose.yaml ps
+```
+
+**View logs:**
+```bash
+docker compose -f ./deployments/docker-compose/docker-compose.yaml logs -f
+```
+
+**Stop everything:**
+```bash
+docker compose -f ./deployments/docker-compose/docker-compose.yaml down
+```
+
+**Stop and remove data:**
+```bash
+docker compose -f ./deployments/docker-compose/docker-compose.yaml down -v
+```
+
+#### Option 2: Infrastructure Only (Development Mode)
+
+Run only the infrastructure (PostgreSQL, RabbitMQ, monitoring), then run microservices locally:
+
+```bash
+# Start infrastructure
+docker compose -f ./deployments/docker-compose/infrastructure.yaml up -d
+
+# Then run each microservice locally (in separate terminals)
+cd src/identity && npm install && npm run dev
+cd src/flight && npm install && npm run dev
+cd src/passenger && npm install && npm run dev
+cd src/booking && npm install && npm run dev
+```
+
+#### Troubleshooting
+
+**Port conflicts:**
+If you get port-in-use errors, stop other services using those ports:
+```bash
+# Check what's using a port (e.g., 5432)
+lsof -i :5432
+
+# Stop existing postgres containers
+docker stop $(docker ps -aq --filter name=postgres)
+```
+
+**Database issues:**
+If you see "database does not exist" errors, ensure you're using fresh volumes:
+```bash
+docker compose -f ./deployments/docker-compose/docker-compose.yaml down -v
+docker compose -f ./deployments/docker-compose/docker-compose.yaml up -d
+```
+
+**Rebuild after code changes:**
+```bash
+docker compose -f ./deployments/docker-compose/docker-compose.yaml up -d --build
+```
+
+> ### Manual Build & Run
+
+To `build` each microservice manually:
+```bash
+cd src/identity  # or flight, passenger, booking
 npm run build
 ```
 
-> ### Run
-To `run` each microservice, run this command in the root of the microservice where `package.json` is located:
+To `run` each microservice locally:
 ```bash
+cd src/identity  # or flight, passenger, booking
 npm run dev
 ```
 
 > ### Test
 
-To `test` each microservice, run this command in the root directory of the microservice where the `package.json` file is located:
+To `test` each microservice:
 ```bash
+cd src/identity  # or flight, passenger, booking
 npm test
 ```
 

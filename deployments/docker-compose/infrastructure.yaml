@@ -20,7 +20,7 @@ services:
     #######################################################
   postgres:
    container_name: postgres
-   image: postgres:latest
+   image: postgres:14.15-alpine
    restart: unless-stopped
    ports:
     - '5432:5432'
